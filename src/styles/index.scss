@@ -1,0 +1,15 @@
+// @import './element-variables.scss';
+@import './normalize.scss';
+@import './variables.scss';
+
+.el-menu{
+  width: 100% !important;
+  border: none !important;
+}
+.el-menu .is-opened .el-menu-item {
+  background-color: $menuDarkBg !important;
+}
+
+.el-menu .is-opened .el-menu-item:hover{
+  background-color: $menuHoverBg !important;
+}

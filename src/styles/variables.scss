@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+// sidebar 
+$app-left-menu-width: 200px;
+$menuBg: #304156;
+$menuDarkBg: #1f2d3d;
+$menuHoverBg: #080c11;
+
+:export{
+  menuBg: $menuBg;
+  menuDarkBg: $menuDarkBg;
+  menuHoverBg: $menuHoverBg;
+}
