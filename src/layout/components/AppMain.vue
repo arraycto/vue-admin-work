@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-main">
     <transition
       name="fade-transform"
       mode="out-in"
@@ -23,12 +23,18 @@ export default {
     key() {
       return this.$route.path
     }
-  },
-  mounted() {
-    console.log(this.$route)
   }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.app-main {
+  position: absolute;
+  top: 77px;
+  left: 0;
+  right: 0;
+  overflow-y: scroll;
+  height: calc(100vh - 77px);
+  width: 100%;
+}
 </style>

@@ -2,7 +2,7 @@
   <div class="app-container">
     <div
       class="side-bar-wrapper"
-      :class="[hiddenSideBar ? 'hidden-side-bar' : 'show-side-bar']"
+      :class="[hiddenSideBar ? 'hiden-side-bar' : 'show-side-bar']"
     >
       <SideBar />
     </div>
@@ -42,6 +42,7 @@ export default {
 <style lang="scss" scoped>
 @import "~@/styles/variables.scss";
 .app-container {
+  box-sizing: border-box;
   position: relative;
   width: 100%;
   height: 100%;
@@ -58,12 +59,11 @@ export default {
     z-index: 1001;
   }
   .app-main-wrapper {
+    position: relative;
+    box-sizing: border-box;
     margin-left: $app-left-menu-width;
     background-color: #fff;
     transition: margin-left 0.3s;
-  }
-  .hidden-side-bar {
-    width: 54px;
   }
   .hidden-app-main {
     margin-left: 54px;

@@ -1,6 +1,7 @@
 // @import './element-variables.scss';
 @import './normalize.scss';
 @import './variables.scss';
+@import './transition.scss';
 
 .el-menu{
   width: 100% !important;
@@ -12,4 +13,20 @@
 
 .el-menu .is-opened .el-menu-item:hover{
   background-color: $menuHoverBg !important;
+}
+
+.hiden-side-bar {
+  // set side bar width is 54px
+  width: 54px !important;
+  .el-submenu__icon-arrow {
+    display: none;
+  }
+  .title{
+    display: none;
+  }
+}
+
+.el-scrollbar {
+  height: calc(100% - 41px) !important;
+  overflow: hidden;
 }

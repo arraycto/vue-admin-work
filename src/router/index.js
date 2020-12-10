@@ -29,21 +29,28 @@ export const routes = [
     children: [
       {
         path: 'index',
-        component: () => import('@/views/personal')
+        component: () => import('@/views/personal'),
+        meta: {
+          title: '我的信息'
+        }
+      },
+      {
+        path: 'mini',
+        component: () => import('@/views/system'),
+        meta: {
+          title: '系统设置'
+        }
       }
     ]
-  },
-  {
-    path: '/system',
-    component: Layout,
-    meta: {
-      title: '系统管理'
-    }
   }
+  // {
+  //   path: '/system',
+  //   component: Layout,
+  //   meta: {
+  //     title: '系统管理'
+  //   }
+  // }
 ]
-
-import path from 'path'
-console.log(path.resolve('/personal', '/index'))
 
 const router = new VueRouter({
   routes

@@ -9,12 +9,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/styles/variables.scss';
-.logo-container{
+@import "~@/styles/variables.scss";
+.logo-container {
   height: 56px;
   line-height: 56px;
   background-color: $menuDarkBg;
   color: #ffffff;
   text-align: center;
+  overflow: hidden;
 }
 </style>

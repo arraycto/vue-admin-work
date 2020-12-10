@@ -1,15 +1,22 @@
 <template>
   <div class="side-bar-container">
     <Logo />
-    <el-scrollbar>
+    <el-scrollbar style="height:100%">
       <el-menu
         mode="vertical"
         :collapse="collapse"
         :background-color="variables.menuBg"
         text-color="#ffffff"
+        :unique-opened="false"
         :collapse-transition="false"
       >
-        <SideBarItem v-for="item of routes" :key="item.path" :route-item="item" :base-path="item.path" />
+        <template v-for="item of routes">
+          <SideBarItem
+            :key="item.path"
+            :route-item="item"
+            :base-path="item.path"
+          />
+        </template>
       </el-menu>
     </el-scrollbar>
   </div>
@@ -44,14 +51,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.side-bar-container{
+.side-bar-container {
   height: 100%;
-  .el-scrollbar{
-    height: calc(100% - 56px) !important;
-    overflow: hidden;
-  }
+  box-sizing: border-box;
 }
-.title{
+.title {
   margin-left: 10px;
 }
 </style>
