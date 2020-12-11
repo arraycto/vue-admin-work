@@ -3,10 +3,11 @@
     <Logo />
     <el-scrollbar style="height:100%">
       <el-menu
+        :default-active="routePath"
         mode="vertical"
         :collapse="collapse"
         :background-color="variables.menuBg"
-        text-color="#ffffff"
+        text-color="#bfcbd9"
         :unique-opened="false"
         :collapse-transition="false"
       >
@@ -45,6 +46,9 @@ export default {
     }),
     variables() {
       return variables
+    },
+    routePath() {
+      return this.$route.path
     }
   }
 }

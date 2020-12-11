@@ -16,9 +16,42 @@ export const routes = [
   {
     path: '/',
     component: Layout,
+    redirect: '/index',
+    hidden: true
+  },
+  {
+    path: '/index',
+    component: Layout,
     meta: {
-      title: '首页'
-    }
+      title: '控制面板',
+      icon: 'index'
+    },
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/index'),
+        meta: {
+          title: '首页'
+        }
+      }
+    ]
+  },
+  {
+    path: '/index',
+    component: Layout,
+    meta: {
+      title: '控制面板1',
+      icon: 'index'
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/index'),
+        meta: {
+          title: '首页'
+        }
+      }
+    ]
   },
   {
     path: '/personal',

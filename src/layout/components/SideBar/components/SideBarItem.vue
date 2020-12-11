@@ -2,13 +2,13 @@
   <div class="side-bar-item-container">
     <router-link
       v-if="hasNoChild()"
-      :to="{ path: resolvePath(routeItem.path) }"
+      :to="resolvePath(routeItem.path)"
     >
       <el-menu-item
-        :index="routeItem.path"
+        :index="resolvePath(routeItem.path)"
         :class="{'hiden-side-bar' : isCollapse}"
       >
-        <svg-icon icon-class="chat" />
+        <svg-icon :icon-class="routeItem.meta.icon || 'sub-menu'" />
         <span class="title">{{ routeItem.meta.title }}</span>
       </el-menu-item>
     </router-link>
@@ -19,7 +19,7 @@
       :class="{'hiden-side-bar' : isCollapse}"
     >
       <template slot="title">
-        <svg-icon icon-class="chat" />
+        <svg-icon :icon-class="routeItem.meta.icon || 'menu'" />
         <span
           slot="title"
           class="title"
@@ -62,6 +62,15 @@ export default {
         return true
       }
       if (this.routeItem.children && this.routeItem.children.length > 0) {
+        const tempRoutes = this.routeItem.children.filter(it => {
+          return !it.hidden
+        })
+        if (tempRoutes.length === 0) {
+          return true
+        }
+        if (tempRoutes.length === 1 && !tempRoutes[0].path) {
+          return true
+        }
         return false
       }
       return true
