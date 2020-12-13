@@ -13,7 +13,6 @@
           :ref="item.path"
           :key="item.path"
           :to="item.path"
-          @click.native="tagClick(item)"
         >
           <el-tag
             :effect="isActive(item) ? 'dark' : 'plain'"
@@ -93,8 +92,6 @@ export default {
     },
     isActive(tempRoute) {
       return tempRoute && tempRoute.path === this.$route.path
-    },
-    tagClick(item) {
     }
   }
 }
