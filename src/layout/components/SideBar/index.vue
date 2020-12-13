@@ -11,7 +11,7 @@
         :unique-opened="false"
         :collapse-transition="false"
       >
-        <template v-for="item of routes">
+        <template v-for="item of filterRoutes">
           <SideBarItem
             :key="item.path"
             :route-item="item"
@@ -44,6 +44,9 @@ export default {
     ...mapGetters({
       collapse: 'app/isCollapseSideBar'
     }),
+    filterRoutes() {
+      return routes.filter(it => !it.hidden)
+    },
     variables() {
       return variables
     },

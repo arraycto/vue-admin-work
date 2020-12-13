@@ -46,7 +46,6 @@ export default {
   },
   methods: {
     generateBreadcrumb() {
-      console.log(this.$route)
       this.breadcrumbs = this.$route.matched.filter(it => {
         return it.meta && it.meta.title
       })

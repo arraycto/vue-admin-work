@@ -8,8 +8,8 @@
         :index="resolvePath(routeItem.path)"
         :class="{'hiden-side-bar' : isCollapse}"
       >
-        <svg-icon :icon-class="routeItem.meta.icon || 'sub-menu'" />
-        <span class="title">{{ routeItem.meta.title }}</span>
+        <svg-icon :icon-class="(routeItem.meta && routeItem.meta.icon) || 'sub-menu'" />
+        <span class="title">{{ routeItem.meta && routeItem.meta.title }}</span>
       </el-menu-item>
     </router-link>
     <el-submenu
@@ -19,11 +19,11 @@
       :class="{'hiden-side-bar' : isCollapse}"
     >
       <template slot="title">
-        <svg-icon :icon-class="routeItem.meta.icon || 'menu'" />
+        <svg-icon :icon-class="(routeItem.meta && routeItem.meta.icon) || 'menu'" />
         <span
           slot="title"
           class="title"
-        >{{ routeItem.meta.title }}</span>
+        >{{ routeItem.meta && routeItem.meta.title }}</span>
       </template>
       <SideBarItem
         v-for="child of routeItem.children"
