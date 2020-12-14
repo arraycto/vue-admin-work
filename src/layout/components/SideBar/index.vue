@@ -1,7 +1,10 @@
 <template>
   <div class="side-bar-container">
     <Logo />
-    <el-scrollbar style="height:100%">
+    <el-scrollbar
+      style="height:100%"
+      wrap-class="scrollbar-wrapper"
+    >
       <el-menu
         :default-active="routePath"
         mode="vertical"

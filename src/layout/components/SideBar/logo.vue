@@ -11,8 +11,8 @@ export default {
 <style lang="scss" scoped>
 @import "~@/styles/variables.scss";
 .logo-container {
-  height: 56px;
-  line-height: 56px;
+  height: 50px;
+  line-height: 50px;
   background-color: $menuDarkBg;
   color: #ffffff;
   text-align: center;

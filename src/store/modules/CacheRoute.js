@@ -11,6 +11,9 @@ const getters = {
 const actions = {
   addRoute({ commit }, route) {
     commit('ADD_ROUTE', route)
+  },
+  removeRoute({ commit }, route) {
+    commit('REMOVE_ROUTE', route)
   }
 }
 
@@ -23,6 +26,11 @@ const mutations = {
       return
     }
     state.visitedRoute.push(route)
+  },
+  REMOVE_ROUTE(state, route) {
+    if (state.visitedRoute.find(it => it.path === route.path)) {
+      state.visitedRoute.splice(state.visitedRoute.indexOf(route), 1)
+    }
   }
 }
 

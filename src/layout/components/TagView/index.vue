@@ -8,20 +8,19 @@
       style="width: 100%"
     >
       <div class="tag-view-content">
-        <router-link
+        <el-tag
           v-for="item in visitedRoutes"
           :ref="item.path"
           :key="item.path"
-          :to="item.path"
+          :effect="isActive(item) ? 'dark' : 'plain'"
+          size="small"
+          class="tag-item"
+          :closable="isAffix(item) ? false: true"
+          @click="clickRoute(item)"
+          @close="removeRoute(item)"
         >
-          <el-tag
-            :effect="isActive(item) ? 'dark' : 'plain'"
-            size="small"
-            class="tag-item"
-          >
-            {{ item.meta.title }}
-          </el-tag>
-        </router-link>
+          {{ item.meta.title }}
+        </el-tag>
       </div>
     </el-scrollbar>
   </div>
@@ -81,6 +80,9 @@ export default {
       })
       return tmp
     },
+    clickRoute(tempRoute) {
+      this.$router.push({ path: tempRoute.path })
+    },
     addRoute() {
       this.$store.dispatch('CacheRoute/addRoute', this.$route)
       this.$nextTick(_ => {
@@ -89,6 +91,20 @@ export default {
           left: this.$refs[this.$route.path][0].$el.offsetLeft
         })
       })
+    },
+    removeRoute(tempRoute) {
+      this.$store.dispatch('CacheRoute/removeRoute', tempRoute)
+      this.$nextTick(_ => {
+        const tmp = this.visitedRoutes.find(it => {
+          return it.path === this.$route.path
+        })
+        if (!tmp) {
+          this.$router.push({ path: this.visitedRoutes[this.visitedRoutes.length - 1].path })
+        }
+      })
+    },
+    isAffix(tempRoute) {
+      return tempRoute.meta && tempRoute.meta.affix
     },
     isActive(tempRoute) {
       return tempRoute && tempRoute.path === this.$route.path
@@ -115,6 +131,15 @@ export default {
     ::v-deep {
       .el-tag {
         border-radius: 0 !important;
+      }
+      .el-tag:hover {
+        cursor: pointer;
+      }
+      .el-tag--small {
+        padding: 0 5px;
+      }
+      .el-icon-close {
+        right: 0;
       }
     }
   }

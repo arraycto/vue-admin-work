@@ -38,120 +38,21 @@ export const routes = [
     ]
   },
   {
-    path: '/personal',
+    path: '/normal',
     component: Layout,
     meta: {
-      title: '个人中心'
+      title: '常用功能'
     },
     children: [
       {
         path: 'index',
-        component: () => import('@/views/personal'),
+        component: () => import('@/views/table'),
         meta: {
-          title: '我的信息',
-          affix: true
-        }
-      },
-      {
-        path: 'mini',
-        component: () => import('@/views/system'),
-        meta: {
-          title: '系统设置0'
-        }
-      },
-      {
-        path: 'mini2',
-        component: () => import('@/views/system'),
-        meta: {
-          title: '系统设置1'
-        }
-      },
-      {
-        path: 'mini3',
-        component: () => import('@/views/system'),
-        meta: {
-          title: '系统设置2'
-        }
-      },
-      {
-        path: 'mini4',
-        component: () => import('@/views/system'),
-        meta: {
-          title: '系统设置3'
-        }
-      },
-      {
-        path: 'mini5',
-        component: () => import('@/views/system'),
-        meta: {
-          title: '系统设置4'
-        }
-      },
-      {
-        path: 'mini6',
-        component: () => import('@/views/system'),
-        meta: {
-          title: '系统设置5'
-        }
-      },
-      {
-        path: 'mini8',
-        component: () => import('@/views/system'),
-        meta: {
-          title: '系统设置7'
-        }
-      },
-      {
-        path: 'mini9',
-        component: () => import('@/views/system'),
-        meta: {
-          title: '系统设置8'
-        }
-      },
-      {
-        path: 'mini10',
-        component: () => import('@/views/system'),
-        meta: {
-          title: '系统设置9'
-        }
-      },
-      {
-        path: 'mini11',
-        component: () => import('@/views/system'),
-        meta: {
-          title: '系统设置10'
-        }
-      },
-      {
-        path: 'mini12',
-        component: () => import('@/views/system'),
-        meta: {
-          title: '系统设置11'
-        }
-      },
-      {
-        path: 'mini13',
-        component: () => import('@/views/system'),
-        meta: {
-          title: '系统设置12'
-        }
-      },
-      {
-        path: 'mini14',
-        component: () => import('@/views/system'),
-        meta: {
-          title: '系统设置13'
+          title: '表格操作'
         }
       }
     ]
   }
-  // {
-  //   path: '/system',
-  //   component: Layout,
-  //   meta: {
-  //     title: '系统管理'
-  //   }
-  // }
 ]
 
 const router = new VueRouter({

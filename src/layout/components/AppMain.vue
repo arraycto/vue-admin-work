@@ -36,5 +36,7 @@ export default {
   overflow-y: scroll;
   height: calc(100vh - 77px);
   width: 100%;
+  background: #f5f5f5;
+  overflow-x: hidden;
 }
 </style>

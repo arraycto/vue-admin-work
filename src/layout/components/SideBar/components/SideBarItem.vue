@@ -9,7 +9,7 @@
         :class="{'hiden-side-bar' : isCollapse}"
       >
         <svg-icon :icon-class="(routeItem.meta && routeItem.meta.icon) || 'sub-menu'" />
-        <span class="title">{{ routeItem.meta && routeItem.meta.title }}</span>
+        <span class="item-title">{{ routeItem.meta && routeItem.meta.title }}</span>
       </el-menu-item>
     </router-link>
     <el-submenu
@@ -22,7 +22,7 @@
         <svg-icon :icon-class="(routeItem.meta && routeItem.meta.icon) || 'menu'" />
         <span
           slot="title"
-          class="title"
+          class="item-title"
         >{{ routeItem.meta && routeItem.meta.title }}</span>
       </template>
       <SideBarItem
@@ -90,7 +90,7 @@ export default {
   .router-link-active {
     text-decoration: none;
   }
-  .title {
+  .item-title {
     margin-left: 15px;
   }
 }
