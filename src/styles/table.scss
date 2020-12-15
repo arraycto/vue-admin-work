@@ -1,6 +1,27 @@
-.table-container{
-  position: relative;
-  padding: 2px 0;
+@import './variables.scss';
+
+.table-container {
+  position: absolute;
+  top: 0;
+  left: $mainPadding;
+  right: $mainPadding;
+  bottom: 50px;
+  padding: 5px;
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+  margin-right: -15px !important;
+}
+
+.table-footer-container {
+  position: absolute;
+  left: $mainPadding;
+  right: $mainPadding;
+  bottom: $mainPadding;
+  height: 45px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .el-card__header {

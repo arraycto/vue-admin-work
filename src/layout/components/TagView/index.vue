@@ -116,7 +116,7 @@ export default {
 <style lang="scss" scoped>
 .tag-view-container {
   position: absolute;
-  top: 40px;
+  top: 38px;
   left: 0;
   right: 0;
   padding: 5px 10px;

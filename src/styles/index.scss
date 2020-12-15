@@ -35,3 +35,11 @@
   height: calc(100% - 50px) !important;
   overflow: hidden;
 }
+
+// main-app class
+.main-container{
+  box-sizing: border-box;
+  position: relative;
+  padding: $mainPadding;
+  height: 100%;
+}

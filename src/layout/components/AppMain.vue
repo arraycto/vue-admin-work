@@ -28,15 +28,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$top: 75px;
 .app-main {
   position: absolute;
-  top: 77px;
+  top: $top;
   left: 0;
   right: 0;
   overflow-y: scroll;
-  height: calc(100vh - 77px);
+  height: calc(100vh - #{$top});
   width: 100%;
-  background: #f5f5f5;
+  background-color: #f5f5f5;
   overflow-x: hidden;
 }
 </style>

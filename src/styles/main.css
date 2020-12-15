@@ -77,15 +77,6 @@ body .el-table__fixed::before {
   right: 0px;
 }
 
-.table-container {
-  position: absolute;
-  top: 0;
-  left: 5px;
-  right: 5px;
-  bottom: 50px;
-  overflow-y: scroll;
-}
-
 .tab-container .footer-wrapper{
   left: 0px;
   right: 0px;
