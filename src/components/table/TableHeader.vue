@@ -15,7 +15,10 @@
           :underline="false"
           @click="collapsed"
         >{{ title }}
-          <i :class="showSearchContent ? 'el-icon-caret-bottom' : 'el-icon-caret-top'" />
+          <i
+            v-if="collapsedState"
+            :class="showSearchContent ? 'el-icon-caret-bottom' : 'el-icon-caret-top'"
+          />
         </el-link>
         <div class="left-wrapper">
           <slot name="left" />
@@ -26,9 +29,7 @@
         </div>
       </div>
       <el-collapse-transition>
-        <div v-if="showSearchContent">
-          123456
-        </div>
+        <div v-if="collapsedState" />
       </el-collapse-transition>
     </el-card>
   </div>
@@ -40,7 +41,11 @@ export default {
   props: {
     title: {
       type: String,
-      default: '列表数据'
+      default: '基本操作'
+    },
+    canCollapsed: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -48,15 +53,25 @@ export default {
       showSearchContent: true
     }
   },
+  computed: {
+    collapsedState() {
+      return this.canCollapsed
+    }
+  },
   mounted() {
-    this.$store.dispatch('app/setTableHeaderHeight', document.getElementById('tableHeaderContainer').offsetHeight)
+    this.$nextTick(_ => {
+      this.$parent.$emit('tableHeightChanged', document.getElementById('tableHeaderContainer').offsetHeight)
+    })
   },
   methods: {
     collapsed() {
+      if (!this.collapsedState) {
+        return
+      }
       this.showSearchContent = !this.showSearchContent
       // 等动画执行完成，再获取高度，否则获取的高度是不准确的
       setTimeout(_ => {
-        this.$store.dispatch('app/setTableHeaderHeight', document.getElementById('tableHeaderContainer').offsetHeight)
+        this.$parent.$emit('tableHeightChanged', document.getElementById('tableHeaderContainer').offsetHeight)
       }, 350)
     }
   }

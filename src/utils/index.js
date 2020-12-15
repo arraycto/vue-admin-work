@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import './router'
+
 import TableHeader from '@/components/table/TableHeader'
 import TableFooter from '@/components/table/TableFooter'
 import TableBody from '@/components/table/TableBody'

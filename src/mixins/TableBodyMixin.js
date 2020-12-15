@@ -1,22 +1,14 @@
-import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
       cardStyle: {
-        top: this.tableHeaderHeight + 'px'
+        top: '0px'
       }
     }
   },
-  computed: {
-    ...mapGetters({
-      tableHeaderHeight: 'app/getTableHeaderHeight'
+  mounted() {
+    this.$parent.$on('tableHeightChanged', (height) => {
+      this.cardStyle.top = height + 5 + 'px'
     })
-  },
-  watch: {
-    tableHeaderHeight(newVal) {
-      this.$nextTick(_ => {
-        this.cardStyle.top = newVal + 5 + 'px'
-      })
-    }
   }
 }

@@ -1,17 +1,22 @@
 <template>
   <div class="main-container">
-    <TableHeader
-      ref="tableHeader"
-      title="基本操作"
-    >
-      <template slot="left">
-        <el-button size="mini">添加</el-button>
-      </template>
+    <TableHeader :can-collapsed="false">
       <template slot="right">
-        <el-button size="mini">删除</el-button>
+        <el-button
+          type="primary"
+          size="mini"
+          icon="el-icon-plus"
+        >添加
+        </el-button>
+        <el-button
+          type="danger"
+          size="mini"
+          icon="el-icon-warning-outline"
+        >删除
+        </el-button>
       </template>
     </TableHeader>
-    <TableBody>
+    <TableBody ref="tableBody">
       <template slot="table">
         <el-table
           :data="list"
@@ -19,6 +24,7 @@
           :size="tableConfig.size"
           :stripe="tableConfig.stripe"
           :border="tableConfig.border"
+          :height="tableConfig.height"
         >
           <el-table-column
             align="center"
