@@ -19,6 +19,8 @@
     <TableBody ref="tableBody">
       <template slot="table">
         <el-table
+          ref="table"
+          v-loading="tableLoading"
           :data="list"
           :header-cell-style="tableConfig.headerCellStyle"
           :size="tableConfig.size"
@@ -54,7 +56,13 @@
         </el-table>
       </template>
     </TableBody>
-    <TableFooter />
+    <TableFooter
+      :current-page="pageModel.currentPage"
+      :page-size="pageModel.pageSize"
+      :total-size="pageModel.totalSize"
+      @pageSizeChanged="pageSizeChanged"
+      @currentChanged="currentChanged"
+    />
   </div>
 </template>
 

@@ -50,6 +50,13 @@ export const routes = [
         meta: {
           title: '表格操作'
         }
+      },
+      {
+        path: 'table-search',
+        component: () => import('@/views/table/TableWithSearch'),
+        meta: {
+          title: '表格搜索'
+        }
       }
     ]
   }

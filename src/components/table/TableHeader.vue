@@ -16,7 +16,7 @@
           @click="collapsed"
         >{{ title }}
           <i
-            v-if="collapsedState"
+            v-if="showArrow"
             :class="showSearchContent ? 'el-icon-caret-bottom' : 'el-icon-caret-top'"
           />
         </el-link>
@@ -29,7 +29,53 @@
         </div>
       </div>
       <el-collapse-transition>
-        <div v-if="collapsedState" />
+        <div
+          v-if="collapsedState"
+          class="search-content-wrapper"
+        >
+          <el-row
+            v-for="(row, i) of filterSearchModel"
+            :key="i"
+            :gutter="20"
+            :class="{'margin-top' : i !== 0}"
+          >
+            <el-col
+              v-for="(item, index) of row"
+              :key="index"
+              :span="(row.length === 1 && item.type === 'action') ? 24 : 8"
+            >
+              <div
+                v-if="item.type === 'input'"
+                class="flex search-item-wrapper"
+              >
+                <span>{{ item.label }}</span>
+                <el-input
+                  v-model="item.value"
+                  :placeholder="item.placeholder"
+                  size="small"
+                  class="form-item"
+                />
+              </div>
+              <div
+                v-else-if="item.type === 'action'"
+                class="flex justify-end"
+              >
+                <el-button
+                  type="primary"
+                  size="mini"
+                  icon="el-icon-search"
+                  @click="doSearch"
+                >搜索</el-button>
+                <el-button
+                  type="success"
+                  size="mini"
+                  icon="el-icon-refresh"
+                  @click="resetSearch"
+                >重置</el-button>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
       </el-collapse-transition>
     </el-card>
   </div>
@@ -46,6 +92,10 @@ export default {
     canCollapsed: {
       type: Boolean,
       default: false
+    },
+    searchModel: {
+      type: Array,
+      default: null
     }
   },
   data() {
@@ -54,8 +104,35 @@ export default {
     }
   },
   computed: {
+    showArrow() {
+      return this.canCollapsed && !!this.searchModel && this.searchModel.length !== 0
+    },
     collapsedState() {
-      return this.canCollapsed
+      return this.showSearchContent && this.showArrow
+    },
+    filterSearchModel() {
+      if (!this.searchModel) return []
+      const tmp = []
+      this.searchModel.forEach((it, index) => {
+        const tmpIndex = Math.floor(index / 3)
+        if (!tmp[tmpIndex]) {
+          tmp[tmpIndex] = []
+        }
+        tmp[tmpIndex].push(it)
+      })
+      if (tmp.length > 0) {
+        const lastItem = tmp[tmp.length - 1]
+        if (lastItem.length < 3) {
+          lastItem.push({
+            type: 'action'
+          })
+        } else {
+          const actions = [{ type: 'action' }]
+          tmp[tmp.length] = actions
+          console.log(tmp)
+        }
+      }
+      return tmp
     }
   },
   mounted() {
@@ -65,14 +142,17 @@ export default {
   },
   methods: {
     collapsed() {
-      if (!this.collapsedState) {
-        return
-      }
       this.showSearchContent = !this.showSearchContent
       // 等动画执行完成，再获取高度，否则获取的高度是不准确的
       setTimeout(_ => {
         this.$parent.$emit('tableHeightChanged', document.getElementById('tableHeaderContainer').offsetHeight)
       }, 350)
+    },
+    doSearch() {
+      this.$emit('doSearch')
+    },
+    resetSearch() {
+      this.$emit('resetSearch')
     }
   }
 }
@@ -86,6 +166,22 @@ export default {
     align-items: center;
     .left-wrapper {
       margin-left: 5px;
+    }
+  }
+  .search-content-wrapper {
+    padding: 10px;
+    .search-item-wrapper {
+      justify-content: center;
+      align-items: center;
+      & > span {
+        color: #606266;
+        font-size: 14px;
+        font-weight: 500;
+        margin-right: 8px;
+      }
+      .form-item {
+        flex: 1;
+      }
     }
   }
 }
