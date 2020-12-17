@@ -37,9 +37,18 @@ export default {
     },
     // search action
     doSearch() {
+      console.log(this.generatorFormParams())
+    },
+    generatorFormParams() {
+      const originFormParams = this.extraParams && this.extraParams()
       if (this.searchModel) {
-        this.searchModel.reduce((pre, cur, index) => { }, {})
+        const formParams = this.searchModel.reduce((acc, cur) => {
+          acc[cur.name] = cur.value || ''
+          return acc
+        }, originFormParams || {})
+        return formParams
       }
+      return {}
     },
     resetSearch() {
       this.searchModel && this.searchModel.forEach(it => { it.value = '' })

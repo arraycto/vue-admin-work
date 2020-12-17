@@ -81,38 +81,60 @@ export default {
       searchModel: [
         {
           id: 1,
+          name: 'name',
           label: '学生姓名',
           value: '',
           type: 'input',
-          placeholder: '请输入学生姓名'
+          placeholder: '请输入学生姓名',
+          span: 8
         },
         {
           id: 2,
-          label: '学生姓名',
+          name: 'sex',
+          label: '学生姓别',
           value: '',
-          type: 'input',
-          placeholder: '请输入学生姓名'
+          type: 'select',
+          placeholder: '请输入学生姓名',
+          selectOptions: [
+            {
+              id: 0,
+              value: '男'
+            },
+            {
+              id: 1,
+              value: '女'
+            }
+          ],
+          span: 8
         },
         {
           id: 3,
-          label: '学生姓名',
+          name: 'datetimerange',
+          label: '日期范围',
           value: '',
-          type: 'input',
-          placeholder: '请输入学生姓名'
+          type: 'date-range',
+          span: 8
         },
         {
           id: 4,
-          label: '学生姓名',
+          name: 'date',
+          label: '选择日期',
           value: '',
-          type: 'input',
-          placeholder: '请输入学生姓名'
+          type: 'date'
         },
         {
           id: 5,
-          label: '学生姓名',
+          name: 'datetime',
+          label: '选择日期',
           value: '',
-          type: 'input',
-          placeholder: '请输入学生姓名'
+          type: 'datetime'
+        },
+        {
+          id: 6,
+          name: 'time',
+          label: '选择时间',
+          value: '',
+          type: 'time'
         }
       ],
       list: [
@@ -217,6 +239,13 @@ export default {
           sex: '性别'
         }
       ]
+    }
+  },
+  methods: {
+    extraParams() {
+      return {
+        extra: 'extra'
+      }
     }
   }
 }

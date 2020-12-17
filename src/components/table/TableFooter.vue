@@ -7,7 +7,7 @@
       :current-page.sync="currentPage"
       :page-sizes="pageSizes"
       :page-size="pageSize"
-      layout="total, sizes, prev, pager, next, jumper"
+      :layout=" $isMobile ? 'total, pager, jumper' : 'total, sizes, prev, pager, next, jumper'"
       :total="totalSize"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"

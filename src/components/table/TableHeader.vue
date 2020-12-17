@@ -42,7 +42,7 @@
             <el-col
               v-for="(item, index) of row"
               :key="index"
-              :span="(row.length === 1 && item.type === 'action') ? 24 : 8"
+              :span=" $isMobile ? 24 : (row.length === 1 && item.type === 'action') ? 24 : item.span || 8"
             >
               <div
                 v-if="item.type === 'input'"
@@ -51,9 +51,88 @@
                 <span>{{ item.label }}</span>
                 <el-input
                   v-model="item.value"
-                  :placeholder="item.placeholder"
+                  :placeholder="item.placeholder || '请输入内容'"
                   size="small"
+                  clearable
                   class="form-item"
+                />
+              </div>
+              <div
+                v-else-if="item.type === 'select'"
+                class="flex search-item-wrapper"
+              >
+                <span>{{ item.label }}</span>
+                <el-select
+                  v-model="item.value"
+                  :placeholder="item.placeholder || '请选择条目'"
+                  size="small"
+                  :filterable="item.filterable ? true : false"
+                  clearable
+                  class="form-item"
+                >
+                  <el-option
+                    v-for="optionItem in item.selectOptions"
+                    :key="optionItem.id"
+                    :value="optionItem.value"
+                  />
+                </el-select>
+              </div>
+              <div
+                v-else-if="item.type === 'date-range'"
+                class="flex search-item-wrapper"
+              >
+                <span>{{ item.label }}</span>
+                <el-date-picker
+                  v-model="item.value"
+                  type="daterange"
+                  range-separator="-"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  class="form-item"
+                  size="small"
+                />
+              </div>
+              <div
+                v-else-if="item.type === 'date'"
+                class="flex search-item-wrapper"
+              >
+                <span>{{ item.label }}</span>
+                <el-date-picker
+                  v-model="item.value"
+                  type="date"
+                  range-separator="-"
+                  :placeholder="item.placeholder || '请选择日期'"
+                  class="form-item"
+                  size="small"
+                />
+              </div>
+              <div
+                v-else-if="item.type === 'datetime'"
+                class="flex search-item-wrapper"
+              >
+                <span>{{ item.label }}</span>
+                <el-date-picker
+                  v-model="item.value"
+                  type="datetime"
+                  :placeholder="item.placeholder || '请选择日期'"
+                  class="form-item"
+                  size="small"
+                />
+              </div>
+              <div
+                v-else-if="item.type === 'time'"
+                class="flex search-item-wrapper"
+              >
+                <span>{{ item.label }}</span>
+                <el-time-picker
+                  v-model="item.value"
+                  arrow-control
+                  :picker-options="{
+                    selectableRange: '00:00:00 - 23:59:59'
+                  }"
+                  :placeholder="item.placeholder || '请选择时间'"
+                  class="form-item"
+                  size="small"
                 />
               </div>
               <div
@@ -129,7 +208,6 @@ export default {
         } else {
           const actions = [{ type: 'action' }]
           tmp[tmp.length] = actions
-          console.log(tmp)
         }
       }
       return tmp

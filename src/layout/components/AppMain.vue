@@ -34,7 +34,7 @@ $top: 75px;
   top: $top;
   left: 0;
   right: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
   height: calc(100vh - #{$top});
   width: 100%;
   background-color: #f5f5f5;
