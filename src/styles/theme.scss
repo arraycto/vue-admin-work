@@ -1,0 +1,25 @@
+@import './variables.scss';
+
+.theme-1 {
+  .side-bar-theme{
+    background-color: $menuBg;
+  }
+  .el-menu .is-opened .el-menu-item {
+    background-color: $menuDarkBg !important;
+  }
+  
+  .el-menu .el-menu-item:hover{
+    background-color: $menuHoverBg !important;
+  }
+  
+  .el-menu .el-submenu__title:hover{
+    background-color: $menuHoverBg !important;
+  }
+}
+
+.theme-2 {
+  .side-bar-theme{
+    background-color: red;
+    color: yellow;
+  }
+}

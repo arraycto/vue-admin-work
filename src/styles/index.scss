@@ -3,21 +3,17 @@
 @import './variables.scss';
 @import './transition.scss';
 @import './table.scss';
+@import './theme.scss';
 @import './main.css';
+
+.scrollbar-wrapper {
+  overflow-x: hidden !important;
+}
 
 .el-menu{
   width: 100% !important;
   height: 100%;
   border: none !important;
-}
-.el-menu .is-opened .el-menu-item {
-  background-color: $menuDarkBg !important;
-}
-.scrollbar-wrapper {
-  overflow-x: hidden !important;
-}
-.el-menu .is-opened .el-menu-item:hover{
-  background-color: $menuHoverBg !important;
 }
 
 .hiden-side-bar {

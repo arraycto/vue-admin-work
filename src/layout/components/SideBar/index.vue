@@ -9,7 +9,7 @@
         :default-active="routePath"
         mode="vertical"
         :collapse="collapse"
-        :background-color="variables.menuBg"
+        class="side-bar-theme"
         text-color="#bfcbd9"
         :unique-opened="false"
         :collapse-transition="false"

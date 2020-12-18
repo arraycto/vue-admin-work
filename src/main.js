@@ -4,12 +4,9 @@ import router from './router'
 import store from './store'
 import './icons'
 import './utils'
-
-import '@/styles/index.scss'
-
 import Element from 'element-ui'
-
 import 'element-ui/lib/theme-chalk/index.css'
+import '@/styles/index.scss'
 
 Vue.use(Element)
 

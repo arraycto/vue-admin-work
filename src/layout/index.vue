@@ -1,7 +1,7 @@
 <template>
-  <div class="app-container">
+  <div class="app-container theme-1">
     <div
-      class="side-bar-wrapper"
+      class="side-bar-wrapper side-bar-theme"
       :class="[hiddenSideBar ? 'hiden-side-bar' : 'show-side-bar']"
     >
       <SideBar />
@@ -54,7 +54,6 @@ export default {
     top: 0;
     left: 0;
     bottom: 0;
-    background-color: $menuBg;
     overflow: hidden;
     z-index: 1001;
   }

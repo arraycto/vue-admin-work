@@ -11,7 +11,7 @@
         <el-button
           type="danger"
           size="mini"
-          icon="el-icon-warning-outline"
+          icon="el-icon-delete"
         >删除
         </el-button>
       </template>
