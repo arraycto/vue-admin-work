@@ -6,7 +6,24 @@
 
 <script>
 export default {
-  name: 'Index'
+  name: 'Index',
+  mounted() {
+    this.getData()
+  },
+  methods: {
+    getData() {
+      this.$get({
+        url: this.$urlPath.test,
+        data: {
+          test: 'test'
+        }
+      }).then(res => {
+        console.log(res)
+      }).catch(error => {
+        console.log(error)
+      })
+    }
+  }
 }
 </script>
 

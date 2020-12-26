@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import * as urlPath from '@/api/url'
 
 import './router'
 
@@ -11,5 +12,6 @@ Vue.component('TableHeader', TableHeader)
 Vue.component('TableFooter', TableFooter)
 Vue.component('TableBody', TableBody)
 
+Vue.prototype.$urlPath = urlPath
 Vue.prototype.$isMobile = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
 Vue.prototype.$isAndroid = navigator.userAgent.indexOf('Android') > -1 || navigator.userAgent.indexOf('Adr') > -1

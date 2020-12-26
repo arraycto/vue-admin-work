@@ -9,8 +9,8 @@
         :default-active="routePath"
         mode="vertical"
         :collapse="collapse"
-        class="side-bar-theme"
-        text-color="#bfcbd9"
+        :background-color="variables.menuBg"
+        :text-color="variables.menuColor"
         :unique-opened="false"
         :collapse-transition="false"
       >
@@ -31,24 +31,19 @@ import { mapGetters } from 'vuex'
 import variables from '@/styles/variables.scss'
 import Logo from './logo'
 import SideBarItem from './components/SideBarItem'
-import { routes } from '@/router/index'
 export default {
   name: 'SideBar',
   components: {
     Logo,
     SideBarItem
   },
-  data() {
-    return {
-      routes
-    }
-  },
   computed: {
     ...mapGetters({
-      collapse: 'app/isCollapseSideBar'
+      collapse: 'app/isCollapseSideBar',
+      routes: 'user/getRoutes'
     }),
     filterRoutes() {
-      return routes.filter(it => !it.hidden)
+      return this.routes.filter(it => !it.hidden)
     },
     variables() {
       return variables

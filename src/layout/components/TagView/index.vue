@@ -29,13 +29,13 @@
 <script>
 // import BScroll from '@better-scroll/core'
 import { mapGetters } from 'vuex'
-import { routes } from '@/router'
 import path from 'path'
 export default {
   name: 'TagView',
   computed: {
     ...mapGetters({
-      visitedRoutes: 'CacheRoute/getVisistedRoute'
+      visitedRoutes: 'CacheRoute/getVisistedRoute',
+      allRoutes: 'user/getRoutes'
     })
   },
   watch: {
@@ -46,15 +46,10 @@ export default {
   mounted() {
     this.initRoute()
     this.addRoute()
-    // new BScroll(this.$refs.tagScollerContainer, {
-    //   scrollX: true,
-    //   probeType: 3,
-    //   freeScroll: true
-    // })
   },
   methods: {
     initRoute() {
-      const affixRoutes = this.filterAffixRoute(routes, '/')
+      const affixRoutes = this.filterAffixRoute(this.allRoutes, '/')
       affixRoutes.forEach(it => {
         this.$store.dispatch('CacheRoute/addRoute', it)
       })
@@ -62,7 +57,7 @@ export default {
     filterAffixRoute(tempRoute, basePath) {
       const tmp = []
       tempRoute.forEach(it => {
-        if (it.meta && it.meta.affix) {
+        if (!it.hidden && it.meta && it.meta.affix) {
           const tempPath = path.resolve(basePath, it.path)
           tmp.push({
             fullPath: tempPath,

@@ -5,23 +5,30 @@ import Layout from '@/layout'
 
 Vue.use(VueRouter)
 
-// const constantRoutes = [
-//   {
-//     path: '/',
-//     component: Layout
-//   }
-// ]
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location, onResolve, onReject) {
+  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+  return originalPush.call(this, location).catch(err => err)
+}
 
 export const routes = [
   {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/login'),
+    hidden: true
+  },
+  {
     path: '/',
-    component: Layout,
+    name: 'root',
     redirect: '/index',
     hidden: true
   },
   {
     path: '/index',
+    name: 'index',
     component: Layout,
+    hidden: false,
     meta: {
       title: '控制面板',
       icon: 'index',
@@ -36,33 +43,16 @@ export const routes = [
         }
       }
     ]
-  },
-  {
-    path: '/normal',
-    component: Layout,
-    meta: {
-      title: '常用功能'
-    },
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/table'),
-        meta: {
-          title: '表格操作'
-        }
-      },
-      {
-        path: 'table-search',
-        component: () => import('@/views/table/TableWithSearch'),
-        meta: {
-          title: '表格搜索'
-        }
-      }
-    ]
   }
 ]
 
+export const asyncRoutes = [
+  { path: '*', redirect: '/404', hidden: true }
+]
+
 const router = new VueRouter({
+  mode: 'history',
+  scrollBehavior: () => ({ y: 0 }),
   routes
 })
 export default router

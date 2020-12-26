@@ -1,25 +1,44 @@
 @import './variables.scss';
 
 .theme-1 {
-  .side-bar-theme{
+  $menuBg: #21264a;
+  $menuDarkBg: #1f2d3d;
+  $menuHoverBg: #080c11;
+  $activeColor: #f41766;
+  .side-bar-theme {
     background-color: $menuBg;
   }
   .el-menu .is-opened .el-menu-item {
     background-color: $menuDarkBg !important;
   }
-  
-  .el-menu .el-menu-item:hover{
+
+  .el-menu .el-submenu__title:hover {
     background-color: $menuHoverBg !important;
   }
   
-  .el-menu .el-submenu__title:hover{
+  .el-menu .el-menu-item:hover {
     background-color: $menuHoverBg !important;
+  }
+
+  .el-menu-item.is-active{
+    color: $activeColor;
   }
 }
 
 .theme-2 {
   .side-bar-theme{
     background-color: red;
-    color: yellow;
+  }
+
+  .el-menu .is-opened .el-menu-item {
+    background-color: yellow !important;
+  }
+  
+  .el-menu .el-menu-item:hover{
+    background-color: yellowgreen !important;
+  }
+  
+  .el-menu .el-submenu__title:hover{
+    background-color: yellowgreen !important;
   }
 }

@@ -2,9 +2,10 @@
 
 // sidebar 
 $app-left-menu-width: 200px;
-$menuBg: #304156;
+$menuBg: #21264a;
 $menuDarkBg: #1f2d3d;
 $menuHoverBg: #080c11;
+$menuColor: #bfcbd9;
 
 $mainPadding: 2px;
 
@@ -12,4 +13,5 @@ $mainPadding: 2px;
   menuBg: $menuBg;
   menuDarkBg: $menuDarkBg;
   menuHoverBg: $menuHoverBg;
+  menuColor: $menuColor;
 }

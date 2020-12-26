@@ -140,17 +140,17 @@
                 class="flex justify-end"
               >
                 <el-button
-                  type="primary"
-                  size="mini"
-                  icon="el-icon-search"
-                  @click="doSearch"
-                >搜索</el-button>
-                <el-button
                   type="success"
                   size="mini"
                   icon="el-icon-refresh"
                   @click="resetSearch"
                 >重置</el-button>
+                <el-button
+                  type="primary"
+                  size="mini"
+                  icon="el-icon-search"
+                  @click="doSearch"
+                >搜索</el-button>
               </div>
             </el-col>
           </el-row>

@@ -26,7 +26,7 @@
         >{{ routeItem.meta && routeItem.meta.title }}</span>
       </template>
       <SideBarItem
-        v-for="child of routeItem.children"
+        v-for="child of filterChildRoute(routeItem.children)"
         :key="child.path"
         :route-item="child"
         :base-path="resolvePath(routeItem.path)"
@@ -74,6 +74,9 @@ export default {
         return false
       }
       return true
+    },
+    filterChildRoute(children) {
+      return children.filter(it => !it.hidden)
     },
     resolvePath(tempPath) {
       return path.resolve(this.basePath, tempPath)
