@@ -1,5 +1,5 @@
 const pathToFileNameMap = new Map()
-pathToFileNameMap.set('/table/table-search', '/table/TableWithSearch')
+pathToFileNameMap.set('/normal/table-search', '/normal/TableWithSearch')
 
 export function pathToFileName(path) {
   return pathToFileNameMap.get(path) || path

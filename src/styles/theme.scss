@@ -23,6 +23,14 @@
   .el-menu-item.is-active{
     color: $activeColor;
   }
+  .el-tag--plain{
+    border-color: $activeColor;
+    color: $activeColor;
+  }
+  .el-tag--dark{
+    background-color: $activeColor;
+    border-color: $activeColor;
+  }
 }
 
 .theme-2 {
