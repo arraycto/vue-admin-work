@@ -32,7 +32,6 @@ const mutations = {
   },
   SAVE_ROUTES(state, routes) {
     state.routes = constantRoutes.concat(routes)
-    console.log(state.routes)
   }
 }
 

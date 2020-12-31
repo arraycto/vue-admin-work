@@ -31,6 +31,16 @@
     background-color: $activeColor;
     border-color: $activeColor;
   }
+  .el-tag--dark .el-tag__close{
+    color: #ffffff;
+  }
+  .el-tag--plain .el-tag__close{
+    color: $activeColor;
+  }
+  .el-tag--dark .el-tag__close:hover, .el-tag--plain .el-tag__close:hover{
+    background-color: $activeColor;
+    color: #ffffff;
+  }
 }
 
 .theme-2 {
