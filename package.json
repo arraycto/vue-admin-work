@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@better-scroll/core": "^2.0.6",
+    "@toast-ui/vue-editor": "^2.5.1",
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
     "element-ui": "^2.14.1",

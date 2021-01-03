@@ -1,11 +1,15 @@
 import Vue from 'vue'
 import * as urlPath from '@/api/url'
+import Element from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
 import './router'
 
 import TableHeader from '@/components/table/TableHeader'
 import TableFooter from '@/components/table/TableFooter'
 import TableBody from '@/components/table/TableBody'
+
+Vue.use(Element)
 
 // 注册成为全局的组件
 Vue.component('TableHeader', TableHeader)

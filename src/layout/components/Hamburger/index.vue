@@ -1,6 +1,13 @@
 <template>
-  <div class="hamburger-container" @click="toggle">
-    <svg-icon icon-class="hamburger" :class="[isOpen ? 'opend' : 'closed' ]" class="hamburger" />
+  <div
+    class="hamburger-container"
+    @click="toggle"
+  >
+    <svg-icon
+      icon-class="hamburger"
+      :class="[isOpen ? 'opend' : 'closed' ]"
+      class="hamburger"
+    />
   </div>
 </template>
 
@@ -22,16 +29,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.hamburger-container{
-  .hamburger{
+.hamburger-container {
+  .hamburger {
     font-size: 1.2em;
     transform: rotate(0deg);
     transition: transform 0.3s;
   }
-  .opend{
+  .opend {
     transform: rotate(180deg);
   }
-  .closed{
+  .closed {
     transform: rotate(0);
   }
 }
