@@ -3,11 +3,14 @@ import request from './axios'
 
 Vue.prototype.$http = function ({ url, data, method = 'GET', headers, beforeRequest, afterRequest }) {
   const successHandler = res => {
-    return res
+    if (res.code === 200) {
+      return res
+    }
+    throw new Error(res.msg || '请求失败，未知异常')
   }
   const failHandler = error => {
     afterRequest && afterRequest()
-    throw new Error(error.message || '请求失败，未知异常')
+    throw new Error(error.msg || '请求失败，未知异常')
   }
   beforeRequest && beforeRequest()
   return method === 'GET' ? request.get(url, { params: data }).then(successHandler, failHandler) : request.post(url, data, { headers }).then(successHandler, failHandler)
