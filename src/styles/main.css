@@ -530,6 +530,14 @@ body .el-table__fixed::before {
   overflow: hidden;
 }
 
+.text-cut-l2{
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical
+}
+
 .text-bold {
   font-weight: bold;
 }
