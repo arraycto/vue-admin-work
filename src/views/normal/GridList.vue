@@ -3,7 +3,6 @@
     <el-tabs
       v-model="activeName"
       class="wrapper"
-      @tab-click="handleClick"
     >
       <el-tab-pane
         label="商品管理"
@@ -13,11 +12,11 @@
         <GoodsList />
       </el-tab-pane>
       <el-tab-pane
-        label="订单管理"
+        label="评论管理"
         name="second"
         lazy
       >
-        <OrderList />
+        <CommentList />
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -25,17 +24,14 @@
 
 <script>
 import GoodsList from './components/GoodsList'
-import OrderList from './components/OrderList'
+import CommentList from './components/CommentList'
 export default {
   name: 'GridList',
-  components: { GoodsList, OrderList },
+  components: { GoodsList, CommentList },
   data() {
     return {
       activeName: 'first'
     }
-  },
-  methods: {
-    handleClick() { }
   }
 }
 </script>
