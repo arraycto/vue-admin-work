@@ -25,18 +25,32 @@
               text-color="#ff9900"
             />
           </div>
+          <div class="flex-sub" />
+          <div>
+            <el-dropdown
+              size="mini"
+              split-button
+              type="primary"
+            >
+              操作
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item>删除</el-dropdown-item>
+                <el-dropdown-item>不对外展示</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
         </div>
         <div class="content-wrapper">
           特别好，内容非常非常的详细！特别是逐句翻译，简直太棒了，可以一句一句的学习，京东自营买的，是正版，超级厚的一本，字体印刷啥的都很清晰，内容也很丰富，特别适合学习，总体来说很不错，可以涨知识，学习就更好啦！
           特别好，内容非常非常的详细！特别是逐句翻译，简直太棒了，可以一句一句的学习，京东自营买的，是正版，超级厚的一本，字体印刷啥的都很清晰，内容也很丰富，特别适合学习，总体来说很不错，可以涨知识，学习就更好啦！
         </div>
         <el-row :gutter="5">
-          <el-row :span="3">
+          <el-col :span="3">
             <img
               src=""
               alt=""
             >
-          </el-row>
+          </el-col>
         </el-row>
       </div>
     </div>
