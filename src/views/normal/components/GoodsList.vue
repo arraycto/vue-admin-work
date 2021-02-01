@@ -2,15 +2,8 @@
   <div class="goods-list-container">
     <div class="goods-wrapper">
       <el-row :gutter="10">
-        <el-col
-          v-for="item in 15"
-          :key="item"
-          :span="6"
-        >
-          <el-card
-            :body-style="{ padding: '0px' }"
-            shadow="hover"
-          >
+        <el-col v-for="(item, index) in 15" :key="item" :span="6">
+          <el-card :body-style="{ padding: '0px' }" shadow="hover">
             <div class="padding text-center">
               <el-image
                 style="width: 90%; height: 180px"
@@ -18,11 +11,26 @@
                 fit="cover"
               />
             </div>
-            <div style="padding: 14px;">
-              <div class="goods-title text-cut-l2">HYUNDAI/现代 家庭影院ktv音响套装家用k歌点歌机电脑电视客厅卡拉ok全套专业功放音箱设备 8吋音响</div>
+            <div style="padding: 14px">
+              <div class="goods-title text-cut-l2">
+                HYUNDAI/现代
+                家庭影院ktv音响套装家用k歌点歌机电脑电视客厅卡拉ok全套专业功放音箱设备
+                8吋音响
+              </div>
               <div class="flex justify-between align-center margin-top-xs">
-                <span class="text-price text-red text-df">100.00</span>
-                <i class="el-icon-more" />
+                <span class="text-price text-red text-df">
+                  {{ Number(100 + index).toFixed(2) }}
+                </span>
+                <el-dropdown @command="handleCommand">
+                  <span>
+                    <i class="el-icon-arrow-down el-icon-more" />
+                  </span>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command="delete" icon="el-icon-delete">
+                      删除
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
               </div>
             </div>
           </el-card>
@@ -43,7 +51,12 @@
 import TableMixin from '@/mixins/TableMixin'
 export default {
   name: 'GoodsList',
-  mixins: [TableMixin]
+  mixins: [TableMixin],
+  methods: {
+    handleCommand(command) {
+      console.log(command)
+    }
+  }
 }
 </script>
 
