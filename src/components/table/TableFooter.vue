@@ -1,13 +1,14 @@
 <template>
-  <el-card
-    :body-style="{padding: 0}"
-    class="table-footer-container"
-  >
+  <el-card :body-style="{ padding: 0 }" class="table-footer-container">
     <el-pagination
       :current-page.sync="currentPage"
       :page-sizes="pageSizes"
       :page-size="pageSize"
-      :layout=" $isMobile ? 'total, pager, jumper' : 'total, sizes, prev, pager, next, jumper'"
+      :layout="
+        $isMobile
+          ? 'total, pager, jumper'
+          : 'total, sizes, prev, pager, next, jumper'
+      "
       :total="totalSize"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -21,10 +22,6 @@
 export default {
   name: 'TableFooter',
   props: {
-    currentPage: {
-      type: Number,
-      default: 1
-    },
     pageSizes: {
       type: Array,
       default: function () {
@@ -40,18 +37,24 @@ export default {
       default: 10
     }
   },
+  data() {
+    return {
+      currentPage: 1
+    }
+  },
   methods: {
     handleSizeChange(pageSize) {
+      this.currentPage = 1
       this.$emit('pageSizeChanged', pageSize)
     },
     handleCurrentChange(currentPage) {
-      this.$emit('currentChanged', currentPage)
+      this.$emit('currentChanged', this.currentPage)
     },
     prevClick(currentPage) {
-      this.$emit('currentChanged', currentPage)
+      this.$emit('currentChanged', this.currentPage)
     },
     nextClick(currentPage) {
-      this.$emit('currentChanged', currentPage)
+      this.$emit('currentChanged', this.currentPage)
     }
   }
 }

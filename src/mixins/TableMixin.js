@@ -1,6 +1,7 @@
 export default {
   data() {
     return {
+      dataList: [],
       tableConfig: {
         stripe: true,
         border: true,
@@ -31,13 +32,26 @@ export default {
     // page action
     pageSizeChanged(pageSize) {
       this.pageModel.pageSize = pageSize
+      this.pageModel.currentPage = 1
+      if (!this.getData) {
+        throw new Error('There is no method called "getData"  to load data')
+      }
+      this.getData()
     },
     currentChanged(currentPage) {
       this.pageModel.currentPage = currentPage
+      if (!this.getData) {
+        throw new Error('There is no method called "getData"  to load data')
+      }
+      this.getData()
     },
     // search action
     doSearch() {
       console.log(this.generatorFormParams())
+    },
+    handleSuccess({ data = [], totalSize = 10 }) {
+      this.pageModel.totalSize = totalSize
+      this.dataList = data
     },
     generatorFormParams() {
       const originFormParams = this.extraParams && this.extraParams()

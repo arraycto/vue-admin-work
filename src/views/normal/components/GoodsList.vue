@@ -2,35 +2,23 @@
   <div class="goods-list-container">
     <div class="goods-wrapper">
       <el-row :gutter="10">
-        <el-col v-for="(item, index) in 15" :key="item" :span="6">
+        <el-col v-for="item of dataList" :key="item.id" :span="6">
           <el-card :body-style="{ padding: '0px' }" shadow="hover">
             <div class="padding text-center">
               <el-image
                 style="width: 90%; height: 180px"
-                src="https://img12.360buyimg.com/jdcms/s300x300_jfs/t1/168011/4/886/279158/5ff2b82fEc05a26fb/38b5f1c99150cddc.jpg.webp"
+                :src="item.image"
                 fit="cover"
               />
             </div>
             <div style="padding: 14px">
               <div class="goods-title text-cut-l2">
-                HYUNDAI/现代
-                家庭影院ktv音响套装家用k歌点歌机电脑电视客厅卡拉ok全套专业功放音箱设备
-                8吋音响
+                {{ item.description }}
               </div>
               <div class="flex justify-between align-center margin-top-xs">
                 <span class="text-price text-red text-df">
-                  {{ Number(100 + index).toFixed(2) }}
+                  {{ Number(item.price).toFixed(2) }}
                 </span>
-                <el-dropdown @command="handleCommand">
-                  <span>
-                    <i class="el-icon-arrow-down el-icon-more" />
-                  </span>
-                  <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item command="delete" icon="el-icon-delete">
-                      删除
-                    </el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
               </div>
             </div>
           </el-card>
@@ -52,9 +40,21 @@ import TableMixin from '@/mixins/TableMixin'
 export default {
   name: 'GoodsList',
   mixins: [TableMixin],
+  mounted() {
+    this.getData()
+  },
   methods: {
-    handleCommand(command) {
-      console.log(command)
+    getData() {
+      this.$post({
+        url: this.$urlPath.getCardList,
+        data: {
+          page: this.pageModel.currentPage,
+          pageSize: this.pageModel.pageSize
+        }
+      }).then((res) => {
+        this.handleSuccess(res)
+        this.dataList = res.data
+      })
     }
   }
 }
