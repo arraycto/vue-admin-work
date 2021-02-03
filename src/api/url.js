@@ -5,3 +5,5 @@ export const test = '/test'
 export const login = '/login'
 
 export const getCardList = '/getCardList'
+
+export const getCommentList = '/getCommentList'

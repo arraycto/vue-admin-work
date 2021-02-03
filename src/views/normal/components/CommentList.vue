@@ -2,15 +2,15 @@
   <div class="comment-list-container">
     <div class="comment-wrapper">
       <div
-        v-for="item in 10"
-        :key="item"
+        v-for="item of dataList"
+        :key="item.id"
         class="item-wrapper bg-white"
       >
         <div class="header-wrapper">
           <div class="avatar-wrapper">
             <img
               class="avatar"
-              src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fww3.sinaimg.cn%2Fmw690%2F6961aadegy1gh12eaw4hqj20u00u00ur.jpg&refer=http%3A%2F%2Fwww.sina.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1612678330&t=45378148b54935c8b87fbc24aaedc9e6"
+              :src="item.avatar"
             >
             <img
               class="vip"
@@ -18,31 +18,37 @@
             >
           </div>
           <div class="nick-wrapper">
-            <span class="nick-name">天青色等烟雨</span>
+            <span class="nick-name">{{ item.nickName }}</span>
             <el-rate
-              v-model="rate"
+              v-model="item.rate"
               disabled
               text-color="#ff9900"
             />
           </div>
+          <el-tag
+            size="mini"
+            :type="item.status === 0 ? 'warning' : 'success'"
+          >
+            {{ item.status === 0 ? '不对外展示' : '对外展示' }}
+          </el-tag>
           <div class="flex-sub" />
           <div>
             <el-dropdown
               size="mini"
-              split-button
-              type="primary"
+              @command="handleCommand"
             >
-              操作
+              <span class="el-dropdown-link">
+                <i class="el-icon-more" />
+              </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>删除</el-dropdown-item>
-                <el-dropdown-item>不对外展示</el-dropdown-item>
+                <el-dropdown-item :command="{ type: 'delete', item }">删除</el-dropdown-item>
+                <el-dropdown-item :command="{ type: 'changeStatus', item }">{{ item.status === 0 ? '开启对外展示' : '关闭对外展示' }}</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </div>
         </div>
         <div class="content-wrapper">
-          特别好，内容非常非常的详细！特别是逐句翻译，简直太棒了，可以一句一句的学习，京东自营买的，是正版，超级厚的一本，字体印刷啥的都很清晰，内容也很丰富，特别适合学习，总体来说很不错，可以涨知识，学习就更好啦！
-          特别好，内容非常非常的详细！特别是逐句翻译，简直太棒了，可以一句一句的学习，京东自营买的，是正版，超级厚的一本，字体印刷啥的都很清晰，内容也很丰富，特别适合学习，总体来说很不错，可以涨知识，学习就更好啦！
+          {{ item.content }}
         </div>
         <el-row :gutter="5">
           <el-col :span="3">
@@ -69,9 +75,35 @@ import TableMixin from '@/mixins/TableMixin'
 export default {
   name: 'CommentList',
   mixins: [TableMixin],
-  data() {
-    return {
-      rate: 2.0
+  mounted() {
+    this.getData()
+  },
+  methods: {
+    getData() {
+      this.$post({
+        url: this.$urlPath.getCommentList,
+        data: {
+          page: this.pageModel.currentPage,
+          pageSize: this.pageModel.pageSize
+        }
+      }).then((res) => {
+        this.handleSuccess(res)
+        this.dataList = res.data
+      })
+    },
+    handleCommand({ type, item }) {
+      if (type === 'delete') {
+        this.$showConfirmDialog('是否要删除此评论？', () => {
+          this.dataList.splice(this.dataList.indexOf(item), 1)
+          this.$successMsg('评论删除成功')
+        })
+      } else {
+        const tip = item.status === 0 ? '开启' : '关闭'
+        this.$showConfirmDialog(`是否要${tip}此评论？`, () => {
+          item.status = item.status === 0 ? 1 : 0
+          this.$successMsg(`评论${tip}成功`)
+        })
+      }
     }
   }
 }
@@ -94,7 +126,7 @@ export default {
       border-radius: 5px;
       .header-wrapper {
         display: flex;
-        justify-content: start;
+        justify-content: flex-start;
         .avatar-wrapper {
           position: relative;
           .avatar {
