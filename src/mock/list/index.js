@@ -44,7 +44,7 @@ Mock.mock(RegExp(getCommentList), function ({ body }) {
           return Random.csentence(50, 200)
         },
         'rate|1-5': 5,
-        'images|1-3': [Random.image('100x100', '#50B347', '#FFF', 'vue-admin-work')],
+        'images|0-3': [Random.image('100x100', '#50B347', '#FFF', 'vue-admin-work')],
         'status|0-1': 1 // 对外展示状态 0 不展示，1 展示
       }
     ]

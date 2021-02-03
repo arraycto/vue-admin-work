@@ -11,11 +11,11 @@
             <img
               class="avatar"
               :src="item.avatar"
-            >
+            />
             <img
               class="vip"
               :src="require('@/assets/img_vip_icon.png')"
-            >
+            />
           </div>
           <div class="nick-wrapper">
             <span class="nick-name">{{ item.nickName }}</span>
@@ -31,18 +31,20 @@
           >
             {{ item.status === 0 ? '不对外展示' : '对外展示' }}
           </el-tag>
-          <div class="flex-sub" />
+          <div class="flex-sub"></div>
           <div>
             <el-dropdown
               size="mini"
               @command="handleCommand"
             >
               <span class="el-dropdown-link">
-                <i class="el-icon-more" />
+                <i class="el-icon-more"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item :command="{ type: 'delete', item }">删除</el-dropdown-item>
-                <el-dropdown-item :command="{ type: 'changeStatus', item }">{{ item.status === 0 ? '开启对外展示' : '关闭对外展示' }}</el-dropdown-item>
+                <el-dropdown-item :command="{ type: 'changeStatus', item }">{{
+                  item.status === 0 ? '开启对外展示' : '关闭对外展示'
+                }}</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </div>
@@ -50,14 +52,14 @@
         <div class="content-wrapper">
           {{ item.content }}
         </div>
-        <el-row :gutter="5">
-          <el-col :span="3">
-            <img
-              src=""
-              alt=""
-            >
-          </el-col>
-        </el-row>
+        <div>
+          <img
+            v-for="(image, index) of item.images"
+            :key="index"
+            :src="image"
+            class="content-image"
+          />
+        </div>
       </div>
     </div>
     <TableFooter
@@ -161,6 +163,14 @@ export default {
         font-size: 14px;
         margin: 5px 0;
         line-height: 20px;
+      }
+      .content-image {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+      }
+      .content-image + .content-image {
+        margin-left: 10px;
       }
     }
   }
