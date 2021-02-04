@@ -45,6 +45,13 @@ export default {
       }
       this.getData()
     },
+    withPageInfoData(otherParams = {}) {
+      return {
+        ...otherParams,
+        page: this.pageModel.currentPage,
+        pageSize: this.pageModel.pageSize
+      }
+    },
     // search action
     doSearch() {
       console.log(this.generatorFormParams())

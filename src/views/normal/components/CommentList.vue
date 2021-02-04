@@ -41,10 +41,12 @@
                 <i class="el-icon-more"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item :command="{ type: 'delete', item }">删除</el-dropdown-item>
-                <el-dropdown-item :command="{ type: 'changeStatus', item }">{{
-                  item.status === 0 ? '开启对外展示' : '关闭对外展示'
-                }}</el-dropdown-item>
+                <el-dropdown-item :command="{ type: 'delete', item }">
+                  删除
+                </el-dropdown-item>
+                <el-dropdown-item :command="{ type: 'changeStatus', item }">
+                  {{ item.status === 0 ? '开启对外展示' : '关闭对外展示' }}
+                </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </div>
@@ -53,11 +55,13 @@
           {{ item.content }}
         </div>
         <div>
-          <img
+          <el-image
             v-for="(image, index) of item.images"
             :key="index"
             :src="image"
+            :preview-src-list="item.images"
             class="content-image"
+            fit="cover"
           />
         </div>
       </div>
@@ -84,10 +88,7 @@ export default {
     getData() {
       this.$post({
         url: this.$urlPath.getCommentList,
-        data: {
-          page: this.pageModel.currentPage,
-          pageSize: this.pageModel.pageSize
-        }
+        data: this.withPageInfoData()
       }).then((res) => {
         this.handleSuccess(res)
         this.dataList = res.data
