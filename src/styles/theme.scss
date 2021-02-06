@@ -20,6 +20,10 @@
     background-color: $menuHoverBg !important;
   }
 
+  .el-menu .el-submenu .el-submenu .el-submenu__title{
+    background-color: $menuDarkBg !important;
+  }
+
   .el-menu-item.is-active{
     color: $activeColor;
   }
