@@ -104,6 +104,7 @@
             align="center"
             label="上次登录IP"
             prop="lastLoginIp"
+            width="130px"
           />
           <el-table-column
             align="center"
