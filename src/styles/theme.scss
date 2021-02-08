@@ -1,4 +1,4 @@
-@import './variables.scss';
+@import "./variables.scss";
 
 .theme-1 {
   $menuBg: #21264a;
@@ -15,52 +15,57 @@
   .el-menu .el-submenu__title:hover {
     background-color: $menuHoverBg !important;
   }
-  
+
   .el-menu .el-menu-item:hover {
     background-color: $menuHoverBg !important;
   }
 
-  .el-menu .el-submenu .el-submenu .el-submenu__title{
+  .el-menu .el-submenu .el-submenu .el-submenu__title {
     background-color: $menuDarkBg !important;
   }
 
-  .el-menu-item.is-active{
+  .el-menu-item.is-active {
     color: $activeColor;
   }
-  .el-tag--plain{
+  .el-tag--plain {
     border-color: $activeColor;
     color: $activeColor;
   }
-  .el-tag--dark{
+  .el-tag--dark {
     background-color: $activeColor;
     border-color: $activeColor;
   }
-  .el-tag--dark .el-tag__close{
+  .el-tag--dark .el-tag__close {
     color: #ffffff;
   }
-  .el-tag--plain .el-tag__close{
+  .el-tag--plain .el-tag__close {
     color: $activeColor;
   }
-  .el-tag--dark .el-tag__close:hover, .el-tag--plain .el-tag__close:hover{
+  .el-tag--dark .el-tag__close:hover,
+  .el-tag--plain .el-tag__close:hover {
     background-color: $activeColor;
     color: #ffffff;
+  }
+
+  .el-menu .el-submenu .el-submenu .el-submenu__title:hover {
+    background-color: $menuHoverBg !important;
   }
 }
 
 .theme-2 {
-  .side-bar-theme{
+  .side-bar-theme {
     background-color: red;
   }
 
   .el-menu .is-opened .el-menu-item {
     background-color: yellow !important;
   }
-  
-  .el-menu .el-menu-item:hover{
+
+  .el-menu .el-menu-item:hover {
     background-color: yellowgreen !important;
   }
-  
-  .el-menu .el-submenu__title:hover{
+
+  .el-menu .el-submenu__title:hover {
     background-color: yellowgreen !important;
   }
 }
