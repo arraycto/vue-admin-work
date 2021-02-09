@@ -67,17 +67,17 @@ body .el-table__fixed::before {
   overflow-y: scroll;
 }
 
-.tab-container{
+.tab-container {
   height: calc(100vh - 148px);
   padding-top: 5px;
 }
 
-.tab-container .table-container{
+.tab-container .table-container {
   left: 0px;
   right: 0px;
 }
 
-.tab-container .footer-wrapper{
+.tab-container .footer-wrapper {
   left: 0px;
   right: 0px;
 }
@@ -99,9 +99,13 @@ body .el-table__fixed::before {
   padding-top: 20px;
 }
 
+.el-dialog {
+  border-radius: 5px !important;
+}
+
 .el-dialog__header {
   padding: 10px;
-  background-color: #f5f5f5;
+  border-bottom: 2px solid #f5f5f5;
 }
 
 .el-dialog__title {
@@ -117,7 +121,7 @@ body .el-table__fixed::before {
 }
 
 .el-dialog__footer {
-  background-color: #f5f5f5;
+  border-top: 2px solid #f5f5f5;
 }
 
 .title {
@@ -449,7 +453,8 @@ body .el-table__fixed::before {
   top: 0;
 }
 
-.bg-mask view, .bg-mask cover-view {
+.bg-mask view,
+.bg-mask cover-view {
   z-index: 5;
   position: relative;
 }
@@ -530,12 +535,12 @@ body .el-table__fixed::before {
   overflow: hidden;
 }
 
-.text-cut-l2{
+.text-cut-l2 {
   display: -webkit-box;
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical
+  -webkit-box-orient: vertical;
 }
 
 .text-bold {
@@ -558,63 +563,93 @@ body .el-table__fixed::before {
   text-align: right;
 }
 
-.text-red, .line-red, .lines-red {
+.text-red,
+.line-red,
+.lines-red {
   color: #e54d42;
 }
 
-.text-orange, .line-orange, .lines-orange {
+.text-orange,
+.line-orange,
+.lines-orange {
   color: #f37b1d;
 }
 
-.text-yellow, .line-yellow, .lines-yellow {
+.text-yellow,
+.line-yellow,
+.lines-yellow {
   color: #fbbd08;
 }
 
-.text-olive, .line-olive, .lines-olive {
+.text-olive,
+.line-olive,
+.lines-olive {
   color: #8dc63f;
 }
 
-.text-green, .line-green, .lines-green {
+.text-green,
+.line-green,
+.lines-green {
   color: #39b54a;
 }
 
-.text-cyan, .line-cyan, .lines-cyan {
+.text-cyan,
+.line-cyan,
+.lines-cyan {
   color: #1cbbb4;
 }
 
-.text-blue, .line-blue, .lines-blue {
+.text-blue,
+.line-blue,
+.lines-blue {
   color: #0081ff;
 }
 
-.text-purple, .line-purple, .lines-purple {
+.text-purple,
+.line-purple,
+.lines-purple {
   color: #6739b6;
 }
 
-.text-mauve, .line-mauve, .lines-mauve {
+.text-mauve,
+.line-mauve,
+.lines-mauve {
   color: #9c26b0;
 }
 
-.text-pink, .line-pink, .lines-pink {
+.text-pink,
+.line-pink,
+.lines-pink {
   color: #e03997;
 }
 
-.text-brown, .line-brown, .lines-brown {
+.text-brown,
+.line-brown,
+.lines-brown {
   color: #a5673f;
 }
 
-.text-grey, .line-grey, .lines-grey {
+.text-grey,
+.line-grey,
+.lines-grey {
   color: #8799a3;
 }
 
-.text-gray, .line-gray, .lines-gray {
+.text-gray,
+.line-gray,
+.lines-gray {
   color: #aaaaaa;
 }
 
-.text-black, .line-black, .lines-black {
+.text-black,
+.line-black,
+.lines-black {
   color: #333333;
 }
 
-.text-white, .line-white, .lines-white {
+.text-white,
+.line-white,
+.lines-white {
   color: #ffffff;
 }
 
@@ -745,7 +780,7 @@ body .el-table__fixed::before {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.grid.grid-square>view>text[class*="cuIcon-"] {
+.grid.grid-square > view > text[class*="cuIcon-"] {
   font-size: 52upx;
   position: absolute;
   color: #8799a3;
@@ -760,7 +795,7 @@ body .el-table__fixed::before {
   flex-direction: column;
 }
 
-.grid.grid-square>view {
+.grid.grid-square > view {
   margin-right: 10px;
   margin-bottom: 10px;
   border-radius: 3px;
@@ -768,73 +803,76 @@ body .el-table__fixed::before {
   overflow: hidden;
 }
 
-.grid.grid-square>view.bg-img image {
+.grid.grid-square > view.bg-img image {
   width: 100%;
   height: 100%;
   position: absolute;
 }
 
-.grid.col-1.grid-square>view {
+.grid.col-1.grid-square > view {
   padding-bottom: 100%;
   height: 0;
   margin-right: 0;
 }
 
-.grid.col-2.grid-square>view {
+.grid.col-2.grid-square > view {
   padding-bottom: calc((100% - 10px) / 2);
   height: 0;
   width: calc((100% - 10px) / 2);
 }
 
-.grid.col-3.grid-square>view {
+.grid.col-3.grid-square > view {
   padding-bottom: calc((100% - 20px) / 3);
   height: 0;
   width: calc((100% - 20px) / 3);
 }
 
-.grid.col-4.grid-square>view {
+.grid.col-4.grid-square > view {
   padding-bottom: calc((100% - 30px) / 4);
   height: 0;
   width: calc((100% - 30px) / 4);
 }
 
-.grid.col-5.grid-square>view {
+.grid.col-5.grid-square > view {
   padding-bottom: calc((100% - 40px) / 5);
   height: 0;
   width: calc((100% - 40px) / 5);
 }
 
-.grid.col-6.grid-square>view {
+.grid.col-6.grid-square > view {
   padding-bottom: calc((100% - 50px) / 6);
   height: 0;
   width: calc((100% - 50px) / 6);
 }
 
-.grid.col-2.grid-square>view:nth-child(2n), .grid.col-3.grid-square>view:nth-child(3n), .grid.col-4.grid-square>view:nth-child(4n), .grid.col-5.grid-square>view:nth-child(5n) {
+.grid.col-2.grid-square > view:nth-child(2n),
+.grid.col-3.grid-square > view:nth-child(3n),
+.grid.col-4.grid-square > view:nth-child(4n),
+.grid.col-5.grid-square > view:nth-child(5n) {
   margin-right: 0;
 }
 
-.grid.col-1>view {
+.grid.col-1 > view {
   width: 100%;
 }
 
-.grid.col-2>view {
+.grid.col-2 > view {
   width: 50%;
 }
 
-.grid.col-3>view {
+.grid.col-3 > view {
   width: 33.33%;
 }
 
-.grid.col-4>view {
+.grid.col-4 > view {
   width: 25%;
 }
 
-.grid.col-5>view {
+.grid.col-5 > view {
   width: 20%;
 }
 
-.grid.col-6>view {
+.grid.col-6 > view {
   width: 16.5%;
 }
 
@@ -1155,11 +1193,39 @@ body .el-table__fixed::before {
 
 /* -- 实线 -- */
 
-.solid, .solid-top, .solid-right, .solid-bottom, .solid-left, .solids, .solids-top, .solids-right, .solids-bottom, .solids-left, .dashed, .dashed-top, .dashed-right, .dashed-bottom, .dashed-left {
+.solid,
+.solid-top,
+.solid-right,
+.solid-bottom,
+.solid-left,
+.solids,
+.solids-top,
+.solids-right,
+.solids-bottom,
+.solids-left,
+.dashed,
+.dashed-top,
+.dashed-right,
+.dashed-bottom,
+.dashed-left {
   position: relative;
 }
 
-.solid::after, .solid-top::after, .solid-right::after, .solid-bottom::after, .solid-left::after, .solids::after, .solids-top::after, .solids-right::after, .solids-bottom::after, .solids-left::after, .dashed::after, .dashed-top::after, .dashed-right::after, .dashed-bottom::after, .dashed-left::after {
+.solid::after,
+.solid-top::after,
+.solid-right::after,
+.solid-bottom::after,
+.solid-left::after,
+.solids::after,
+.solids-top::after,
+.solids-right::after,
+.solids-bottom::after,
+.solids-left::after,
+.dashed::after,
+.dashed-top::after,
+.dashed-right::after,
+.dashed-bottom::after,
+.dashed-left::after {
   content: " ";
   width: 200%;
   height: 200%;

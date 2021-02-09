@@ -84,6 +84,11 @@
         </el-table>
       </template>
     </TableBody>
+    <Dialog ref="dialog">
+      <template slot="body">
+        <div>this is dialog body</div>
+      </template>
+    </Dialog>
   </div>
 </template>
 
@@ -92,11 +97,6 @@ import TableMixin from '@/mixins/TableMixin'
 export default {
   name: 'Department',
   mixins: [TableMixin],
-  data() {
-    return {
-      showAddDialog: false
-    }
-  },
   mounted() {
     this.getData()
   },
@@ -109,7 +109,7 @@ export default {
       })
     },
     addDepartment() {
-      this.showAddDialog = true
+      this.$refs.dialog.show()
     }
   }
 }
