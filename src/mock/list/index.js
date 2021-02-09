@@ -1,12 +1,71 @@
 import Mock, { Random } from 'mockjs'
 import { baseData } from '../base'
-import { getTableList, getCardList, getCommentList } from '@/api/url.js'
+import { getDepartmentList, getTableList, getCardList, getCommentList } from '@/api/url.js'
 
 const totalSize = 30
 
 function computePageSize(totalSize, page, pageSize) {
   return Math.abs(totalSize - pageSize * page >= 0 ? pageSize : totalSize - pageSize * page)
 }
+
+Mock.mock(RegExp(getDepartmentList), function ({ body }) {
+  return Mock.mock({
+    ...baseData,
+    totalSize,
+    'data': [
+      {
+        'id': 1,
+        'name': '总裁办',
+        'depCode': 'dp_code_manager', // 0男 1女
+        'order|+1': 1, // 0不是 1是
+        'createTime': Random.now('yyyy-MM-dd HH:mm:ss'),
+        'status': 1 // 0 禁用 1正常
+      },
+      {
+        'id': 2,
+        'name': '市场部',
+        'depCode': 'dp_code_marketing', // 0男 1女
+        'order|+1': 1, // 0不是 1是
+        'createTime': Random.now('yyyy-MM-dd HH:mm:ss'),
+        'status': 1, // 0 禁用 1正常,
+        children: [
+          {
+            'id': 3,
+            'name': '市场一部',
+            'depCode': 'dp_code_marketing_1', // 0男 1女
+            'order|+1': 1, // 0不是 1是
+            'createTime': Random.now('yyyy-MM-dd HH:mm:ss'),
+            'status': 1 // 0 禁用 1正常
+          },
+          {
+            'id': 4,
+            'name': '市场二部',
+            'depCode': 'dp_code_marketing_2', // 0男 1女
+            'order|+1': 1, // 0不是 1是
+            'createTime': Random.now('yyyy-MM-dd HH:mm:ss'),
+            'status': 1 // 0 禁用 1正常
+          }
+        ]
+      },
+      {
+        'id': 5,
+        'name': '技术部',
+        'depCode': 'dp_code_technology', // 0男 1女
+        'order|+1': 1, // 0不是 1是
+        'createTime': Random.now('yyyy-MM-dd HH:mm:ss'),
+        'status': 1 // 0 禁用 1正常
+      },
+      {
+        'id': 6,
+        'name': '销售部',
+        'depCode': 'dp_code_sale', // 0男 1女
+        'order|+1': 1, // 0不是 1是
+        'createTime': Random.now('yyyy-MM-dd HH:mm:ss'),
+        'status': 1 // 0 禁用 1正常
+      }
+    ]
+  })
+})
 
 Mock.mock(RegExp(getTableList), function ({ body }) {
   const { page, pageSize = 10 } = JSON.parse(body)

@@ -6,13 +6,8 @@
           type="primary"
           size="mini"
           icon="el-icon-plus"
+          @click="addDepartment"
         >添加
-        </el-button>
-        <el-button
-          type="danger"
-          size="mini"
-          icon="el-icon-delete"
-        >删除
         </el-button>
       </template>
     </TableHeader>
@@ -27,6 +22,8 @@
           :stripe="tableConfig.stripe"
           :border="tableConfig.border"
           :height="tableConfig.height"
+          row-key="id"
+          :tree-props="{children: 'children'}"
         >
           <el-table-column
             align="center"
@@ -40,43 +37,19 @@
           </el-table-column>
           <el-table-column
             align="center"
-            label="名称"
-            prop="nickName"
+            label="部门名称"
+            prop="name"
           />
           <el-table-column
             align="center"
-            label="头像"
-          >
-            <template slot-scope="scope">
-              <div class="avatar-container">
-                <el-image
-                  :src="scope.row.avatar"
-                  class="avatar"
-                  :class="{'avatar-vip' : scope.row.vip === 1}"
-                />
-                <img
-                  v-if="scope.row.vip === 1"
-                  class="vip"
-                  :src="require('@/assets/img_vip_icon.png')"
-                />
-              </div>
-            </template>
-          </el-table-column>
+            label="部门编号"
+            prop="depCode"
+          />
           <el-table-column
             align="center"
-            label="性别"
-            prop="gender"
-          >
-            <template slot-scope="scope">
-              <div class="gender-container flex justify-center align-center">
-                <img
-                  class="gender-icon"
-                  :src="scope.row.gender === 0 ? require('@/assets/icon_sex_man.png') : require('@/assets/icon_sex_woman.png')"
-                />
-                <span>{{ scope.row.gender === 0 ? '男' : '女' }}</span>
-              </div>
-            </template>
-          </el-table-column>
+            label="排序"
+            prop="order"
+          />
           <el-table-column
             align="center"
             label="状态"
@@ -91,20 +64,9 @@
           </el-table-column>
           <el-table-column
             align="center"
-            label="地址"
-            prop="address"
-          />
-          <el-table-column
-            align="center"
-            label="上次登录时间"
-            prop="lastLoginTime"
+            label="创建时间"
+            prop="createTime"
             width="160px"
-          />
-          <el-table-column
-            align="center"
-            label="上次登录IP"
-            prop="lastLoginIp"
-            width="130px"
           />
           <el-table-column
             align="center"
@@ -129,7 +91,27 @@
 import TableMixin from '@/mixins/TableMixin'
 export default {
   name: 'Department',
-  mixins: [TableMixin]
+  mixins: [TableMixin],
+  data() {
+    return {
+      showAddDialog: false
+    }
+  },
+  mounted() {
+    this.getData()
+  },
+  methods: {
+    getData() {
+      this.$post({
+        url: this.$urlPath.getDepartmentList
+      }).then((res) => {
+        this.handleSuccess(res)
+      })
+    },
+    addDepartment() {
+      this.showAddDialog = true
+    }
+  }
 }
 </script>
 

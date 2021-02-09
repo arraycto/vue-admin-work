@@ -4,6 +4,8 @@ export const test = '/test'
 
 export const login = '/login'
 
+export const getDepartmentList = '/getDepartmentList'
+
 export const getTableList = '/getTableList'
 
 export const getCardList = '/getCardList'

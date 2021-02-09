@@ -18,14 +18,14 @@
           <i
             v-if="showArrow"
             :class="showSearchContent ? 'el-icon-caret-bottom' : 'el-icon-caret-top'"
-          />
+          ></i>
         </el-link>
         <div class="left-wrapper">
-          <slot name="left" />
+          <slot name="left"></slot>
         </div>
-        <div class="flex-sub" />
+        <div class="flex-sub"></div>
         <div class="right-wrapper">
-          <slot name="right" />
+          <slot name="right"></slot>
         </div>
       </div>
       <el-collapse-transition>
@@ -184,7 +184,9 @@ export default {
   },
   computed: {
     showArrow() {
-      return this.canCollapsed && !!this.searchModel && this.searchModel.length !== 0
+      return (
+        this.canCollapsed && !!this.searchModel && this.searchModel.length !== 0
+      )
     },
     collapsedState() {
       return this.showSearchContent && this.showArrow
@@ -214,16 +216,22 @@ export default {
     }
   },
   mounted() {
-    this.$nextTick(_ => {
-      this.$parent.$emit('tableHeightChanged', document.getElementById('tableHeaderContainer').offsetHeight)
+    this.$nextTick((_) => {
+      this.$parent.$emit(
+        'tableHeightChanged',
+        document.getElementById('tableHeaderContainer').offsetHeight
+      )
     })
   },
   methods: {
     collapsed() {
       this.showSearchContent = !this.showSearchContent
       // 等动画执行完成，再获取高度，否则获取的高度是不准确的
-      setTimeout(_ => {
-        this.$parent.$emit('tableHeightChanged', document.getElementById('tableHeaderContainer').offsetHeight)
+      setTimeout((_) => {
+        this.$parent.$emit(
+          'tableHeightChanged',
+          document.getElementById('tableHeaderContainer').offsetHeight
+        )
       }, 350)
     },
     doSearch() {
