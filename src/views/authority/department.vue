@@ -86,7 +86,46 @@
     </TableBody>
     <Dialog ref="dialog">
       <template slot="body">
-        <div>this is dialog body</div>
+        <el-form
+          v-model="departmentModel"
+          label-width="80px"
+          label-position="right"
+        >
+          <el-form-item label="部门名称">
+            <el-col :span="20">
+              <el-input
+                v-model="departmentModel.name"
+                size="small"
+                placeholder="请输入部门名称"
+              />
+            </el-col>
+          </el-form-item>
+          <el-form-item label="部门编号">
+            <el-col :span="20">
+              <el-input
+                v-model="departmentModel.name"
+                size="small"
+                placeholder="请输入部门编号"
+              >
+                <template slot="prepend">dp_code_</template>
+              </el-input>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="排序">
+            <el-col :span="20">
+              <el-input-number
+                v-model="departmentModel.order"
+                :step="1"
+                size="small"
+              />
+            </el-col>
+          </el-form-item>
+          <el-form-item label="状态">
+            <el-col :span="20">
+              <el-switch v-model="departmentModel.status" />
+            </el-col>
+          </el-form-item>
+        </el-form>
       </template>
     </Dialog>
   </div>
@@ -97,6 +136,16 @@ import TableMixin from '@/mixins/TableMixin'
 export default {
   name: 'Department',
   mixins: [TableMixin],
+  data() {
+    return {
+      departmentModel: {
+        name: '',
+        depCode: '',
+        order: 1,
+        status: 1
+      }
+    }
+  },
   mounted() {
     this.getData()
   },
@@ -110,6 +159,13 @@ export default {
     },
     addDepartment() {
       this.$refs.dialog.show()
+    },
+    onDialogConfirm() {
+      if (!this.departmentModel.name) {
+        this.$errorMsg('请输入部门名称')
+        return false
+      }
+      return true
     }
   }
 }

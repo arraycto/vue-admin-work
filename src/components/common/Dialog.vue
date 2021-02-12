@@ -4,7 +4,6 @@
     :visible.sync="dialogVisible"
     width="30%"
   >
-    <div>这是一段信息</div>
     <slot name="body"></slot>
     <span
       slot="footer"
@@ -17,7 +16,7 @@
       <el-button
         type="primary"
         size="mini"
-        @click="dialogVisible = false"
+        @click="onConfirm"
       >确 定</el-button>
     </span>
   </el-dialog>
@@ -45,6 +44,15 @@ export default {
     },
     toggle() {
       this.dialogVisible = !this.dialogVisible
+    },
+    onConfirm() {
+      if (this.$parent && this.$parent.onDialogConfirm) {
+        if (this.$parent.onDialogConfirm()) {
+          this.dialogVisible = false
+        }
+      } else {
+        this.$emit('onDialogConfirm')
+      }
     }
   }
 }

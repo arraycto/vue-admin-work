@@ -104,8 +104,12 @@ body .el-table__fixed::before {
 }
 
 .el-dialog__header {
-  padding: 10px;
+  padding: 10px !important;
   border-bottom: 2px solid #f5f5f5;
+}
+
+.el-dialog__headerbtn {
+  top: 14px !important;
 }
 
 .el-dialog__title {
@@ -117,10 +121,11 @@ body .el-table__fixed::before {
 }
 
 .el-dialog__body {
-  padding: 0px;
+  padding: 10px !important;
 }
 
 .el-dialog__footer {
+  padding: 10px !important;
   border-top: 2px solid #f5f5f5;
 }
 
