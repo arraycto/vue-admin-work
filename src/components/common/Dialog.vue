@@ -2,7 +2,7 @@
   <el-dialog
     :title="title"
     :visible.sync="dialogVisible"
-    width="30%"
+    width="50%"
   >
     <slot name="body"></slot>
     <span

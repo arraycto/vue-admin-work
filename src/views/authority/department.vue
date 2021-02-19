@@ -116,6 +116,7 @@
               <el-input-number
                 v-model="departmentModel.order"
                 :step="1"
+                :min="1"
                 size="small"
               />
             </el-col>
@@ -142,7 +143,7 @@ export default {
         name: '',
         depCode: '',
         order: 1,
-        status: 1
+        status: true
       }
     }
   },
