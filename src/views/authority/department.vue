@@ -103,7 +103,7 @@
           <el-form-item label="部门编号">
             <el-col :span="20">
               <el-input
-                v-model="departmentModel.name"
+                v-model="departmentModel.depCode"
                 size="small"
                 placeholder="请输入部门编号"
               >
@@ -159,6 +159,10 @@ export default {
       })
     },
     addDepartment() {
+      this.departmentModel.name = ''
+      this.departmentModel.depCode = ''
+      this.departmentModel.status = true
+      this.departmentModel.order = 1
       this.$refs.dialog.show()
     },
     onDialogConfirm() {
@@ -166,6 +170,14 @@ export default {
         this.$errorMsg('请输入部门名称')
         return false
       }
+      this.dataList.push({
+        id: 1000,
+        name: this.departmentModel.name,
+        depCode: 'de_code_' + this.departmentModel.depCode,
+        status: this.departmentModel.status ? 1 : 0,
+        order: this.departmentModel.order,
+        createTime: '2021-01-01 12:00:11'
+      })
       return true
     }
   }

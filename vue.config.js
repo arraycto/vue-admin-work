@@ -10,6 +10,7 @@ module.exports = {
   assetsDir: 'static',
   lintOnSave: true,
   devServer: {
+    hot: true,
     port: 5566,
     open: true
   },
