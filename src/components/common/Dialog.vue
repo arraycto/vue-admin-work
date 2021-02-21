@@ -2,7 +2,7 @@
   <el-dialog
     :title="title"
     :visible.sync="dialogVisible"
-    width="50%"
+    width="40%"
   >
     <slot name="body"></slot>
     <span
@@ -47,7 +47,7 @@ export default {
     },
     onConfirm() {
       if (this.$parent && this.$parent.onDialogConfirm) {
-        if (this.$parent.onDialogConfirm()) {
+        if (this.$parent.onDialogConfirm() !== false) {
           this.dialogVisible = false
         }
       } else {

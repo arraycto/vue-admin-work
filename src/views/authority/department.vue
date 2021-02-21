@@ -6,7 +6,7 @@
           type="primary"
           size="mini"
           icon="el-icon-plus"
-          @click="addDepartment"
+          @click="addItem"
         >添加
         </el-button>
       </template>
@@ -72,19 +72,25 @@
             align="center"
             label="操作"
           >
-            <el-link
-              type="primary"
-              :underline="false"
-            >编辑</el-link>
-            <el-link
-              type="danger"
-              :underline="false"
-            >删除</el-link>
+            <template slot-scope="scope">
+              <el-link
+                type="primary"
+                :underline="false"
+                @click="editItem(scope.row)"
+              >编辑</el-link>
+              <el-link
+                type="danger"
+                :underline="false"
+              >删除</el-link>
+            </template>
           </el-table-column>
         </el-table>
       </template>
     </TableBody>
-    <Dialog ref="dialog">
+    <Dialog
+      ref="dialog"
+      :title="departmentModel.actionModel === 'add' ? '添加部门' : '编辑部门'"
+    >
       <template slot="body">
         <el-form
           v-model="departmentModel"
@@ -134,17 +140,20 @@
 
 <script>
 import TableMixin from '@/mixins/TableMixin'
+import { mergeObject } from '@/utils/utils'
+const DP_CODE_FLAG = 'dp_code_'
 export default {
   name: 'Department',
   mixins: [TableMixin],
   data() {
     return {
-      departmentModel: {
+      departmentModel: mergeObject({
+        itemId: 0,
         name: '',
         depCode: '',
         order: 1,
         status: true
-      }
+      })
     }
   },
   mounted() {
@@ -158,11 +167,22 @@ export default {
         this.handleSuccess(res)
       })
     },
-    addDepartment() {
+    addItem() {
+      this.departmentModel.actionModel = 'add'
       this.departmentModel.name = ''
       this.departmentModel.depCode = ''
       this.departmentModel.status = true
       this.departmentModel.order = 1
+      this.$refs.dialog.show()
+    },
+    editItem(item) {
+      this.tempItem = item
+      this.departmentModel.actionModel = 'edit'
+      this.departmentModel.itemId = item.id
+      this.departmentModel.name = item.name
+      this.departmentModel.depCode = item.depCode.replace(DP_CODE_FLAG, '')
+      this.departmentModel.order = item.order
+      this.departmentModel.status = parseInt(item.status) === 1
       this.$refs.dialog.show()
     },
     onDialogConfirm() {
@@ -170,15 +190,21 @@ export default {
         this.$errorMsg('请输入部门名称')
         return false
       }
-      this.dataList.push({
-        id: 1000,
-        name: this.departmentModel.name,
-        depCode: 'de_code_' + this.departmentModel.depCode,
-        status: this.departmentModel.status ? 1 : 0,
-        order: this.departmentModel.order,
-        createTime: '2021-01-01 12:00:11'
-      })
-      return true
+      if (this.departmentModel.actionModel === 'add') {
+        this.dataList.push({
+          id: 1000,
+          name: this.departmentModel.name,
+          depCode: DP_CODE_FLAG + this.departmentModel.depCode,
+          status: this.departmentModel.status ? 1 : 0,
+          order: this.departmentModel.order,
+          createTime: '2021-01-01 12:00:11'
+        })
+      } else {
+        this.tempItem.name = this.departmentModel.name
+        this.tempItem.depCode = DP_CODE_FLAG + this.departmentModel.depCode
+        this.tempItem.order = this.departmentModel.order
+        this.tempItem.status = this.departmentModel.status ? 1 : 0
+      }
     }
   }
 }

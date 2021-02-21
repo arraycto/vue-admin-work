@@ -29,6 +29,12 @@ export default {
     })
   },
   methods: {
+    // add action
+    addItem() { },
+    // edit action
+    editItem(item) { },
+    // delete action
+    deleteItems() { },
     // page action
     pageSizeChanged(pageSize) {
       this.pageModel.pageSize = pageSize
