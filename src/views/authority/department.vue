@@ -145,21 +145,20 @@
 
 <script>
 import TableMixin from '@/mixins/TableMixin'
-import { mergeObject } from '@/utils/utils'
 const DP_CODE_FLAG = 'dp_code_'
 export default {
   name: 'Department',
   mixins: [TableMixin],
   data() {
     return {
-      departmentModel: mergeObject({
+      departmentModel: {
         title: '',
         itemId: 0,
         name: '',
         depCode: '',
         order: 1,
         status: true
-      })
+      }
     }
   },
   mounted() {
@@ -186,38 +185,42 @@ export default {
       })
     },
     addItem() {
-      this.$refs.dialog.show(() => {
-        this.departmentModel.title = '添加部门信息'
-        this.departmentModel.name = ''
-        this.departmentModel.depCode = ''
-        this.departmentModel.status = true
-        this.departmentModel.order = 1
-      }).then(() => {
-        this.dataList.push({
-          id: 1000,
-          name: this.departmentModel.name,
-          depCode: DP_CODE_FLAG + this.departmentModel.depCode,
-          status: this.departmentModel.status ? 1 : 0,
-          order: this.departmentModel.order,
-          createTime: '2021-01-01 12:00:11'
+      this.$refs.dialog
+        .show(() => {
+          this.departmentModel.title = '添加部门信息'
+          this.departmentModel.name = ''
+          this.departmentModel.depCode = ''
+          this.departmentModel.status = true
+          this.departmentModel.order = 1
         })
-      })
+        .then(() => {
+          this.dataList.push({
+            id: 1000,
+            name: this.departmentModel.name,
+            depCode: DP_CODE_FLAG + this.departmentModel.depCode,
+            status: this.departmentModel.status ? 1 : 0,
+            order: this.departmentModel.order,
+            createTime: '2021-01-01 12:00:11'
+          })
+        })
     },
     editItem(item) {
-      this.$refs.dialog.show(() => {
-        this.departmentModel.title = '编辑部门信息'
-        this.departmentModel.itemId = item.id
-        this.departmentModel.name = item.name
-        this.departmentModel.depCode = item.depCode.replace(DP_CODE_FLAG, '')
-        this.departmentModel.order = item.order
-        this.departmentModel.status = parseInt(item.status) === 1
-      }).then(() => {
-        item.name = this.departmentModel.name
-        item.depCode = DP_CODE_FLAG + this.departmentModel.depCode
-        item.order = this.departmentModel.order
-        item.status = this.departmentModel.status ? 1 : 0
-        this.$refs.dialog.close()
-      })
+      this.$refs.dialog
+        .show(() => {
+          this.departmentModel.title = '编辑部门信息'
+          this.departmentModel.itemId = item.id
+          this.departmentModel.name = item.name
+          this.departmentModel.depCode = item.depCode.replace(DP_CODE_FLAG, '')
+          this.departmentModel.order = item.order
+          this.departmentModel.status = parseInt(item.status) === 1
+        })
+        .then(() => {
+          item.name = this.departmentModel.name
+          item.depCode = DP_CODE_FLAG + this.departmentModel.depCode
+          item.order = this.departmentModel.order
+          item.status = this.departmentModel.status ? 1 : 0
+          this.$refs.dialog.close()
+        })
     },
     deleteItems(item) {
       this.$showConfirmDialog('是否要删除此部门信息，删除后不可恢复？', () => {
@@ -227,6 +230,10 @@ export default {
     validateForm() {
       if (!this.departmentModel.name) {
         this.$errorMsg('请输入部门名称')
+        return false
+      }
+      if (!this.departmentModel.depCode) {
+        this.$errorMsg('请输入部门编码')
         return false
       }
       return true
