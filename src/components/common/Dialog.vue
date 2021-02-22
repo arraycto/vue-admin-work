@@ -28,30 +28,42 @@ export default {
     title: {
       type: String,
       default: '提示'
+    },
+    validateForm: {
+      type: Function,
+      default: null
     }
   },
   data() {
     return {
-      dialogVisible: false
+      dialogVisible: false,
+      resolve: null
     }
   },
   methods: {
-    show() {
-      this.dialogVisible = true
+    show(beforeAction) {
+      return new Promise((resolve) => {
+        beforeAction && beforeAction()
+        this.dialogVisible = true
+        this.resolve = resolve
+      })
     },
-    close() {
+    close(afterAction) {
       this.dialogVisible = false
+      afterAction && afterAction()
     },
     toggle() {
       this.dialogVisible = !this.dialogVisible
     },
     onConfirm() {
-      if (this.$parent && this.$parent.onDialogConfirm) {
-        if (this.$parent.onDialogConfirm() !== false) {
+      if (this.validateForm) {
+        if (this.validateForm()) {
           this.dialogVisible = false
+          this.resolve && this.resolve()
         }
       } else {
-        this.$emit('onDialogConfirm')
+        this.dialogVisible = false
+        this.resolve && this.resolve()
       }
     }
   }

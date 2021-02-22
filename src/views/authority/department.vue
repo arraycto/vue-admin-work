@@ -1,12 +1,15 @@
 <template>
   <div class="main-container">
     <TableHeader :can-collapsed="false">
-      <template slot="right">
+      <template
+        v-if="actionModel"
+        slot="right"
+      >
         <el-button
           type="primary"
           size="mini"
           icon="el-icon-plus"
-          @click="addItem"
+          @click="actionModel.addItem"
         >添加
         </el-button>
       </template>
@@ -76,11 +79,12 @@
               <el-link
                 type="primary"
                 :underline="false"
-                @click="editItem(scope.row)"
+                @click="actionModel.editItem(scope.row)"
               >编辑</el-link>
               <el-link
                 type="danger"
                 :underline="false"
+                @click="actionModel.deleteItems(scope.row)"
               >删除</el-link>
             </template>
           </el-table-column>
@@ -89,7 +93,8 @@
     </TableBody>
     <Dialog
       ref="dialog"
-      :title="departmentModel.actionModel === 'add' ? '添加部门' : '编辑部门'"
+      :validate-form="validateForm"
+      :title="departmentModel.title"
     >
       <template slot="body">
         <el-form
@@ -148,6 +153,7 @@ export default {
   data() {
     return {
       departmentModel: mergeObject({
+        title: '',
         itemId: 0,
         name: '',
         depCode: '',
@@ -160,37 +166,33 @@ export default {
     this.getData()
   },
   methods: {
+    initSetup() {
+      return {
+        loadDataUrl: this.$urlPath.getDepartmentList,
+        getData: this.getData,
+        addUrl: '',
+        addItem: this.addItem,
+        editUrl: '',
+        editItem: this.editItem,
+        deleteUrl: '',
+        deleteItems: this.deleteItems
+      }
+    },
     getData() {
       this.$post({
-        url: this.$urlPath.getDepartmentList
+        url: this.actionModel.loadDataUrl
       }).then((res) => {
         this.handleSuccess(res)
       })
     },
     addItem() {
-      this.departmentModel.actionModel = 'add'
-      this.departmentModel.name = ''
-      this.departmentModel.depCode = ''
-      this.departmentModel.status = true
-      this.departmentModel.order = 1
-      this.$refs.dialog.show()
-    },
-    editItem(item) {
-      this.tempItem = item
-      this.departmentModel.actionModel = 'edit'
-      this.departmentModel.itemId = item.id
-      this.departmentModel.name = item.name
-      this.departmentModel.depCode = item.depCode.replace(DP_CODE_FLAG, '')
-      this.departmentModel.order = item.order
-      this.departmentModel.status = parseInt(item.status) === 1
-      this.$refs.dialog.show()
-    },
-    onDialogConfirm() {
-      if (!this.departmentModel.name) {
-        this.$errorMsg('请输入部门名称')
-        return false
-      }
-      if (this.departmentModel.actionModel === 'add') {
+      this.$refs.dialog.show(() => {
+        this.departmentModel.title = '添加部门信息'
+        this.departmentModel.name = ''
+        this.departmentModel.depCode = ''
+        this.departmentModel.status = true
+        this.departmentModel.order = 1
+      }).then(() => {
         this.dataList.push({
           id: 1000,
           name: this.departmentModel.name,
@@ -199,12 +201,35 @@ export default {
           order: this.departmentModel.order,
           createTime: '2021-01-01 12:00:11'
         })
-      } else {
-        this.tempItem.name = this.departmentModel.name
-        this.tempItem.depCode = DP_CODE_FLAG + this.departmentModel.depCode
-        this.tempItem.order = this.departmentModel.order
-        this.tempItem.status = this.departmentModel.status ? 1 : 0
+      })
+    },
+    editItem(item) {
+      this.$refs.dialog.show(() => {
+        this.departmentModel.title = '编辑部门信息'
+        this.departmentModel.itemId = item.id
+        this.departmentModel.name = item.name
+        this.departmentModel.depCode = item.depCode.replace(DP_CODE_FLAG, '')
+        this.departmentModel.order = item.order
+        this.departmentModel.status = parseInt(item.status) === 1
+      }).then(() => {
+        item.name = this.departmentModel.name
+        item.depCode = DP_CODE_FLAG + this.departmentModel.depCode
+        item.order = this.departmentModel.order
+        item.status = this.departmentModel.status ? 1 : 0
+        this.$refs.dialog.close()
+      })
+    },
+    deleteItems(item) {
+      this.$showConfirmDialog('是否要删除此部门信息，删除后不可恢复？', () => {
+        this.dataList.splice(this.dataList.indexOf(item), 1)
+      })
+    },
+    validateForm() {
+      if (!this.departmentModel.name) {
+        this.$errorMsg('请输入部门名称')
+        return false
       }
+      return true
     }
   }
 }

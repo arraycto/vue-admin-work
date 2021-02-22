@@ -17,7 +17,8 @@ export default {
         currentPage: 1,
         pageSize: 10,
         totalSize: 10
-      }
+      },
+      actionModel: null
     }
   },
   mounted() {
@@ -27,29 +28,23 @@ export default {
         this.$refs.table && this.$refs.table.doLayout()
       }, 350)
     })
+    this.initSetup && (this.actionModel = this.initSetup())
   },
   methods: {
-    // add action
-    addItem() { },
-    // edit action
-    editItem(item) { },
-    // delete action
-    deleteItems() { },
-    // page action
     pageSizeChanged(pageSize) {
       this.pageModel.pageSize = pageSize
       this.pageModel.currentPage = 1
-      if (!this.getData) {
+      if (!this.actionModel.getData) {
         throw new Error('There is no method called "getData"  to load data')
       }
-      this.getData()
+      this.actionModel.getData()
     },
     currentChanged(currentPage) {
       this.pageModel.currentPage = currentPage
       if (!this.getData) {
         throw new Error('There is no method called "getData"  to load data')
       }
-      this.getData()
+      this.actionModel.getData()
     },
     withPageInfoData(otherParams = {}) {
       return {
