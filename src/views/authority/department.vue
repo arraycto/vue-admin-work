@@ -93,7 +93,7 @@
     </TableBody>
     <Dialog
       ref="dialog"
-      :validate-form="validateForm"
+      :validate-form="actionModel.validateForm"
       :title="departmentModel.title"
     >
       <template slot="body">
@@ -174,7 +174,8 @@ export default {
         editUrl: '',
         editItem: this.editItem,
         deleteUrl: '',
-        deleteItems: this.deleteItems
+        deleteItems: this.deleteItems,
+        validateFormHandler: this.validateForm
       }
     },
     getData() {
@@ -223,9 +224,10 @@ export default {
         })
     },
     deleteItems(item) {
-      this.$showConfirmDialog('是否要删除此部门信息，删除后不可恢复？', () => {
-        this.dataList.splice(this.dataList.indexOf(item), 1)
-      })
+      this.$showConfirmDialog('是否要删除此部门信息，删除后不可恢复？')
+        .then(() => {
+          this.dataList.splice(this.dataList.indexOf(item), 1)
+        })
     },
     validateForm() {
       if (!this.departmentModel.name) {

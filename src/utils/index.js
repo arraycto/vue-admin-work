@@ -36,16 +36,10 @@ Vue.prototype.$errorMsg = function (message = '') {
     duration: 5000
   })
 }
-Vue.prototype.$showConfirmDialog = function (message = '', handleFunction = null) {
-  this.$confirm(message, '提示', {
+Vue.prototype.$showConfirmDialog = function (message = '') {
+  return this.$confirm(message, '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'
-  }).then(() => {
-    if (handleFunction) {
-      handleFunction()
-    }
-  }).catch(_ => {
-    console.log('取消')
   })
 }
