@@ -8,6 +8,10 @@ export const getDepartmentList = '/getDepartmentList'
 
 export const getRoleList = '/getRoleList'
 
+export const getMenuList = '/getMenuList'
+
+export const getParentMenuList = '/getParentMenuList'
+
 export const getTableList = '/getTableList'
 
 export const getCardList = '/getCardList'

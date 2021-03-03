@@ -73,6 +73,7 @@
       </template>
     </TableBody>
     <Dialog
+      v-if="actionModel"
       ref="dialog"
       :validate-form="actionModel.validateFormHandler"
       :title="menuModel.title"
@@ -83,6 +84,23 @@
           label-width="80px"
           label-position="right"
         >
+          <el-form-item label="上级菜单">
+            <el-col :span="20">
+              <el-select
+                v-model="menuModel.name"
+                size="small"
+                placeholder="请输入菜单名称"
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="(item, index) of 5"
+                  :key="index"
+                  :label="item"
+                  :value="item"
+                />
+              </el-select>
+            </el-col>
+          </el-form-item>
           <el-form-item label="菜单名称">
             <el-col :span="20">
               <el-input
@@ -111,7 +129,7 @@
 
 <script>
 import TableMixin from '@/mixins/TableMixin'
-import { uuid } from '@/utils/utils'
+import { currentDate, uuid } from '@/utils/utils'
 export default {
   name: 'Menu',
   mixins: [TableMixin],
@@ -121,6 +139,7 @@ export default {
         title: '',
         id: uuid(),
         name: '',
+        parentItem: null,
         url: '',
         createTime: ''
       }
@@ -132,6 +151,7 @@ export default {
   methods: {
     initSetup() {
       return {
+        loadParentMenuUrl: this.$urlPath.getParentMenuList,
         loadDataUrl: this.$urlPath.getMenuList,
         getData: this.getData,
         addUrl: '',
@@ -160,7 +180,7 @@ export default {
           id: uuid,
           name: this.menuModel.name,
           url: this.menuModel.url,
-          createTime: '2021-01-01 12:00:11'
+          createTime: currentDate()
         })
       })
     },
@@ -181,16 +201,12 @@ export default {
         })
     },
     validateForm() {
-      if (!this.roleModel.name) {
+      if (!this.menuModel.name) {
         this.$errorMsg('请输入菜单名称')
         return false
       }
-      if (!this.roleModel.roleCode) {
-        this.$errorMsg('请输入角色编码')
-        return false
-      }
-      if (!this.roleModel.description) {
-        this.$errorMsg('请输入角色描述')
+      if (!this.menuModel.url) {
+        this.$errorMsg('请输入菜单地址')
         return false
       }
       return true
