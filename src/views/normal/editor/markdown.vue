@@ -4,7 +4,7 @@
       ref="markdownEditor"
       :initial-value="editorText"
       :options="editorOptions"
-      height="800px"
+      height="550px"
       initial-edit-type="markdown"
       preview-style="vertical"
     />

@@ -25,6 +25,8 @@
           :stripe="tableConfig.stripe"
           :border="tableConfig.border"
           :height="tableConfig.height"
+          row-key="menuUrl"
+          :tree-props="{children: 'children'}"
         >
           <el-table-column
             align="center"
@@ -39,19 +41,23 @@
           <el-table-column
             align="center"
             label="菜单名称"
-            prop="name"
+            prop="menuName"
           />
           <el-table-column
             align="center"
             label="菜单地址"
-            prop="url"
+            prop="menuUrl"
           />
           <el-table-column
             align="center"
             label="创建时间"
             prop="createTime"
             width="160px"
-          />
+          >
+            <template slot-scope="scope">
+              <div>{{ scope.row.createTime || '--' }}</div>
+            </template>
+          </el-table-column>
           <el-table-column
             align="center"
             label="操作"
@@ -87,16 +93,16 @@
           <el-form-item label="上级菜单">
             <el-col :span="20">
               <el-select
-                v-model="menuModel.name"
+                v-model="menuModel.parentItem"
                 size="small"
                 placeholder="请输入菜单名称"
                 style="width: 100%"
               >
                 <el-option
-                  v-for="(item, index) of 5"
+                  v-for="(item, index) of dataList"
                   :key="index"
-                  :label="item"
-                  :value="item"
+                  :label="item.menuName"
+                  :value="item.menuUrl"
                 />
               </el-select>
             </el-col>
@@ -116,8 +122,12 @@
                 v-model="menuModel.url"
                 size="small"
                 placeholder="请输入菜单地址"
+                :disabled="menuModel.mode === 'edit'"
               >
-                <template slot="prepend">/</template>
+                <template
+                  v-if="menuModel.mode === 'add'"
+                  slot="prepend"
+                >{{ menuModel.parentItem ? menuModel.parentItem : '/' }}</template>
               </el-input>
             </el-col>
           </el-form-item>
@@ -136,10 +146,11 @@ export default {
   data() {
     return {
       menuModel: {
+        mode: 'add',
         title: '',
         id: uuid(),
         name: '',
-        parentItem: null,
+        parentItem: '',
         url: '',
         createTime: ''
       }
@@ -151,7 +162,6 @@ export default {
   methods: {
     initSetup() {
       return {
-        loadParentMenuUrl: this.$urlPath.getParentMenuList,
         loadDataUrl: this.$urlPath.getMenuList,
         getData: this.getData,
         addUrl: '',
@@ -172,33 +182,52 @@ export default {
     },
     addItem() {
       this.$refs.dialog.show(() => {
+        this.menuModel.mode = 'add'
+        this.menuModel.id = uuid()
         this.menuModel.title = '添加菜单信息'
         this.menuModel.name = ''
         this.menuModel.url = ''
       }).then(() => {
-        this.dataList.push({
-          id: uuid,
-          name: this.menuModel.name,
-          url: this.menuModel.url,
-          createTime: currentDate()
-        })
+        if (this.menuModel.parentItem) {
+          const parentMenu = this.dataList.find(it => it.menuUrl === this.menuModel.parentItem)
+          parentMenu.children || (parentMenu.children = [])
+          parentMenu.children.push({
+            id: this.menuModel.id,
+            menuName: this.menuModel.name,
+            menuUrl: this.menuModel.parentItem + '/' + this.menuModel.url,
+            createTime: currentDate()
+          })
+        } else {
+          this.dataList.push({
+            id: this.menuModel.id,
+            menuName: this.menuModel.name,
+            menuUrl: '/' + this.menuModel.url,
+            createTime: currentDate()
+          })
+        }
       })
     },
     editItem(item) {
       this.$refs.dialog.show(() => {
+        this.menuModel.mode = 'edit'
         this.menuModel.title = '编辑菜单信息'
-        this.menuModel.name = item.name
-        this.menuModel.url = item.roleCode
+        this.menuModel.name = item.menuName
+        this.menuModel.url = item.menuUrl
+        this.menuModel.parentItem = '/' + item.menuUrl.split('/')[1]
       }).then(() => {
-        item.name = this.menuModel.name
-        item.url = this.menuModel.url
+        item.menuName = this.menuModel.name
       })
     },
     deleteItems(item) {
-      this.$showConfirmDialog('是否要删除此菜单信息，删除后不可恢复？')
-        .then(() => {
-          this.dataList.splice(this.dataList.indexOf(item), 1)
-        })
+      if (item.children && item.children.length > 0) {
+        this.$errorMsg('当前菜单包含有子菜单，不可删除，请先删除子菜单')
+      } else {
+        // TODO (此处还有问题)
+        this.$showConfirmDialog('是否要删除此菜单信息，删除后不可恢复？')
+          .then(() => {
+            this.dataList.splice(this.dataList.indexOf(item), 1)
+          })
+      }
     },
     validateForm() {
       if (!this.menuModel.name) {

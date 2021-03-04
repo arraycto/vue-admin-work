@@ -1,6 +1,6 @@
 import Mock, { Random } from 'mockjs'
 import { baseData } from '../base'
-import { getDepartmentList, getTableList, getCardList, getCommentList, getParentMenuList } from '@/api/url.js'
+import { getDepartmentList, getTableList, getCardList, getCommentList } from '@/api/url.js'
 
 const totalSize = 30
 
@@ -62,18 +62,6 @@ Mock.mock(RegExp(getDepartmentList), function ({ body }) {
         'order|+1': 1, // 0不是 1是
         'createTime': Random.now('yyyy-MM-dd HH:mm:ss'),
         'status': 1 // 0 禁用 1正常
-      }
-    ]
-  })
-})
-
-Mock.mock(RegExp(getParentMenuList), function ({ body }) {
-  return Mock.mock({
-    ...baseData,
-    'data': [
-      {
-        name: '系统管理',
-        url: '/system'
       }
     ]
   })
