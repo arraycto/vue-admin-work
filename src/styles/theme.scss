@@ -1,9 +1,6 @@
 @import "./variables.scss";
 
 .theme-1 {
-  $menuBg: #21264a;
-  $menuDarkBg: #1f2d3d;
-  $menuHoverBg: #080c11;
   $activeColor: #f41766;
   .side-bar-theme {
     background-color: $menuBg;
@@ -14,6 +11,10 @@
 
   .el-menu .el-submenu__title:hover {
     background-color: $menuHoverBg !important;
+  }
+
+  .el-menu .el-submenu__title i{
+    color: $activeColor;
   }
 
   .el-menu .el-menu-item:hover {
@@ -53,19 +54,57 @@
 }
 
 .theme-2 {
+  $activeColor: #ffffff;
   .side-bar-theme {
-    background-color: red;
+    background-color: $menuBg;
   }
-
   .el-menu .is-opened .el-menu-item {
-    background-color: yellow !important;
-  }
-
-  .el-menu .el-menu-item:hover {
-    background-color: yellowgreen !important;
+    background-color: $menuDarkBg !important;
   }
 
   .el-menu .el-submenu__title:hover {
-    background-color: yellowgreen !important;
+    background-color: $menuHoverBg !important;
+  }
+
+  .el-menu .el-submenu__title i{
+    color: $activeColor;
+  }
+
+  .el-menu .el-menu-item:hover {
+    background-color: $menuHoverBg !important;
+  }
+
+  .el-menu .el-submenu .el-submenu .el-submenu__title {
+    background-color: $menuDarkBg !important;
+  }
+
+  .el-menu-item.is-active {
+    color: $activeColor;
+    background: linear-gradient($menuDarkBg, $menuBg) !important;
+  }
+  .el-tag--plain {
+    border-color: $menuBg;
+    color: $menuBg;
+  }
+  .el-tag--dark {
+    background-color: $menuBg;
+    border-color: $menuBg;
+  }
+  // nav-bar tag 样式
+  .el-tag--dark .el-tag__close {
+    color: #ffffff;
+  }
+  .el-tag--plain .el-tag__close {
+    color: $menuBg;
+  }
+  .el-tag--dark .el-tag__close:hover,
+  .el-tag--plain .el-tag__close:hover {
+    background-color: $menuDarkBg;
+    color: #ffffff;
+  }
+  // nav-bar tag 样式
+
+  .el-menu .el-submenu .el-submenu .el-submenu__title:hover {
+    background-color: $menuHoverBg !important;
   }
 }

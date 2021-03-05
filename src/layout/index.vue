@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container theme-1">
+  <div class="app-container theme-2">
     <div
       class="side-bar-wrapper side-bar-theme"
       :class="[hiddenSideBar ? 'hiden-side-bar' : 'show-side-bar']"
