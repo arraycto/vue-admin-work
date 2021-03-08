@@ -2,8 +2,15 @@
   <div class="goods-list-container">
     <div class="goods-wrapper">
       <el-row :gutter="10">
-        <el-col v-for="item of dataList" :key="item.id" :span="6">
-          <el-card :body-style="{ padding: '0px' }" shadow="hover">
+        <el-col
+          v-for="item of dataList"
+          :key="item.id"
+          :span="6"
+        >
+          <el-card
+            :body-style="{ padding: '0px' }"
+            shadow="hover"
+          >
             <div class="padding text-center">
               <el-image
                 style="width: 90%; height: 180px"
@@ -65,13 +72,13 @@ export default {
   margin-bottom: 10px;
 }
 .goods-list-container {
-  height: calc(100vh - 122px);
+  height: calc(100vh - 130px);
   margin-right: -15px;
   overflow-x: hidden;
   overflow-y: auto;
   .goods-wrapper {
     padding: 5px 10px;
-    margin-bottom: 45px;
+    margin-bottom: 40px;
     .goods-title {
       color: #666666;
       font-size: 12px;

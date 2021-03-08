@@ -14,7 +14,7 @@
   }
 
   .el-menu .el-submenu__title i{
-    color: $activeColor;
+    color: $menuColor;
   }
 
   .el-menu .el-menu-item:hover {
@@ -67,7 +67,7 @@
   }
 
   .el-menu .el-submenu__title i{
-    color: $activeColor;
+    color: $menuColor;
   }
 
   .el-menu .el-menu-item:hover {
@@ -80,7 +80,7 @@
 
   .el-menu-item.is-active {
     color: $activeColor;
-    background: linear-gradient($menuDarkBg, $menuBg) !important;
+    background: linear-gradient($menuDarkBg, $menuBg, $menuDarkBg) !important;
   }
   .el-tag--plain {
     border-color: $menuBg;

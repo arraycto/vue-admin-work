@@ -14,7 +14,6 @@
         </el-breadcrumb-item>
       </transition-group>
     </el-breadcrumb>
-    <div />
   </div>
 </template>
 
@@ -55,6 +54,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/styles/variables.scss";
 .nav-bar-container {
   position: absolute;
   top: 0;
@@ -63,6 +63,8 @@ export default {
   background-color: #fff;
   display: flex;
   padding: 10px;
+  height: $navBarHeight;
+  box-sizing: border-box;
   flex-direction: row;
   align-items: center;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);

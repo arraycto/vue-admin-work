@@ -28,13 +28,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$top: 75px;
+@import "~@/styles/variables.scss";
+$top: $navBarHeight + 35;
 .app-main {
   position: absolute;
   top: $top;
   left: 0;
   right: 0;
-  overflow-y: auto;
+  overflow-y: hidden;
   height: calc(100vh - #{$top});
   width: 100%;
   background-color: #f5f5f5;

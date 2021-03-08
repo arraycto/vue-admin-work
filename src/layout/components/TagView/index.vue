@@ -109,9 +109,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/styles/variables.scss";
 .tag-view-container {
   position: absolute;
-  top: 38px;
+  top: $navBarHeight + 1;
   left: 0;
   right: 0;
   padding: 5px 10px;
