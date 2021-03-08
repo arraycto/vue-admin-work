@@ -1,16 +1,16 @@
-@import './element-variables.scss';
-@import './normalize.scss';
-@import './variables.scss';
-@import './transition.scss';
-@import './table.scss';
-@import './theme.scss';
-@import './main.css';
+@import "./element-variables.scss";
+@import "./normalize.scss";
+@import "./variables.scss";
+@import "./transition.scss";
+@import "./table.scss";
+@import "./theme.scss";
+@import "./main.css";
 
 .scrollbar-wrapper {
   overflow-x: hidden !important;
 }
 
-.el-menu{
+.el-menu {
   width: 100% !important;
   height: 100%;
   border: none !important;
@@ -22,8 +22,17 @@
   .el-submenu__icon-arrow {
     display: none;
   }
-  .item-title{
+  .item-title {
     display: none;
+  }
+}
+
+.show-side-bar {
+  .el-submenu__icon-arrow {
+    display: inline;
+  }
+  .item-title {
+    display: inline-block;
   }
 }
 
@@ -33,7 +42,7 @@
 }
 
 // main-app class
-.main-container{
+.main-container {
   box-sizing: border-box;
   position: relative;
   padding: $mainPadding;

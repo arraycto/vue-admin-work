@@ -4,10 +4,7 @@
       v-if="hasNoChild()"
       :to="resolvePath(routeItem.path)"
     >
-      <el-menu-item
-        :index="resolvePath(routeItem.path)"
-        :class="{'hiden-side-bar' : isCollapse}"
-      >
+      <el-menu-item :index="resolvePath(routeItem.path)">
         <svg-icon :icon-class="(routeItem.meta && routeItem.meta.icon) || 'sub-menu'" />
         <span class="item-title">{{ routeItem.meta && routeItem.meta.title }}</span>
       </el-menu-item>
@@ -16,7 +13,6 @@
       v-else
       :index="resolvePath(routeItem.path)"
       popper-append-to-body
-      :class="{'hiden-side-bar' : isCollapse}"
     >
       <template slot="title">
         <svg-icon :icon-class="(routeItem.meta && routeItem.meta.icon) || 'menu'" />
@@ -62,7 +58,7 @@ export default {
         return true
       }
       if (this.routeItem.children && this.routeItem.children.length > 0) {
-        const tempRoutes = this.routeItem.children.filter(it => {
+        const tempRoutes = this.routeItem.children.filter((it) => {
           return !it.hidden
         })
         if (tempRoutes.length === 0) {
@@ -76,7 +72,7 @@ export default {
       return true
     },
     filterChildRoute(children) {
-      return children.filter(it => !it.hidden)
+      return children.filter((it) => !it.hidden)
     },
     resolvePath(tempPath) {
       return path.resolve(this.basePath, tempPath)

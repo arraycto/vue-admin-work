@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container theme-2">
+  <div class="app-container theme-1">
     <div
       class="side-bar-wrapper side-bar-theme"
       :class="[hiddenSideBar ? 'hiden-side-bar' : 'show-side-bar']"
@@ -40,7 +40,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/variables.scss";
+@import '~@/styles/variables.scss';
 .app-container {
   box-sizing: border-box;
   position: relative;

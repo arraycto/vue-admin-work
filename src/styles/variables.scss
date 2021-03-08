@@ -3,22 +3,22 @@
 // nav-bar-height
 $navBarHeight: 49px;
 
-// sidebar 
+// sidebar
 $app-left-menu-width: 200px;
-// $menuBg: #21264a;
-// $menuDarkBg: #1f2d3d;
-// $menuHoverBg: #080c11;
-$menuBg: #409EFF;
-$menuDarkBg: #047FFF;
-$menuHoverBg: #047FFF;
+$menuBg: #21264a;
+$menuDarkBg: #1f2d3d;
+$menuHoverBg: #080c11;
+// $menuBg: #409EFF;
+// $menuDarkBg: #047FFF;
+// $menuHoverBg: #047FFF;
 $menuColor: #ffffff;
 
 $mainPadding: 2px;
 
-:export{
+:export {
   menuBg: $menuBg;
   menuDarkBg: $menuDarkBg;
   menuHoverBg: $menuHoverBg;
   menuColor: $menuColor;
-  activeColor: '#f41766';
+  activeColor: "#f41766";
 }
