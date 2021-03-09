@@ -1,7 +1,7 @@
 
 const state = {
   collapseSideBar: false,
-  theme: 1
+  theme: 2
 }
 
 const getters = {

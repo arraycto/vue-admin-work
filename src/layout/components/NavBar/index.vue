@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     generateBreadcrumb() {
-      this.breadcrumbs = this.$route.matched.filter(it => {
+      this.breadcrumbs = this.$route.matched.filter((it) => {
         return it.meta && it.meta.title
       })
     },
@@ -81,7 +81,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/variables.scss";
+@import '~@/styles/variables.scss';
 .nav-bar-container {
   position: absolute;
   top: 0;
@@ -105,9 +105,9 @@ export default {
   .icon-wrapper {
     display: inline-block;
     width: 2.5rem;
+    color: #333;
     .icon-class {
       font-size: 1.3rem;
-      color: #333;
     }
   }
 }
