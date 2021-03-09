@@ -9,8 +9,8 @@
         :default-active="routePath"
         mode="vertical"
         :collapse="collapse"
-        :background-color="variables.menuBg"
-        :text-color="variables.menuColor"
+        :background-color="variables[`theme${themeId}_menuBg`]"
+        :text-color="variables[`theme${themeId}_menuColor`]"
         :unique-opened="false"
         :collapse-transition="false"
       >
@@ -40,6 +40,7 @@ export default {
   computed: {
     ...mapGetters({
       collapse: 'app/isCollapseSideBar',
+      themeId: 'app/getTheme',
       routes: 'user/getRoutes'
     }),
     filterRoutes() {

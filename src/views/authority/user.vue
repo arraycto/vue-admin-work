@@ -6,6 +6,7 @@
           type="primary"
           size="mini"
           icon="el-icon-plus"
+          @click="add"
         >添加
         </el-button>
         <el-button
@@ -153,6 +154,9 @@ export default {
       }).catch(_ => {
         this.$errorMsg('数据加载失败')
       })
+    },
+    add() {
+      this.$store.dispatch('app/changeTheme', 2)
     }
   }
 }

@@ -14,12 +14,32 @@
         </el-breadcrumb-item>
       </transition-group>
     </el-breadcrumb>
+    <div class="flex-sub"></div>
+    <div class="icon-wrapper">
+      <svg-icon
+        icon-class="search"
+        class="icon-class"
+      />
+    </div>
+    <div class="icon-wrapper">
+      <svg-icon
+        icon-class="screenfull"
+        class="icon-class"
+      />
+    </div>
+    <div class="icon-wrapper">
+      <svg-icon
+        icon-class="message"
+        class="icon-class"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import Hamburger from '../Hamburger'
 import { mapGetters } from 'vuex'
+import screenfull from 'screenfull'
 export default {
   name: 'NavBar',
   components: {
@@ -48,6 +68,13 @@ export default {
       this.breadcrumbs = this.$route.matched.filter(it => {
         return it.meta && it.meta.title
       })
+    },
+    onScreenFull() {
+      if (!screenfull.isEnabled) {
+        this.$errorMsg('当前浏览器不支持全屏操作')
+        return false
+      }
+      screenfull.toggle()
     }
   }
 }
@@ -73,6 +100,14 @@ export default {
     .breadcrumb-title {
       font-size: 14px;
       color: #666666;
+    }
+  }
+  .icon-wrapper {
+    display: inline-block;
+    width: 2.5rem;
+    .icon-class {
+      font-size: 1.3rem;
+      color: #333;
     }
   }
 }

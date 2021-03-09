@@ -3,26 +3,26 @@
 .theme-1 {
   $activeColor: #f41766;
   .side-bar-theme {
-    background-color: $menuBg;
+    background-color: $theme1_menuBg;
   }
   .el-menu .is-opened .el-menu-item {
-    background-color: $menuDarkBg !important;
+    background-color: $theme1_menuDarkBg !important;
   }
 
   .el-menu .el-submenu__title:hover {
-    background-color: $menuHoverBg !important;
+    background-color: $theme1_menuHoverBg !important;
   }
 
   .el-menu .el-submenu__title i{
-    color: $menuColor;
+    color: $theme1_menuColor;
   }
 
   .el-menu .el-menu-item:hover {
-    background-color: $menuHoverBg !important;
+    background-color: $theme1_menuHoverBg !important;
   }
 
   .el-menu .el-submenu .el-submenu .el-submenu__title {
-    background-color: $menuDarkBg !important;
+    background-color: $theme1_menuDarkBg !important;
   }
 
   .el-menu-item.is-active {
@@ -49,62 +49,86 @@
   }
 
   .el-menu .el-submenu .el-submenu .el-submenu__title:hover {
-    background-color: $menuHoverBg !important;
+    background-color: $theme1_menuHoverBg !important;
+  }
+
+  .logo-container{
+    background-color: $theme1_menuDarkBg;
+  }
+
+  .show-side-bar {
+    box-shadow: 2px 0 8px $theme1_menuDarkBg;
+  }
+
+  .icon-class:hover {
+    color: $activeColor;
   }
 }
 
 .theme-2 {
   $activeColor: #ffffff;
   .side-bar-theme {
-    background-color: $menuBg;
+    background-color: $theme2_menuBg;
   }
   .el-menu .is-opened .el-menu-item {
-    background-color: $menuDarkBg !important;
+    background-color: $theme2_menuDarkBg !important;
   }
 
   .el-menu .el-submenu__title:hover {
-    background-color: $menuHoverBg !important;
+    background-color: $theme2_menuHoverBg !important;
   }
 
   .el-menu .el-submenu__title i{
-    color: $menuColor;
+    color: $theme2_menuColor;
   }
 
   .el-menu .el-menu-item:hover {
-    background-color: $menuHoverBg !important;
+    background-color: $theme2_menuHoverBg !important;
   }
 
   .el-menu .el-submenu .el-submenu .el-submenu__title {
-    background-color: $menuDarkBg !important;
+    background-color: $theme2_menuDarkBg !important;
   }
 
   .el-menu-item.is-active {
     color: $activeColor;
-    background: linear-gradient($menuDarkBg, $menuBg, $menuDarkBg) !important;
+    background: linear-gradient($theme2_menuDarkBg, $theme2_menuBg, $theme2_menuDarkBg) !important;
   }
   .el-tag--plain {
-    border-color: $menuBg;
-    color: $menuBg;
+    border-color: $theme2_menuBg;
+    color: $theme2_menuBg;
   }
   .el-tag--dark {
-    background-color: $menuBg;
-    border-color: $menuBg;
+    background-color: $theme2_menuBg;
+    border-color: $theme2_menuBg;
   }
   // nav-bar tag 样式
   .el-tag--dark .el-tag__close {
     color: #ffffff;
   }
   .el-tag--plain .el-tag__close {
-    color: $menuBg;
+    color: $theme2_menuBg;
   }
   .el-tag--dark .el-tag__close:hover,
   .el-tag--plain .el-tag__close:hover {
-    background-color: $menuDarkBg;
+    background-color: $theme2_menuDarkBg;
     color: #ffffff;
   }
   // nav-bar tag 样式
 
   .el-menu .el-submenu .el-submenu .el-submenu__title:hover {
-    background-color: $menuHoverBg !important;
+    background-color: $theme2_menuHoverBg !important;
+  }
+
+  .logo-container{
+    background-color: $theme2_menuDarkBg;
+  }
+
+  .show-side-bar {
+    box-shadow: 2px 0 8px $theme2_menuDarkBg;
+  }
+
+  .icon-class:hover {
+    color: $theme2_menuBg;
   }
 }

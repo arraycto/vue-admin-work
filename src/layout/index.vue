@@ -1,5 +1,8 @@
 <template>
-  <div class="app-container theme-1">
+  <div
+    class="app-container"
+    :class="[`theme-${themeId}`]"
+  >
     <div
       class="side-bar-wrapper side-bar-theme"
       :class="[hiddenSideBar ? 'hiden-side-bar' : 'show-side-bar']"
@@ -33,14 +36,15 @@ export default {
   },
   computed: {
     ...mapGetters({
-      hiddenSideBar: 'app/isCollapseSideBar'
+      hiddenSideBar: 'app/isCollapseSideBar',
+      themeId: 'app/getTheme'
     })
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '~@/styles/variables.scss';
+@import "~@/styles/variables.scss";
 .app-container {
   box-sizing: border-box;
   position: relative;

@@ -13,7 +13,6 @@ export default {
 .logo-container {
   height: 50px;
   line-height: 50px;
-  background-color: $menuDarkBg;
   color: #ffffff;
   text-align: center;
   overflow: hidden;

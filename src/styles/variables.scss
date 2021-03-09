@@ -5,20 +5,31 @@ $navBarHeight: 49px;
 
 // sidebar
 $app-left-menu-width: 200px;
-$menuBg: #21264a;
-$menuDarkBg: #1f2d3d;
-$menuHoverBg: #080c11;
-// $menuBg: #409EFF;
-// $menuDarkBg: #047FFF;
-// $menuHoverBg: #047FFF;
-$menuColor: #ffffff;
+
+$theme1_menuBg: #21264a;
+$theme1_menuDarkBg: #1f2d3d;
+$theme1_menuHoverBg: #080c11;
+$theme1_menuColor: #ffffff;
+$theme1_activeColor: #ffffff;
+
+$theme2_menuBg: #409EFF;
+$theme2_menuDarkBg: #047FFF;
+$theme2_menuHoverBg: #047FFF;
+$theme2_menuColor: #ffffff;
+$theme2_activeColor: #ffffff;
 
 $mainPadding: 2px;
 
 :export {
-  menuBg: $menuBg;
-  menuDarkBg: $menuDarkBg;
-  menuHoverBg: $menuHoverBg;
-  menuColor: $menuColor;
-  activeColor: "#f41766";
+  theme1_menuBg: $theme1_menuBg;
+  theme1_menuDarkBg: $theme1_menuDarkBg;
+  theme1_menuHoverBg: $theme1_menuHoverBg;
+  theme1_menuColor: $theme1_menuColor;
+  theme1_activeColor: $theme1_activeColor;
+
+  theme2_menuBg: $theme2_menuBg;
+  theme2_menuDarkBg: $theme2_menuDarkBg;
+  theme2_menuHoverBg: $theme2_menuHoverBg;
+  theme2_menuColor: $theme2_menuColor;
+  theme2_activeColor: $theme2_activeColor;
 }

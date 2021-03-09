@@ -34,17 +34,27 @@ export default {
     pageSizeChanged(pageSize) {
       this.pageModel.pageSize = pageSize
       this.pageModel.currentPage = 1
-      if (!this.actionModel.getData) {
-        throw new Error('There is no method called "getData"  to load data')
+      if (this.actionModel) {
+        this.actionModel.getData()
+        return
       }
-      this.actionModel.getData()
+      if (this.getData) {
+        this.getData()
+        return
+      }
+      throw new Error('There is no method called "getData"  to load data')
     },
     currentChanged(currentPage) {
       this.pageModel.currentPage = currentPage
-      if (!this.getData) {
-        throw new Error('There is no method called "getData"  to load data')
+      if (this.actionModel) {
+        this.actionModel.getData()
+        return
       }
-      this.actionModel.getData()
+      if (this.getData) {
+        this.getData()
+        return
+      }
+      throw new Error('There is no method called "getData"  to load data')
     },
     withPageInfoData(otherParams = {}) {
       return {
