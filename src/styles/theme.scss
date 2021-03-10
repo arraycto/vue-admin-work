@@ -61,6 +61,7 @@
   }
 
   .icon-class:hover {
+    cursor: pointer;
     color: $activeColor;
   }
 }
@@ -129,6 +130,7 @@
   }
 
   .icon-class:hover {
+    cursor: pointer;
     color: $theme2_menuBg;
   }
 }

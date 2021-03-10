@@ -4,7 +4,7 @@
     class="table-container"
     :style="cardStyle"
   >
-    <slot name="table" />
+    <slot name="table"></slot>
   </el-card>
 </template>
 
