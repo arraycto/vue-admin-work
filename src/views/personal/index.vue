@@ -1,12 +1,11 @@
 <template>
-  <div class="container">personal</div>
+  <div class="main-container">personal</div>
 </template>
 
 <script>
 export default {
   name: 'Personal',
-  mounted() {
-  }
+  mounted() {}
 }
 </script>
 

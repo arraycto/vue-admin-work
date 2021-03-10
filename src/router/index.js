@@ -19,6 +19,22 @@ export const routes = [
     hidden: true
   },
   {
+    path: '/personal',
+    name: 'personal',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: 'index',
+        name: 'personalCenter',
+        component: () => import('@/views/personal'),
+        meta: {
+          title: '个人中心'
+        }
+      }
+    ]
+  },
+  {
     path: '/',
     name: 'root',
     redirect: '/index',

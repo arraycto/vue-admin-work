@@ -43,12 +43,15 @@
       />
     </div>
     <div class="nick-wrapper">
-      <el-dropdown>
-        <span class="el-dropdown-link">
+      <el-dropdown @command="handleCommand">
+        <span
+          class="el-dropdown-link"
+          style="cursor: pointer"
+        >
           admin<i class="el-icon-caret-bottom el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>
+          <el-dropdown-item command="personal">
             <span>
               <i
                 class="el-icon-user"
@@ -57,7 +60,10 @@
               个人中心
             </span>
           </el-dropdown-item>
-          <el-dropdown-item divided>
+          <el-dropdown-item
+            divided
+            command="logout"
+          >
             <span>
               <i
                 class="el-icon-switch-button"
@@ -111,13 +117,20 @@ export default {
         return false
       }
       screenfull.toggle()
+    },
+    handleCommand(type) {
+      if (type === 'personal') {
+        this.$router.push({ name: 'personalCenter' })
+      } else if (type === 'logout') {
+        this.$router.push({ name: 'personal' })
+      }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/variables.scss";
+@import '~@/styles/variables.scss';
 .nav-bar-container {
   position: absolute;
   top: 0;
