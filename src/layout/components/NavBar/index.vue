@@ -38,7 +38,7 @@
     </div>
     <div class="avatar-wrapper">
       <img
-        src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fd.ifengimg.com%2Fw600%2Fp0.ifengimg.com%2Fpmop%2F2017%2F1226%2F3b0685e61c1ae93065e5f45a7348058e41f1c671_size1091_w700_h656.gif&refer=http%3A%2F%2Fd.ifengimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1617935122&t=37e2a9aa01824978dc36373f168ae76e"
+        :src="avatar"
         class="toolbar-avatar"
       />
     </div>
@@ -48,7 +48,7 @@
           class="el-dropdown-link"
           style="cursor: pointer"
         >
-          admin<i class="el-icon-caret-bottom el-icon--right"></i>
+          {{ userName }}<i class="el-icon-caret-bottom el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="personal">
@@ -94,7 +94,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      collapse: 'app/isCollapseSideBar'
+      collapse: 'app/isCollapseSideBar',
+      avatar: 'user/getAvatar',
+      userName: 'user/getUserName'
     })
   },
   watch: {
@@ -130,7 +132,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/styles/variables.scss';
+@import "~@/styles/variables.scss";
 .nav-bar-container {
   position: absolute;
   top: 0;
