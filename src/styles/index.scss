@@ -50,6 +50,10 @@
   width: 100%;
 }
 
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
+
 .el-link + .el-link {
   margin-left: 10px;
 }

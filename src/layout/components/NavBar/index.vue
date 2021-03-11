@@ -60,6 +60,15 @@
               个人中心
             </span>
           </el-dropdown-item>
+          <el-dropdown-item command="resetPassword">
+            <span>
+              <i
+                class="el-icon-refresh-right"
+                style="font-size: 18px"
+              ></i>
+              修改密码
+            </span>
+          </el-dropdown-item>
           <el-dropdown-item
             divided
             command="logout"
@@ -124,7 +133,11 @@ export default {
       if (type === 'personal') {
         this.$router.push({ name: 'personalCenter' })
       } else if (type === 'logout') {
-        this.$router.push({ name: 'personal' })
+        this.$showConfirmDialog('确定要退出当前账号吧？').then((result) => {
+          this.$successMsg('退出成功')
+        })
+      } else if (type === 'resetPassword') {
+        console.log('object')
       }
     }
   }
@@ -132,7 +145,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/variables.scss";
+@import '~@/styles/variables.scss';
 .nav-bar-container {
   position: absolute;
   top: 0;
