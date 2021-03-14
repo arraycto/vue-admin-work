@@ -1,9 +1,9 @@
 <template>
-  <div
-    id="echart"
-    class="main-container"
-  >
-    index
+  <div class="main-container">
+    <div
+      id="echart"
+      style="width: 100px; height: 100px"
+    ></div>
   </div>
 </template>
 

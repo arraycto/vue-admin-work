@@ -8,9 +8,13 @@
         >
           <div class="info-wrapper">
             <div class="avatar-wrapper">
-              <a class="avatar">
+              <div
+                class="avatar"
+                :class="{ 'avatar-touch': touched, 'avatar-end': uploaded }"
+                @mouseenter="avatarTouchStart"
+              >
                 <img :src="avatar" />
-              </a>
+              </div>
               <div
                 class="camera-layer flex justify-center align-center"
                 @click="uploadAvatar"
@@ -145,7 +149,7 @@
           >
             <div
               class="notify"
-              :class="{'bg-red red-tip' : item.status === 0, 'bg-green' : item.status === 1}"
+              :class="{'bg-red ripple' : item.status === 0, 'bg-green' : item.status === 1}"
             ></div>
             <div class="flex-sub margin-left">
               <div class="title">
@@ -168,6 +172,8 @@ export default {
   name: 'Personal',
   data() {
     return {
+      touched: false,
+      uploaded: false,
       messages: [
         {
           title: '【总经理通知】',
@@ -251,26 +257,19 @@ export default {
   },
   methods: {
     uploadAvatar() {
-      console.log('asdfasd')
+      this.uploaded = true
+      setTimeout(() => {
+        this.touched = false
+        this.uploaded = false
+      }, 1000)
+    },
+    avatarTouchStart() {
+      this.touched = true
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-@keyframes opacity2 {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.8;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-.red-tip {
-  animation: 1s opacity2 0s infinite;
-}
 .el-tag--dark + .el-tag--dark {
   margin-left: 10px;
   margin-top: 10px;
@@ -294,6 +293,7 @@ export default {
           right: 0;
           bottom: 0;
           transform-origin: bottom;
+          transform: rotate(0deg);
           z-index: 1;
           transition: all 0.5s ease-in-out;
           & > img {
@@ -303,8 +303,11 @@ export default {
             border: 2px solid rgb(245, 241, 7);
           }
         }
-        .avatar:hover {
+        .avatar-touch {
           transform: rotate(180deg);
+        }
+        .avatar-end {
+          transform: rotate(0deg);
         }
         .camera-layer {
           position: absolute;
