@@ -8,13 +8,24 @@
 </template>
 
 <script>
+import { getData } from '@/model/BaseModel'
 export default {
   name: 'Index',
+  data() {
+    return {
+      actionModel: {}
+    }
+  },
   mounted() {
-    this.getData()
+    // this.getData1()
+    this.getData({
+      url: '2312',
+      method: 'put'
+    })
   },
   methods: {
-    getData() {
+    getData,
+    getData1() {
       const myChart = this.$echarts.init(document.getElementById('echart'))
       // 指定图表的配置项和数据
       var option = {
