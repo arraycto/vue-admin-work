@@ -84,6 +84,55 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <Dialog
+      ref="resetPasswordDialog"
+      :validate-form="validatePassword"
+    >
+      <template>
+        <el-form
+          ref="form"
+          :model="userPasswordModel"
+          label-width="80px"
+        >
+          <el-form-item label="用户名称">
+            <el-col :span="22">
+              <el-input
+                v-model="userName"
+                readonly
+                size="small"
+              />
+            </el-col>
+          </el-form-item>
+          <el-form-item label="原始密码">
+            <el-col :span="22">
+              <el-input
+                v-model="userPasswordModel.originPassword"
+                size="small"
+                placeholder="请输入原始密码"
+              />
+            </el-col>
+          </el-form-item>
+          <el-form-item label="新的密码">
+            <el-col :span="22">
+              <el-input
+                v-model="userPasswordModel.newPassword"
+                size="small"
+                placeholder="请输入新的密码"
+              />
+            </el-col>
+          </el-form-item>
+          <el-form-item label="确认密码">
+            <el-col :span="22">
+              <el-input
+                v-model="userPasswordModel.confirmPassword"
+                size="small"
+                placeholder="请输入确认密码"
+              />
+            </el-col>
+          </el-form-item>
+        </el-form>
+      </template>
+    </Dialog>
   </div>
 </template>
 
@@ -91,11 +140,13 @@
 import Hamburger from '../Hamburger'
 import { mapGetters } from 'vuex'
 import screenfull from 'screenfull'
+import ResetPasswordMixin from '@/mixins/ResetPasswordMixin'
 export default {
   name: 'NavBar',
   components: {
     Hamburger
   },
+  mixins: [ResetPasswordMixin],
   data() {
     return {
       breadcrumbs: []
@@ -134,10 +185,12 @@ export default {
         this.$router.push({ name: 'personalCenter' })
       } else if (type === 'logout') {
         this.$showConfirmDialog('确定要退出当前账号吧？').then((result) => {
-          this.$successMsg('退出成功')
+          this.$successMsg('模拟退出成功')
         })
       } else if (type === 'resetPassword') {
-        console.log('object')
+        this.$refs.resetPasswordDialog.show().then(_ => {
+          this.$successMsg('模拟密码修改成功')
+        })
       }
     }
   }
@@ -145,7 +198,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/styles/variables.scss';
+@import "~@/styles/variables.scss";
 .nav-bar-container {
   position: absolute;
   top: 0;

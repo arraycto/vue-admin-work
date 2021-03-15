@@ -4,7 +4,7 @@
     :visible.sync="dialogVisible"
     width="40%"
   >
-    <slot name="body"></slot>
+    <slot></slot>
     <span
       slot="footer"
       class="dialog-footer"

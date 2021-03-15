@@ -78,11 +78,12 @@
       </template>
     </TableBody>
     <Dialog
+      v-if="actionModel"
       ref="dialog"
       :validate-form="actionModel.validateFormHandler"
       :title="roleModel.title"
     >
-      <template slot="body">
+      <template>
         <el-form
           v-model="roleModel"
           label-width="80px"
