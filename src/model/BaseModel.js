@@ -13,23 +13,62 @@ function checkParams({ url = '', method = 'GET' }) {
   return true
 }
 
+/**
+ * 普通的加载数据方法，如加载列表、初始化数据
+ * @param {*} param0
+ */
 export function getData({ url = '', method = 'GET', data, beforeRequest, afterRequest }) {
-  if (!this.actionModel) {
-    throw new Error('this actionModel must be not null')
-  }
   if (checkParams({ url, method })) {
-    return this['$' + method]({ url, data, beforeRequest, afterRequest })
+    return this[`$${method.toLowerCase()}`]({ url, data, beforeRequest, afterRequest })
   }
   throw new Error('params check failed')
 }
 
-export function likeSearch() { }
+/**
+ * 模糊搜索方法
+ * @param {*} param0
+ */
+export function likeSearch({ url = '', method = 'GET', data, beforeRequest, afterRequest }) {
+  if (checkParams({ url, method })) {
+    return this[`$${method.toLowerCase()}`]({ url, data, beforeRequest, afterRequest })
+  }
+  throw new Error('params check failed')
+}
 
-export function addItem() { }
+/**
+ * 添加一条数据
+ * @param {*} param0
+ */
+export function addItem({ url = '', method = 'GET', data, beforeRequest, afterRequest }) {
+  if (checkParams({ url, method })) {
+    return this[`$${method.toLowerCase()}`]({ url, data, beforeRequest, afterRequest })
+  }
+  throw new Error('params check failed')
+}
 
-export function deleteItems(items) { }
+/**
+ * 删除n条数据
+ * @param {*} items
+ * @param {*} param1
+ */
+export function deleteItems(items, { url = '', method = 'GET', data, beforeRequest, afterRequest }) {
+  if (checkParams({ url, method })) {
+    return this[`$${method.toLowerCase()}`]({ url, data, beforeRequest, afterRequest })
+  }
+  throw new Error('params check failed')
+}
 
-export function updateItem(item) { }
+/**
+ * 更新一条数据
+ * @param {*} item
+ * @param {*} param1
+ */
+export function updateItem(item, { url = '', method = 'GET', data, beforeRequest, afterRequest }) {
+  if (checkParams({ url, method })) {
+    return this[`$${method.toLowerCase()}`]({ url, data, beforeRequest, afterRequest })
+  }
+  throw new Error('params check failed')
+}
 
 export default {
   getData,

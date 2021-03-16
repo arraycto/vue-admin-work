@@ -8,24 +8,20 @@
 </template>
 
 <script>
-import { getData } from '@/model/BaseModel'
+import { getDataModel, LikeSearchMixin } from '@/mixins/ActionMixin'
 export default {
   name: 'Index',
-  data() {
-    return {
-      actionModel: {}
-    }
-  },
+  mixins: [getDataModel, LikeSearchMixin],
   mounted() {
-    // this.getData1()
     this.getData({
-      url: '2312',
-      method: 'put'
+      url: this.$urlPath.getDepartmentList
+    }).then(res => {
+      console.log(res)
     })
+    this.onSearch()
   },
   methods: {
-    getData,
-    getData1() {
+    init() {
       const myChart = this.$echarts.init(document.getElementById('echart'))
       // 指定图表的配置项和数据
       var option = {

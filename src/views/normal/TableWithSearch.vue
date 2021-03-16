@@ -2,7 +2,7 @@
   <div class="main-container">
     <TableHeader
       :can-collapsed="true"
-      :search-model="searchModel"
+      :search-model="likeSearchModel.conditionItems"
       @doSearch="doSearch"
       @resetSearch="resetSearch"
     >
@@ -26,7 +26,7 @@
         <el-table
           ref="table"
           v-loading="tableLoading"
-          :data="list"
+          :data="dataList"
           :header-cell-style="tableConfig.headerCellStyle"
           :size="tableConfig.size"
           :stripe="tableConfig.stripe"
@@ -73,12 +73,14 @@
 
 <script>
 import TableMixin from '@/mixins/TableMixin'
+import { LikeSearchMixin } from '@/mixins/ActionMixin'
 export default {
   name: 'TableWithSearch',
-  mixins: [TableMixin],
-  data() {
-    return {
-      searchModel: [
+  mixins: [TableMixin, LikeSearchMixin],
+  mounted() {
+    this.initLikeSearchModel({
+      url: this.$urlPath.getCommentList,
+      conditionItems: [
         {
           id: 1,
           name: 'name',
@@ -137,117 +139,16 @@ export default {
           type: 'time'
         }
       ],
-      list: [
-        {
-          name: '标题',
-          nickName: '昵称',
-          sex: '性别'
-        },
-        {
-          name: '标题',
-          nickName: '昵称',
-          sex: '性别'
-        },
-        {
-          name: '标题',
-          nickName: '昵称',
-          sex: '性别'
-        },
-        {
-          name: '标题',
-          nickName: '昵称',
-          sex: '性别'
-        },
-        {
-          name: '标题',
-          nickName: '昵称',
-          sex: '性别'
-        },
-        {
-          name: '标题',
-          nickName: '昵称',
-          sex: '性别'
-        },
-        {
-          name: '标题',
-          nickName: '昵称',
-          sex: '性别'
-        },
-        {
-          name: '标题',
-          nickName: '昵称',
-          sex: '性别'
-        },
-        {
-          name: '标题',
-          nickName: '昵称',
-          sex: '性别'
-        },
-        {
-          name: '标题',
-          nickName: '昵称',
-          sex: '性别'
-        },
-        {
-          name: '标题',
-          nickName: '昵称',
-          sex: '性别'
-        },
-        {
-          name: '标题',
-          nickName: '昵称',
-          sex: '性别'
-        },
-        {
-          name: '标题',
-          nickName: '昵称',
-          sex: '性别'
-        },
-        {
-          name: '标题',
-          nickName: '昵称',
-          sex: '性别'
-        },
-        {
-          name: '标题',
-          nickName: '昵称',
-          sex: '性别'
-        },
-        {
-          name: '标题',
-          nickName: '昵称',
-          sex: '性别'
-        },
-        {
-          name: '标题',
-          nickName: '昵称',
-          sex: '性别'
-        },
-        {
-          name: '标题',
-          nickName: '昵称',
-          sex: '性别'
-        },
-        {
-          name: '标题',
-          nickName: '昵称',
-          sex: '性别'
-        },
-        {
-          name: '标题',
-          nickName: '昵称',
-          sex: '性别'
+      extraParams: () => {
+        return {
+          page: this.pageModel.currentPage,
+          pageSize: this.pageModel.pageSize
         }
-      ]
-    }
-  },
-  methods: {
-    extraParams() {
-      return {
-        extra: 'extra'
+      },
+      onSearchResult: (res) => {
+        console.log(res)
       }
-    }
+    })
   }
 }
 </script>
-

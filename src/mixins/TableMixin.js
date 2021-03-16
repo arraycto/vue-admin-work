@@ -63,10 +63,6 @@ export default {
         pageSize: this.pageModel.pageSize
       }
     },
-    // search action
-    doSearch() {
-      console.log(this.generatorFormParams())
-    },
     handleSuccess({ data = [], totalSize = 10 }) {
       this.pageModel.totalSize = totalSize
       this.dataList = data
