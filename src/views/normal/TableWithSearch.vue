@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
     <TableHeader
-      :can-collapsed="true"
+      :can-collapsed="likeSearchModel.conditionItems && likeSearchModel.conditionItems.length !== 0"
       :search-model="likeSearchModel.conditionItems"
       @doSearch="doSearch"
       @resetSearch="resetSearch"
@@ -77,12 +77,11 @@ import { LikeSearchMixin } from '@/mixins/ActionMixin'
 export default {
   name: 'TableWithSearch',
   mixins: [TableMixin, LikeSearchMixin],
-  mounted() {
+  created() {
     this.initLikeSearchModel({
       url: this.$urlPath.getCommentList,
       conditionItems: [
         {
-          id: 1,
           name: 'name',
           label: '学生姓名',
           value: '',
@@ -91,48 +90,56 @@ export default {
           span: 8
         },
         {
-          id: 2,
           name: 'sex',
           label: '学生姓别',
           value: '',
           type: 'select',
-          placeholder: '请输入学生姓名',
+          placeholder: '请选择学生性别',
+          associatedOption: 'school',
           selectOptions: [
             {
-              id: 0,
-              value: '男'
+              label: '男',
+              value: 0
             },
             {
-              id: 1,
-              value: '女'
+              label: '女',
+              value: 1
             }
           ],
-          span: 8
+          span: 8,
+          onChange: (res, associatedOption) => {
+            if (associatedOption) {
+              const item = this.likeSearchModel.conditionItems.find(
+                (it) => it.name === associatedOption
+              )
+              item.selectOptions.push({
+                label: '山东大学',
+                value: 0
+              })
+            }
+          }
         },
         {
-          id: 3,
-          name: 'datetimerange',
-          label: '日期范围',
+          name: 'school',
+          label: '选择学校',
           value: '',
-          type: 'date-range',
+          type: 'select',
+          selectOptions: [],
           span: 8
         },
         {
-          id: 4,
           name: 'date',
           label: '选择日期',
           value: '',
           type: 'date'
         },
         {
-          id: 5,
           name: 'datetime',
           label: '选择日期',
           value: '',
           type: 'datetime'
         },
         {
-          id: 6,
           name: 'time',
           label: '选择时间',
           value: '',
@@ -147,6 +154,10 @@ export default {
       },
       onSearchResult: (res) => {
         console.log(res)
+        console.log(res.dada.length)
+      },
+      onSearchError: (error) => {
+        console.log(error)
       }
     })
   }

@@ -69,11 +69,13 @@
                   :filterable="item.filterable ? true : false"
                   clearable
                   class="form-item"
+                  @change="item.onChange(item.value, item.associatedOption || '') || (() => {})"
                 >
                   <el-option
                     v-for="optionItem in item.selectOptions"
-                    :key="optionItem.id"
+                    :key="optionItem.value"
                     :value="optionItem.value"
+                    :label="optionItem.label"
                   />
                 </el-select>
               </div>

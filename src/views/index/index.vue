@@ -8,17 +8,16 @@
 </template>
 
 <script>
-import { getDataModel, LikeSearchMixin } from '@/mixins/ActionMixin'
+import { GetDataMixin, LikeSearchMixin } from '@/mixins/ActionMixin'
 export default {
   name: 'Index',
-  mixins: [getDataModel, LikeSearchMixin],
+  mixins: [GetDataMixin, LikeSearchMixin],
   mounted() {
     this.getData({
       url: this.$urlPath.getDepartmentList
-    }).then(res => {
+    }).then((res) => {
       console.log(res)
     })
-    this.onSearch()
   },
   methods: {
     init() {
