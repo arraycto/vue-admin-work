@@ -17,7 +17,7 @@ function checkParams({ url = '', method = 'GET' }) {
  * 普通的加载数据方法，如加载列表、初始化数据
  * @param {*} param0
  */
-export function getData({ url = '', method = 'GET', data, beforeRequest, afterRequest }) {
+export function loadData({ url = '', method = 'GET', data, beforeRequest, afterRequest }) {
   if (checkParams({ url, method })) {
     return this[`$${method.toLowerCase()}`]({ url, data, beforeRequest, afterRequest })
   }
@@ -71,7 +71,7 @@ export function updateItem(item, { url = '', method = 'GET', data, beforeRequest
 }
 
 export default {
-  getData,
+  loadData,
   addItem,
   deleteItems,
   updateItem

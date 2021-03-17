@@ -133,12 +133,17 @@
 </template>
 
 <script>
-import TableMixin from '@/mixins/TableMixin'
+import TableMixin, { PageModelMixin } from '@/mixins/TableMixin'
+import { GetDataMixin } from '@/mixins/ActionMixin'
 export default {
   name: 'Table',
-  mixins: [TableMixin],
+  mixins: [TableMixin, PageModelMixin, GetDataMixin],
   mounted() {
-    this.getData()
+    this.initGetDataModel({
+      url: this.$urlPath.getTableList
+    }).then(_ => {
+      this.getData()
+    })
   },
   methods: {
     getData() {

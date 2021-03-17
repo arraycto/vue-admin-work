@@ -51,3 +51,20 @@ Vue.prototype.$showConfirmDialog = function (message = '') {
     type: 'warning'
   })
 }
+
+Vue.prototype.publishEvent = function (eventName, payload) {
+  if (!eventName) return
+  const fun = this[eventName]
+  console.log(eventName)
+  console.log(fun)
+  fun && fun(payload)
+}
+
+Vue.prototype.registeEvent = function (events) {
+  for (const item in events) {
+    const handle = events[item]
+    if (handle instanceof Function) {
+      this[item] = handle.bind(this)
+    }
+  }
+}
