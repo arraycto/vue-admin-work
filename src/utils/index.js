@@ -55,8 +55,6 @@ Vue.prototype.$showConfirmDialog = function (message = '') {
 Vue.prototype.publishEvent = function (eventName, payload) {
   if (!eventName) return
   const fun = this[eventName]
-  console.log(eventName)
-  console.log(fun)
   fun && fun(payload)
 }
 
@@ -67,4 +65,8 @@ Vue.prototype.registeEvent = function (events) {
       this[item] = handle.bind(this)
     }
   }
+}
+
+Vue.prototype.isInited = function (prop) {
+  return this[prop] && this[prop].init
 }

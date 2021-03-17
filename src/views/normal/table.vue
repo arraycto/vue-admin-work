@@ -3,12 +3,14 @@
     <TableHeader :can-collapsed="false">
       <template slot="right">
         <el-button
+          v-if="isInited('addItemModel')"
           type="primary"
           size="mini"
           icon="el-icon-plus"
         >添加
         </el-button>
         <el-button
+          v-if="isInited('deleteItemsModel')"
           type="danger"
           size="mini"
           icon="el-icon-delete"
@@ -111,10 +113,12 @@
             label="操作"
           >
             <el-link
+              v-if="isInited('updateItemModel')"
               type="primary"
               :underline="false"
             >编辑</el-link>
             <el-link
+              v-if="isInited('deleteItemsModel')"
               type="danger"
               :underline="false"
             >删除</el-link>
@@ -134,28 +138,47 @@
 
 <script>
 import TableMixin, { PageModelMixin } from '@/mixins/TableMixin'
-import { GetDataMixin } from '@/mixins/ActionMixin'
+import {
+  GetDataMixin,
+  AddItemMixin,
+  DeleteItemsMixin,
+  UpdateItemMixin
+} from '@/mixins/ActionMixin'
 export default {
   name: 'Table',
-  mixins: [TableMixin, PageModelMixin, GetDataMixin],
+  mixins: [
+    TableMixin,
+    PageModelMixin,
+    GetDataMixin,
+    AddItemMixin,
+    DeleteItemsMixin,
+    UpdateItemMixin
+  ],
   mounted() {
-    this.initGetDataModel({
-      url: this.$urlPath.getTableList
-    }).then(_ => {
+    this.initGetData({
+      url: this.$urlPath.getTableList,
+      params: this.withPageInfoData(),
+      beforeAction: () => {
+        this.tableLoading = true
+      },
+      afterAction: () => {
+        this.tableLoading = false
+      },
+      onGetDataResult: (res) => {
+        this.handleSuccess(res)
+      }
+    }).then(() => {
       this.getData()
     })
-  },
-  methods: {
-    getData() {
-      this.$post({
-        url: this.$urlPath.getTableList,
-        data: this.withPageInfoData()
-      }).then(res => {
-        this.handleSuccess(res)
-      }).catch(_ => {
-        this.$errorMsg('数据加载失败')
-      })
-    }
+    this.initAddItem({
+      url: this.$urlPath.getTableList,
+      addData: () => {
+        return {}
+      }
+    })
+    this.initDeleteItems({
+      url: this.$urlPath.getTableList
+    })
   }
 }
 </script>

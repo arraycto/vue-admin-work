@@ -1,4 +1,4 @@
-import { loadData, likeSearch, deleteItems, updateItem } from '@/model/BaseModel'
+import { loadData, likeSearch, deleteItems, updateItem, addItem } from '@/model/BaseModel'
 
 export const GetDataMixin = {
   data() {
@@ -9,7 +9,7 @@ export const GetDataMixin = {
     }
   },
   methods: {
-    initGetDataModel({ url, method, params = {}, onGetDataResult, onGetDataError }) {
+    initGetData({ url, method, params, beforeAction, onGetDataResult, onGetDataError, afterAction }) {
       if (!url) {
         throw new Error('please init url')
       }
@@ -17,17 +17,26 @@ export const GetDataMixin = {
       this.getDataModel.method = method
       this.getDataModel.onGetDataResult = onGetDataResult
       this.getDataModel.onGetDataError = onGetDataError
-      this.getDataModel.params = params
+      this.getDataModel.params = params || {}
+      this.getDataModel.beforeAction = beforeAction
+      this.getDataModel.afterAction = afterAction
       this.getDataModel.init = true
       return Promise.resolve(this.getDataModel.init)
     },
     getData() {
+      this.getDataModel.beforeAction && this.getDataModel.beforeAction()
       loadData.call(this, {
         url: this.getDataModel.url,
         method: this.getDataModel.method || 'post',
         data: this.getDataModel.params
-      }).then(this.getDataModel.onGetDataResult)
-        .catch(this.getDataModel.onGetDataError)
+      }).then((res) => {
+        this.getDataModel.onGetDataResult(res)
+        this.getDataModel.afterAction && this.getDataModel.afterAction()
+      })
+        .catch((error) => {
+          this.getDataModel.onGetDataError(error)
+          this.getDataModel.afterAction && this.getDataModel.afterAction()
+        })
     }
   }
 }
@@ -42,7 +51,7 @@ export const LikeSearchMixin = {
     }
   },
   methods: {
-    initLikeSearchModel({ url, method, conditionItems, extraParams, onSearchResult, onSearchError }) {
+    initLikeSearch({ url, method, conditionItems, extraParams, beforeAction, onSearchResult, onSearchError, afterAction }) {
       if (!url) {
         throw new Error('please init url')
       }
@@ -58,6 +67,8 @@ export const LikeSearchMixin = {
       this.likeSearchModel.extraParams = extraParams
       this.likeSearchModel.onSearchResult = onSearchResult
       this.likeSearchModel.onSearchError = onSearchError
+      this.likeSearchModel.beforeAction = beforeAction
+      this.likeSearchModel.afterAction = afterAction
       this.likeSearchModel.init = true
     },
     doSearch() {
@@ -73,8 +84,14 @@ export const LikeSearchMixin = {
         url: this.likeSearchModel.url,
         method: this.likeSearchModel.method || 'post',
         data: searchParams
-      }).then(this.likeSearchModel.onSearchResult)
-        .catch(this.likeSearchModel.onSearchError)
+      }).then((res) => {
+        this.likeSearchModel.beforeAction && this.likeSearchModel.beforeAction()
+        this.likeSearchModel.onSearchResult(res)
+      })
+        .catch((error) => {
+          this.likeSearchModel.afterAction && this.likeSearchModel.afterAction()
+          this.likeSearchModel.onSearchError(error)
+        })
     },
     resetSearch() {
       this.likeSearchModel.conditionItems && this.likeSearchModel.conditionItems.forEach(it => { it.value = '' })
@@ -100,7 +117,7 @@ export const DeleteItemsMixin = {
     }
   },
   methods: {
-    initDeleteItemsModel({ url, method, deleteKey = 'id', onDeleteResult, onDeleteError }) {
+    initDeleteItems({ url, method, deleteKey = 'id', beforeAction, onDeleteResult, onDeleteError, afterAction }) {
       if (!url) {
         throw new Error('please init url')
       }
@@ -108,6 +125,8 @@ export const DeleteItemsMixin = {
       this.deleteItemsModel.method = method
       this.deleteItemsModel.onDeleteResult = onDeleteResult
       this.deleteItemsModel.onDeleteError = onDeleteError
+      this.deleteItemsModel.beforeAction = beforeAction
+      this.deleteItemsModel.afterAction = afterAction
       this.deleteItemsModel.deleteKey = deleteKey
       this.deleteItemsModel.init = true
     },
@@ -124,6 +143,12 @@ export const DeleteItemsMixin = {
         data: {
           [this.initDeleteItemsModel.deleteKey]: items[this.initDeleteItemsModel.deleteKey]
         }
+      }).then(res => {
+        this.initDeleteItemsModel.beforeAction && this.initDeleteItemsModel.beforeAction()
+        this.initDeleteItemsModel.onDeleteResult(res)
+      }).catch(error => {
+        this.initDeleteItemsModel.afterAction && this.initDeleteItemsModel.afterAction()
+        this.initDeleteItemsModel.onDeleteError(error)
       })
     }
   }
@@ -138,7 +163,7 @@ export const UpdateItemMixin = {
     }
   },
   methods: {
-    initUpdateItemModel({ url, method, updateData, onUpdateResult, onUpdateError }) {
+    initUpdateItem({ url, method, updateData, beforeAction, onUpdateResult, onUpdateError, afterAction }) {
       if (!url) {
         throw new Error('please init url')
       }
@@ -149,7 +174,9 @@ export const UpdateItemMixin = {
       this.updateItemModel.method = method
       this.updateItemModel.updateData = updateData
       this.updateItemModel.onUpdateResult = onUpdateResult
-      this.updateItemModel.onDeleteError = onUpdateError
+      this.updateItemModel.onUpdateError = onUpdateError
+      this.updateItemModel.beforeAction = beforeAction
+      this.updateItemModel.afterAction = afterAction
       this.updateItemModel.init = true
     },
     doUpdateItem() {
@@ -161,6 +188,57 @@ export const UpdateItemMixin = {
         url: this.updateItemModel.url,
         method: this.updateItemModel.method || 'post',
         data: params
+      }).then(res => {
+        this.updateItemModel.beforeAction && this.updateItemModel.beforeAction()
+        this.updateItemModel.onUpdateResult(res)
+      }).catch(error => {
+        this.updateItemModel.afterAction && this.updateItemModel.afterAction()
+        this.updateItemModel.onUpdateError(error)
+      })
+    }
+  }
+}
+
+export const AddItemMixin = {
+  data() {
+    return {
+      addItemModel: {
+        init: false
+      }
+    }
+  },
+  methods: {
+    initAddItem({ url, method, addData, beforeAction, onAddResult, onAddError, afterAction }) {
+      if (!url) {
+        throw new Error('please init url')
+      }
+      if (!(addData instanceof Function)) {
+        throw new Error('please init addData and addData must be a Function')
+      }
+      this.addItemModel.url = url
+      this.addItemModel.method = method
+      this.addItemModel.addData = addData
+      this.addItemModel.onAddResult = onAddResult
+      this.addItemModel.onAddError = onAddError
+      this.addItemModel.beforeAction = beforeAction
+      this.addItemModel.afterAction = afterAction
+      this.addItemModel.init = true
+    },
+    doAddItem() {
+      if (!this.addItemModel.init) {
+        throw new Error('please init addItemModel first')
+      }
+      const params = this.addItemModel.addData()
+      addItem.call(this, {
+        url: this.addItemModel.url,
+        method: this.addItemModel.method || 'post',
+        data: params
+      }).then(res => {
+        this.addItemModel.beforeAction && this.addItemModel.beforeAction()
+        this.addItemModel.onAddResult(res)
+      }).catch(error => {
+        this.addItemModel.afterAction && this.addItemModel.afterAction()
+        this.addItemModel.onAddError(error)
       })
     }
   }

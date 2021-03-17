@@ -68,7 +68,6 @@ export default {
         this.$refs.table && this.$refs.table.doLayout()
       }, 350)
     })
-    this.initSetup && (this.actionModel = this.initSetup())
   },
   methods: {
     handleSuccess({ data = [], totalSize = 10 }) {
