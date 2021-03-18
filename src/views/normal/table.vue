@@ -136,7 +136,11 @@
     />
     <Dialog ref="dialog">
       <template>
-        asdfasdf
+        <upload>
+          <template slot="tip">
+            asdf
+          </template>
+        </upload>
       </template>
     </Dialog>
   </div>
@@ -150,8 +154,10 @@ import {
   DeleteItemsMixin,
   UpdateItemMixin
 } from '@/mixins/ActionMixin'
+import Upload from '@/components/common/Upload.vue'
 export default {
   name: 'Table',
+  components: { Upload },
   mixins: [
     TableMixin,
     PageModelMixin,
@@ -209,18 +215,20 @@ export default {
         return {}
       },
       onAddItem: () => {
-        this.$refs.dialog.show(() => {
-          this.userModel.address = ''
-          this.userModel.avatar = ''
-          this.userModel.gender = 0
-          this.userModel.lastLoginIp = ''
-          this.userModel.lastLoginTime = ''
-          this.userModel.nickName = ''
-          this.userModel.status = 1
-          this.userModel.vip = 1
-        }).then(() => {
-          this.doAddItem()
-        })
+        this.$refs.dialog
+          .show(() => {
+            this.userModel.address = ''
+            this.userModel.avatar = ''
+            this.userModel.gender = 0
+            this.userModel.lastLoginIp = ''
+            this.userModel.lastLoginTime = ''
+            this.userModel.nickName = ''
+            this.userModel.status = 1
+            this.userModel.vip = 1
+          })
+          .then(() => {
+            this.doAddItem()
+          })
       }
     })
     this.initDeleteItems({
