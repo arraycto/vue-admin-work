@@ -33,3 +33,23 @@ export function currentDate() {
   str += d.getSeconds()
   return str
 }
+
+export function isOjbect(param) {
+  return Object.prototype.toString.call(param) === '[object Object]'
+}
+
+export function isFunction(param) {
+  return Object.prototype.toString.call(param) === '[object Function]'
+}
+
+export function isArray(param) {
+  return Object.prototype.toString.call(param) === '[object Array]'
+}
+
+export function isNumber(param) {
+  return Object.prototype.toString.call(param) === '[object Number]'
+}
+
+export function isBoolean(param) {
+  return Object.prototype.toString.call(param) === '[object Boolean]'
+}

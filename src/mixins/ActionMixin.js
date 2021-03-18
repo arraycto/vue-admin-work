@@ -1,4 +1,15 @@
 import { loadData, likeSearch, deleteItems, updateItem, addItem } from '@/model/BaseModel'
+import { isFunction, isOjbect } from '@/utils/utils'
+
+function handleResult(model, res) {
+  model.onResult && model.onResult(res)
+  model.afterAction && model.afterAction()
+}
+
+function handleError(model, error) {
+  model.onError && model.onError(error)
+  model.afterAction && model.afterAction()
+}
 
 export const GetDataMixin = {
   data() {
@@ -9,14 +20,14 @@ export const GetDataMixin = {
     }
   },
   methods: {
-    initGetData({ url, method, params, beforeAction, onGetDataResult, onGetDataError, afterAction }) {
+    initGetData({ url, method, params, beforeAction, onResult, onError, afterAction }) {
       if (!url) {
         throw new Error('please init url')
       }
       this.getDataModel.url = url
       this.getDataModel.method = method
-      this.getDataModel.onGetDataResult = onGetDataResult
-      this.getDataModel.onGetDataError = onGetDataError
+      this.getDataModel.onResult = onResult
+      this.getDataModel.onError = onError
       this.getDataModel.params = params || {}
       this.getDataModel.beforeAction = beforeAction
       this.getDataModel.afterAction = afterAction
@@ -30,13 +41,10 @@ export const GetDataMixin = {
         method: this.getDataModel.method || 'post',
         data: this.getDataModel.params
       }).then((res) => {
-        this.getDataModel.onGetDataResult(res)
-        this.getDataModel.afterAction && this.getDataModel.afterAction()
+        handleResult.call(this, this.getDataModel, res)
+      }).catch((error) => {
+        handleError.call(this, this.getDataModel, error)
       })
-        .catch((error) => {
-          this.getDataModel.onGetDataError(error)
-          this.getDataModel.afterAction && this.getDataModel.afterAction()
-        })
     }
   }
 }
@@ -51,22 +59,22 @@ export const LikeSearchMixin = {
     }
   },
   methods: {
-    initLikeSearch({ url, method, conditionItems, extraParams, beforeAction, onSearchResult, onSearchError, afterAction }) {
+    initLikeSearch({ url, method, conditionItems, extraParams, beforeAction, onResult, onError, afterAction }) {
       if (!url) {
         throw new Error('please init url')
       }
-      if (!onSearchResult) {
+      if (!onResult) {
         throw new Error('please init onSearchResult function')
       }
-      if (!(onSearchResult instanceof Function)) {
+      if (!(onResult instanceof Function)) {
         throw new Error('onSearchResult must be Function type')
       }
       this.likeSearchModel.url = url
       this.likeSearchModel.method = method
       this.likeSearchModel.conditionItems = conditionItems
       this.likeSearchModel.extraParams = extraParams
-      this.likeSearchModel.onSearchResult = onSearchResult
-      this.likeSearchModel.onSearchError = onSearchError
+      this.likeSearchModel.onResult = onResult
+      this.likeSearchModel.onError = onError
       this.likeSearchModel.beforeAction = beforeAction
       this.likeSearchModel.afterAction = afterAction
       this.likeSearchModel.init = true
@@ -85,13 +93,10 @@ export const LikeSearchMixin = {
         method: this.likeSearchModel.method || 'post',
         data: searchParams
       }).then((res) => {
-        this.likeSearchModel.beforeAction && this.likeSearchModel.beforeAction()
-        this.likeSearchModel.onSearchResult(res)
+        handleResult.call(this, this.likeSearchModel, res)
+      }).catch((error) => {
+        handleError.call(this, this.likeSearchModel, error)
       })
-        .catch((error) => {
-          this.likeSearchModel.afterAction && this.likeSearchModel.afterAction()
-          this.likeSearchModel.onSearchError(error)
-        })
     },
     resetSearch() {
       this.likeSearchModel.conditionItems && this.likeSearchModel.conditionItems.forEach(it => { it.value = '' })
@@ -117,14 +122,14 @@ export const DeleteItemsMixin = {
     }
   },
   methods: {
-    initDeleteItems({ url, method, deleteKey = 'id', beforeAction, onDeleteResult, onDeleteError, afterAction }) {
+    initDeleteItems({ url, method, deleteKey = 'id', beforeAction, onResult, onError, afterAction }) {
       if (!url) {
         throw new Error('please init url')
       }
       this.deleteItemsModel.url = url
       this.deleteItemsModel.method = method
-      this.deleteItemsModel.onDeleteResult = onDeleteResult
-      this.deleteItemsModel.onDeleteError = onDeleteError
+      this.deleteItemsModel.onResult = onResult
+      this.deleteItemsModel.onError = onError
       this.deleteItemsModel.beforeAction = beforeAction
       this.deleteItemsModel.afterAction = afterAction
       this.deleteItemsModel.deleteKey = deleteKey
@@ -143,12 +148,10 @@ export const DeleteItemsMixin = {
         data: {
           [this.initDeleteItemsModel.deleteKey]: items[this.initDeleteItemsModel.deleteKey]
         }
-      }).then(res => {
-        this.initDeleteItemsModel.beforeAction && this.initDeleteItemsModel.beforeAction()
-        this.initDeleteItemsModel.onDeleteResult(res)
-      }).catch(error => {
-        this.initDeleteItemsModel.afterAction && this.initDeleteItemsModel.afterAction()
-        this.initDeleteItemsModel.onDeleteError(error)
+      }).then((res) => {
+        handleResult.call(this, this.initDeleteItemsModel, res)
+      }).catch((error) => {
+        handleError.call(this, this.initDeleteItemsModel, error)
       })
     }
   }
@@ -163,18 +166,15 @@ export const UpdateItemMixin = {
     }
   },
   methods: {
-    initUpdateItem({ url, method, updateData, beforeAction, onUpdateResult, onUpdateError, afterAction }) {
+    initUpdateItem({ url, method, params, beforeAction, onResult, onError, afterAction }) {
       if (!url) {
         throw new Error('please init url')
       }
-      if (!(updateData instanceof Function)) {
-        throw new Error('please init updateData and updateData must be a Function')
-      }
       this.updateItemModel.url = url
       this.updateItemModel.method = method
-      this.updateItemModel.updateData = updateData
-      this.updateItemModel.onUpdateResult = onUpdateResult
-      this.updateItemModel.onUpdateError = onUpdateError
+      this.updateItemModel.params = params
+      this.updateItemModel.onResult = onResult
+      this.updateItemModel.onError = onError
       this.updateItemModel.beforeAction = beforeAction
       this.updateItemModel.afterAction = afterAction
       this.updateItemModel.init = true
@@ -183,17 +183,22 @@ export const UpdateItemMixin = {
       if (!this.updateItemModel.init) {
         throw new Error('please init updateItemModel first')
       }
-      const params = this.updateItemModel.updateData()
+      let data = null
+      if (isFunction(this.updateItemModel.params) === '[object Function]') {
+        data = this.updateItemModel.updateData()
+      } else if (isOjbect(this.updateItemModel.params) === '[object Object]') {
+        data = this.updateItemModel.params
+      } else {
+        throw new Error('please set update param')
+      }
       updateItem.call(this, {
         url: this.updateItemModel.url,
         method: this.updateItemModel.method || 'post',
-        data: params
-      }).then(res => {
-        this.updateItemModel.beforeAction && this.updateItemModel.beforeAction()
-        this.updateItemModel.onUpdateResult(res)
-      }).catch(error => {
-        this.updateItemModel.afterAction && this.updateItemModel.afterAction()
-        this.updateItemModel.onUpdateError(error)
+        data
+      }).then((res) => {
+        handleResult.call(this, this.updateItemModel, res)
+      }).catch((error) => {
+        handleError.call(this, this.updateItemModel, error)
       })
     }
   }
@@ -208,37 +213,49 @@ export const AddItemMixin = {
     }
   },
   methods: {
-    initAddItem({ url, method, addData, beforeAction, onAddResult, onAddError, afterAction }) {
+    initAddItem({ url, method, params, onAddItem, beforeAction, onResult, onError, afterAction }) {
       if (!url) {
         throw new Error('please init url')
       }
-      if (!(addData instanceof Function)) {
-        throw new Error('please init addData and addData must be a Function')
-      }
       this.addItemModel.url = url
       this.addItemModel.method = method
-      this.addItemModel.addData = addData
-      this.addItemModel.onAddResult = onAddResult
-      this.addItemModel.onAddError = onAddError
+      this.addItemModel.params = params
+      this.addItemModel.onResult = onResult
+      this.addItemModel.onError = onError
       this.addItemModel.beforeAction = beforeAction
       this.addItemModel.afterAction = afterAction
+      this.addItemModel.onAddItem = onAddItem
       this.addItemModel.init = true
+    },
+    onAddItem() {
+      if (!this.addItemModel.onAddItem) {
+        throw new Error('please init onAddItem')
+      }
+      if (!(this.addItemModel.onAddItem instanceof Function)) {
+        throw new Error('onAddItem must be Function')
+      }
+      this.addItemModel.onAddItem()
     },
     doAddItem() {
       if (!this.addItemModel.init) {
         throw new Error('please init addItemModel first')
       }
-      const params = this.addItemModel.addData()
+      let data = null
+      if (isFunction(this.addItemModel.params) === '[object Function]') {
+        data = this.addItemModel.updateData()
+      } else if (isOjbect(this.addItemModel.params) === '[object Object]') {
+        data = this.addItemModel.params
+      } else {
+        throw new Error('please set add param')
+      }
       addItem.call(this, {
         url: this.addItemModel.url,
         method: this.addItemModel.method || 'post',
-        data: params
-      }).then(res => {
-        this.addItemModel.beforeAction && this.addItemModel.beforeAction()
-        this.addItemModel.onAddResult(res)
-      }).catch(error => {
-        this.addItemModel.afterAction && this.addItemModel.afterAction()
-        this.addItemModel.onAddError(error)
+        data
+      }).then((res) => {
+        handleResult.call(this, this.addItemModel, res)
+      }).catch((error) => {
+        handleError.call(this, this.addItemModel, error)
       })
     }
   }

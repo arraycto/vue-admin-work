@@ -7,6 +7,7 @@
           type="primary"
           size="mini"
           icon="el-icon-plus"
+          @click="onAddItem"
         >添加
         </el-button>
         <el-button
@@ -133,6 +134,11 @@
       @pageSizeChanged="pageSizeChanged"
       @currentChanged="currentChanged"
     />
+    <Dialog ref="dialog">
+      <template>
+        asdfasdf
+      </template>
+    </Dialog>
   </div>
 </template>
 
@@ -154,6 +160,21 @@ export default {
     DeleteItemsMixin,
     UpdateItemMixin
   ],
+  data() {
+    return {
+      userModel: {
+        address: '',
+        avatar: '',
+        gender: 0,
+        id: 1,
+        lastLoginIp: '',
+        lastLoginTime: '',
+        nickName: '',
+        status: 0,
+        vip: 1
+      }
+    }
+  },
   mounted() {
     this.initGetData({
       url: this.$urlPath.getTableList,
@@ -164,16 +185,42 @@ export default {
       afterAction: () => {
         this.tableLoading = false
       },
-      onGetDataResult: (res) => {
+      onResult: (res) => {
         this.handleSuccess(res)
       }
     }).then(() => {
       this.getData()
     })
+    this.initUpdateItem({
+      url: this.$urlPath.getTableList,
+      addData: () => {
+        return this.userModel
+      },
+      onUpdateItem: (item) => {
+        this.$refs.dialog.show().then(() => {
+          this.doUpdateItem()
+        })
+      }
+    })
     this.initAddItem({
       url: this.$urlPath.getTableList,
       addData: () => {
+        console.log('调用了data')
         return {}
+      },
+      onAddItem: () => {
+        this.$refs.dialog.show(() => {
+          this.userModel.address = ''
+          this.userModel.avatar = ''
+          this.userModel.gender = 0
+          this.userModel.lastLoginIp = ''
+          this.userModel.lastLoginTime = ''
+          this.userModel.nickName = ''
+          this.userModel.status = 1
+          this.userModel.vip = 1
+        }).then(() => {
+          this.doAddItem()
+        })
       }
     })
     this.initDeleteItems({
