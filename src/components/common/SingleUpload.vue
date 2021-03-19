@@ -1,45 +1,25 @@
 <template>
   <div class="upload-container">
     <el-upload
-      v-if="multiple"
-      class="upload-wrapper"
-      drag
-      :action="action"
-      multiple
-      :data="extraData"
-      :headers="headers"
-      :on-success="handleMultipleSuccess"
-      :on-error="handleMultipleError"
-    >
-      <i class="el-icon-upload"></i>
-      <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-      <div
-        slot="tip"
-        class="el-upload__tip"
-      >
-        <slot name="tip"></slot>
-      </div>
-    </el-upload>
-    <el-upload
-      v-else
       :action="action"
       :show-file-list="false"
       :on-success="handleSingleSuccess"
       :on-error="handleSingleError"
       :data="extraData"
       :headers="headers"
-      :name="singleFileName"
+      :name="fileName"
+      :before-upload="beforeUpload"
     >
       <img
-        v-if="imageUrl"
-        :src="imageUrl"
+        v-if="imagePath"
+        :src="imagePath"
         class="single"
-        :style="singleStyle"
+        :style="extraStyle"
       />
       <i
         v-else
         class="el-icon-plus single-uploader-icon"
-        :style="singleStyle"
+        :style="extraStyle"
       ></i>
     </el-upload>
   </div>
@@ -47,12 +27,8 @@
 
 <script>
 export default {
-  name: 'Upload',
+  name: 'SingleUpload',
   props: {
-    multiple: {
-      type: Boolean,
-      default: false
-    },
     action: {
       type: String,
       default: ''
@@ -69,43 +45,31 @@ export default {
         return {}
       }
     },
-    singleImagePath: {
+    imagePath: {
       type: String,
       default: ''
     },
-    singleStyle: {
+    extraStyle: {
       type: Object,
       default: () => {
         return {}
       }
     },
-    singleFileName: {
+    fileName: {
       type: String,
       default: 'file'
-    }
-  },
-  data() {
-    return {
-      imageUrl: this.singleImagePath
+    },
+    beforeUpload: {
+      type: Function,
+      default: function () {}
     }
   },
   methods: {
     handleSingleSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw)
-      this.$emit('onSingleSuccess', res)
+      this.$emit('onSingleSuccess', { res, file })
     },
-    handleSingleError(err, file, fileList) {
+    handleSingleError(err, file) {
       this.$errorMsg(`文件：${file.name} 上传失败：${err}`)
-    },
-    handleMultipleSuccess(res, file, fileList) {
-      console.log(res)
-      console.log(file)
-      console.log(fileList)
-    },
-    handleMultipleError(err, file, fileList) {
-      console.log(err)
-      console.log(file)
-      console.log(fileList)
     }
   }
 }

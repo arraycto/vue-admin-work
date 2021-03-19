@@ -4,21 +4,18 @@
       id="echart"
       style="width: 100px; height: 100px"
     ></div>
+    <Test />
   </div>
 </template>
 
 <script>
 import { GetDataMixin, LikeSearchMixin } from '@/mixins/ActionMixin'
+import Test from '@/components/common/Test'
 export default {
   name: 'Index',
+  components: { Test },
   mixins: [GetDataMixin, LikeSearchMixin],
-  mounted() {
-    this.getData({
-      url: this.$urlPath.getDepartmentList
-    }).then((res) => {
-      console.log(res)
-    })
-  },
+  mounted() {},
   methods: {
     init() {
       const myChart = this.$echarts.init(document.getElementById('echart'))
