@@ -136,7 +136,15 @@
     />
     <Dialog ref="dialog">
       <template>
-        <upload>
+        <upload
+          action="http://test.youcanedu.net:8881/yx/uploadSpellingTextBookCoverImage"
+          :headers="{'Authorization': `Bearer eyJhbGciOiJIUzUxMiJ9.eyJBdXRob3JpemF0aW9uIjoiUk9MRV9hZG1pbiwiLCJ1c2VyRW50aXR5SWQiOjE4LCJ1c2VyRW50aXR5TmFtZSI6IueuoeeQhuWRmCIsInVzZXJFbnRpdHlQaG9uZSI6IjE4ODAwMDAwMDA4Iiwic3ViIjoi566h55CG5ZGYIiwiZXhwIjoxNjE2MTQ2MjQwfQ.TZS59WlhzJwkbk60OhE7xJMJ2XlIY3gBo_Cnh8yqCooKfyquS_IbSH-d6___nVNAhrMzNq3qDMM2sTZpiQ2IDA`}"
+          single-file-name="textBookCoverFile"
+          :single-style="{width: '100px', height: '100px'}"
+          :multiple="true"
+          single-image-path="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3721808636,3193833342&fm=15&gp=0.jpg"
+          @onSingleSuccess="onSingleSuccess"
+        >
           <template slot="tip">
             asdf
           </template>
@@ -234,6 +242,11 @@ export default {
     this.initDeleteItems({
       url: this.$urlPath.getTableList
     })
+  },
+  methods: {
+    onSingleSuccess(res) {
+      console.log(res)
+    }
   }
 }
 </script>
