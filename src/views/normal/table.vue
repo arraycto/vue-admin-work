@@ -136,20 +136,26 @@
     />
     <Dialog ref="dialog">
       <template>
-        <SingleUpload
-          action="http://test.youcanedu.net:8881/yx/uploadSpellingTextBookCoverImage"
-          :headers="{'Authorization': `Bearer eyJhbGciOiJIUzUxMiJ9.eyJBdXRob3JpemF0aW9uIjoiUk9MRV9hZG1pbiwiLCJ1c2VyRW50aXR5SWQiOjE4LCJ1c2VyRW50aXR5TmFtZSI6IueuoeeQhuWRmCIsInVzZXJFbnRpdHlQaG9uZSI6IjE4ODAwMDAwMDA4Iiwic3ViIjoi566h55CG5ZGYIiwiZXhwIjoxNjE2MTQ2MjQwfQ.TZS59WlhzJwkbk60OhE7xJMJ2XlIY3gBo_Cnh8yqCooKfyquS_IbSH-d6___nVNAhrMzNq3qDMM2sTZpiQ2IDA`}"
-          file-name="textBookCoverFile"
-          :extra-style="{width: '100px', height: '100px'}"
-          :multiple="true"
-          image-path="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3721808636,3193833342&fm=15&gp=0.jpg"
-          :before-upload="beforeUpload"
-          @onSingleSuccess="onSingleSuccess"
-        >
-          <template slot="tip">
-            asdf
+        <BaseForm :form-items="formItems">
+          <template #extra>
+            <el-form-item label="上传封面">
+              <SingleUpload
+                action="http://test.youcanedu.net:8881/yx/uploadSpellingTextBookCoverImage"
+                :headers="{'Authorization': `Bearer eyJhbGciOiJIUzUxMiJ9.eyJBdXRob3JpemF0aW9uIjoiUk9MRV9hZG1pbiwiLCJ1c2VyRW50aXR5SWQiOjE4LCJ1c2VyRW50aXR5TmFtZSI6IueuoeeQhuWRmCIsInVzZXJFbnRpdHlQaG9uZSI6IjE4ODAwMDAwMDA4Iiwic3ViIjoi566h55CG5ZGYIiwiZXhwIjoxNjE2MTQ2MjQwfQ.TZS59WlhzJwkbk60OhE7xJMJ2XlIY3gBo_Cnh8yqCooKfyquS_IbSH-d6___nVNAhrMzNq3qDMM2sTZpiQ2IDA`}"
+                file-name="textBookCoverFile"
+                :extra-style="{width: '100px', height: '100px'}"
+                :multiple="true"
+                image-path=""
+                :before-upload="beforeUpload"
+                @onSingleSuccess="onSingleSuccess"
+              >
+                <template slot="tip">
+                  asdf
+                </template>
+              </SingleUpload>
+            </el-form-item>
           </template>
-        </SingleUpload>
+        </BaseForm>
       </template>
     </Dialog>
   </div>
@@ -164,9 +170,10 @@ import {
   UpdateItemMixin
 } from '@/mixins/ActionMixin'
 import SingleUpload from '@/components/common/SingleUpload.vue'
+import BaseForm from '@/components/common/BaseForm.vue'
 export default {
   name: 'Table',
-  components: { SingleUpload },
+  components: { SingleUpload, BaseForm },
   mixins: [
     TableMixin,
     PageModelMixin,
@@ -187,7 +194,14 @@ export default {
         nickName: '',
         status: 0,
         vip: 1
-      }
+      },
+      formItems: [
+        {
+          label: '学校名称',
+          type: 'input',
+          value: ''
+        }
+      ]
     }
   },
   mounted() {

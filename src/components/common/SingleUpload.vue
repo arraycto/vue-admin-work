@@ -61,7 +61,7 @@ export default {
     },
     beforeUpload: {
       type: Function,
-      default: function () {}
+      default: function () { }
     }
   },
   methods: {
@@ -87,7 +87,6 @@ export default {
   border-color: #409eff;
 }
 .upload-container {
-  text-align: center;
   .upload-wrapper {
     width: 100%;
     height: 100%;
@@ -97,8 +96,10 @@ export default {
     color: #8c939d;
     width: 150px;
     height: 150px;
-    line-height: 150px;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .single-uploader-icon:hover {
     color: #409eff;
