@@ -134,11 +134,17 @@
       @pageSizeChanged="pageSizeChanged"
       @currentChanged="currentChanged"
     />
-    <Dialog ref="dialog">
+    <Dialog
+      ref="dialog"
+      :auto-close="false"
+    >
       <template>
-        <BaseForm :form-items="formItems">
+        <BaseForm
+          ref="baseForm"
+          :form-items="formItems"
+        >
           <template #extra>
-            <el-form-item label="上传封面">
+            <el-form-item label="上传头像">
               <SingleUpload
                 action="http://test.youcanedu.net:8881/yx/uploadSpellingTextBookCoverImage"
                 :headers="{'Authorization': `Bearer eyJhbGciOiJIUzUxMiJ9.eyJBdXRob3JpemF0aW9uIjoiUk9MRV9hZG1pbiwiLCJ1c2VyRW50aXR5SWQiOjE4LCJ1c2VyRW50aXR5TmFtZSI6IueuoeeQhuWRmCIsInVzZXJFbnRpdHlQaG9uZSI6IjE4ODAwMDAwMDA4Iiwic3ViIjoi566h55CG5ZGYIiwiZXhwIjoxNjE2MTQ2MjQwfQ.TZS59WlhzJwkbk60OhE7xJMJ2XlIY3gBo_Cnh8yqCooKfyquS_IbSH-d6___nVNAhrMzNq3qDMM2sTZpiQ2IDA`}"
@@ -171,6 +177,7 @@ import {
 } from '@/mixins/ActionMixin'
 import SingleUpload from '@/components/common/SingleUpload.vue'
 import BaseForm from '@/components/common/BaseForm.vue'
+import { formBuilder } from '@/utils/form'
 export default {
   name: 'Table',
   components: { SingleUpload, BaseForm },
@@ -195,16 +202,61 @@ export default {
         status: 0,
         vip: 1
       },
-      formItems: [
-        {
-          label: '学校名称',
-          type: 'input',
-          value: ''
-        }
-      ]
+      formItems: null
     }
   },
   mounted() {
+    const { formItems } = formBuilder({ size: 'small' })
+      .formItem({
+        label: '用户名称',
+        type: 'input',
+        name: 'name',
+        value: '',
+        maxLength: 10,
+        inputType: 'text',
+        placeholder: '请输入用户名称',
+        associateName: 'address',
+        validator: ({ value, placeholder }, { value: assValue }) => {
+          if (!value) {
+            this.$errorMsg(placeholder)
+            return false
+          }
+          if (!assValue) {
+            this.$errorMsg('地址不行')
+            return false
+          }
+          return true
+        }
+      })
+      .formItem({
+        label: '用户性别',
+        type: 'radio-group',
+        name: 'gender',
+        style: 'button',
+        value: 0,
+        radioOptions: [
+          {
+            label: '男',
+            value: 0
+          },
+          {
+            label: '女',
+            value: 1
+          }
+        ]
+      })
+      .formItem({
+        label: '联系地址',
+        type: 'input',
+        name: 'address',
+        value: '',
+        maxLength: 10,
+        inputType: 'textarea',
+        row: 5,
+        placeholder: '请输入联系地址'
+      })
+      .build()
+    this.formItems = formItems
     this.initGetData({
       url: this.$urlPath.getTableList,
       params: this.withPageInfoData(),
@@ -227,7 +279,7 @@ export default {
       },
       onUpdateItem: (item) => {
         this.$refs.dialog.show().then(() => {
-          this.doUpdateItem()
+          this.$refs.baseForm.submit()
         })
       }
     })
@@ -250,7 +302,7 @@ export default {
             this.userModel.vip = 1
           })
           .then(() => {
-            this.doAddItem()
+            console.log(this.$refs.baseForm.submit())
           })
       }
     })

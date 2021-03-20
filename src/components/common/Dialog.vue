@@ -29,9 +29,9 @@ export default {
       type: String,
       default: '提示'
     },
-    validateForm: {
-      type: Function,
-      default: null
+    autoClose: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -56,15 +56,10 @@ export default {
       this.dialogVisible = !this.dialogVisible
     },
     onConfirm() {
-      if (this.validateForm) {
-        if (this.validateForm()) {
-          this.dialogVisible = false
-          this.resolve && this.resolve()
-        }
-      } else {
+      if (this.autoClose) {
         this.dialogVisible = false
-        this.resolve && this.resolve()
       }
+      this.resolve && this.resolve()
     }
   }
 }

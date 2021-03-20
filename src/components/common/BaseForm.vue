@@ -2,9 +2,9 @@
   <div class="base-form-container">
     <el-form
       ref="form"
-      label-position="right"
-      label-width="80px"
-      size="small"
+      :label-position="config.labelPosition || 'right' "
+      :label-width="(config.labelWidth || 80) + 'px'"
+      :size="config.size || 'small'"
     >
       <el-form-item
         v-for="(item, i) of formItems"
@@ -16,15 +16,18 @@
             v-if="item.type === 'input'"
             v-model="item.value"
             :placeholder="item.placeholder || '请输入内容'"
-            size="small"
+            :size="config.size || 'small'"
             clearable
+            :type="item.inputType || ''"
+            :maxlength="item.maxLength"
+            :rows="item.rows || 5"
             class="form-item"
           />
           <el-select
             v-else-if="item.type === 'select'"
             v-model="item.value"
             :placeholder="item.placeholder || '请选择条目'"
-            size="small"
+            :size="config.size || 'small'"
             :filterable="item.filterable ? true : false"
             clearable
             style="width: 100%"
@@ -46,7 +49,7 @@
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             class="form-item"
-            size="small"
+            :size="config.size || 'small'"
           />
           <el-date-picker
             v-else-if="item.type === 'date'"
@@ -55,7 +58,7 @@
             range-separator="-"
             :placeholder="item.placeholder || '请选择日期'"
             class="form-item"
-            size="small"
+            :size="config.size || 'small'"
           />
           <el-date-picker
             v-else-if="item.type === 'datetime'"
@@ -63,7 +66,7 @@
             type="datetime"
             :placeholder="item.placeholder || '请选择日期'"
             class="form-item"
-            size="small"
+            :size="config.size || 'small'"
           />
           <el-time-picker
             v-else-if="item.type === 'time'"
@@ -74,11 +77,12 @@
             }"
             :placeholder="item.placeholder || '请选择时间'"
             class="form-item"
-            size="small"
+            :size="config.size || 'small'"
           />
           <el-radio-group
             v-if="item.type === 'radio-group'"
             v-model="item.value"
+            :size="config.size || 'small'"
           >
             <component
               :is="item.style === 'button' ? 'el-radio-button' : 'el-radio'"
@@ -90,6 +94,7 @@
           <el-checkbox-group
             v-if="item.type === 'check-group'"
             v-model="item.value"
+            :size="config.size || 'small'"
           >
             <component
               :is="item.style === 'button' ? 'el-checkbox-button' : 'el-checkbox'"
@@ -106,14 +111,34 @@
 </template>
 
 <script>
+import FormMixin from '@/mixins/FormMixin'
 export default {
   name: 'BaseForm',
+  mixins: [FormMixin],
   props: {
+    config: {
+      type: Object,
+      default: function () {
+        return {
+          size: 'small',
+          labelWidth: '80',
+          labelPosition: 'right'
+        }
+      }
+    },
     formItems: {
       type: Array,
       default: function () {
         return []
       }
+    }
+  },
+  methods: {
+    submit() {
+      if (!this.checkParams()) {
+        return
+      }
+      return this.generatorParams()
     }
   }
 }
