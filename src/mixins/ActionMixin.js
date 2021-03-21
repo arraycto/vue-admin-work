@@ -166,7 +166,7 @@ export const UpdateItemMixin = {
     }
   },
   methods: {
-    initUpdateItem({ url, method, params, beforeAction, onResult, onError, afterAction }) {
+    initUpdateItem({ url, method, params, onUpdateItem, beforeAction, onResult, onError, afterAction }) {
       if (!url) {
         throw new Error('please init url')
       }
@@ -177,7 +177,17 @@ export const UpdateItemMixin = {
       this.updateItemModel.onError = onError
       this.updateItemModel.beforeAction = beforeAction
       this.updateItemModel.afterAction = afterAction
+      this.updateItemModel.onUpdateItem = onUpdateItem
       this.updateItemModel.init = true
+    },
+    onUpdateItem(item) {
+      if (!this.updateItemModel.onUpdateItem) {
+        throw new Error('please init onUpdateItem')
+      }
+      if (!(this.updateItemModel.onUpdateItem instanceof Function)) {
+        throw new Error('onUpdateItem must be Function')
+      }
+      this.updateItemModel.onUpdateItem(item)
     },
     doUpdateItem() {
       if (!this.updateItemModel.init) {
@@ -185,7 +195,7 @@ export const UpdateItemMixin = {
       }
       let data = null
       if (isFunction(this.updateItemModel.params) === '[object Function]') {
-        data = this.updateItemModel.updateData()
+        data = this.updateItemModel.params()
       } else if (isOjbect(this.updateItemModel.params) === '[object Object]') {
         data = this.updateItemModel.params
       } else {
@@ -242,7 +252,7 @@ export const AddItemMixin = {
       }
       let data = null
       if (isFunction(this.addItemModel.params) === '[object Function]') {
-        data = this.addItemModel.updateData()
+        data = this.addItemModel.params()
       } else if (isOjbect(this.addItemModel.params) === '[object Object]') {
         data = this.addItemModel.params
       } else {

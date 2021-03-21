@@ -36,14 +36,14 @@ export default {
   },
   data() {
     return {
-      dialogVisible: false,
-      resolve: null
+      dialogVisible: false
     }
   },
   methods: {
-    show(beforeAction) {
+    show({ beforeShowAction, beforeResolveAction }) {
       return new Promise((resolve) => {
-        beforeAction && beforeAction()
+        beforeShowAction && beforeShowAction()
+        this.beforeResolveAction = beforeResolveAction
         this.dialogVisible = true
         this.resolve = resolve
       })
@@ -59,7 +59,13 @@ export default {
       if (this.autoClose) {
         this.dialogVisible = false
       }
-      this.resolve && this.resolve()
+      if (this.beforeResolveAction) {
+        if (this.beforeResolveAction()) {
+          this.resolve && this.resolve()
+        }
+      } else {
+        this.resolve && this.resolve()
+      }
     }
   }
 }

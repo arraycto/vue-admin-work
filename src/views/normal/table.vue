@@ -113,16 +113,19 @@
             align="center"
             label="操作"
           >
-            <el-link
-              v-if="isInited('updateItemModel')"
-              type="primary"
-              :underline="false"
-            >编辑</el-link>
-            <el-link
-              v-if="isInited('deleteItemsModel')"
-              type="danger"
-              :underline="false"
-            >删除</el-link>
+            <template slot-scope="scope">
+              <el-link
+                v-if="isInited('updateItemModel')"
+                type="primary"
+                :underline="false"
+                @click="onUpdateItem(scope.row)"
+              >编辑</el-link>
+              <el-link
+                v-if="isInited('deleteItemsModel')"
+                type="danger"
+                :underline="false"
+              >删除</el-link>
+            </template>
           </el-table-column>
         </el-table>
       </template>
@@ -142,6 +145,7 @@
         <BaseForm
           ref="baseForm"
           :form-items="formItems"
+          :model="userModel"
         >
           <template #extra>
             <el-form-item label="上传头像">
@@ -194,69 +198,71 @@ export default {
       userModel: {
         address: '',
         avatar: '',
-        gender: 0,
+        gender: 1,
         id: 1,
         lastLoginIp: '',
         lastLoginTime: '',
         nickName: '',
         status: 0,
         vip: 1
-      },
-      formItems: null
+      }
+    }
+  },
+  computed: {
+    formItems() {
+      return formBuilder({ size: 'small' })
+        .formItem({
+          label: '用户名称',
+          type: 'input',
+          name: 'nickName',
+          value: this.userModel.nickName,
+          maxLength: 10,
+          inputType: 'text',
+          placeholder: '请输入用户名称',
+          associateName: 'address',
+          validator: ({ value, placeholder }, { value: assValue }) => {
+            if (!value) {
+              this.$errorMsg(placeholder)
+              return false
+            }
+            if (!assValue) {
+              this.$errorMsg('地址不行')
+              return false
+            }
+            return true
+          }
+        })
+        .formItem({
+          label: '用户性别',
+          type: 'radio-group',
+          name: 'gender',
+          style: 'button',
+          value: this.userModel.gender,
+          radioOptions: [
+            {
+              label: '男',
+              value: 0
+            },
+            {
+              label: '女',
+              value: 1
+            }
+          ]
+        })
+        .formItem({
+          label: '联系地址',
+          type: 'input',
+          name: 'address',
+          value: this.userModel.address,
+          maxLength: 10,
+          inputType: 'textarea',
+          row: 5,
+          placeholder: '请输入联系地址'
+        })
+        .build().formItems
     }
   },
   mounted() {
-    const { formItems } = formBuilder({ size: 'small' })
-      .formItem({
-        label: '用户名称',
-        type: 'input',
-        name: 'name',
-        value: '',
-        maxLength: 10,
-        inputType: 'text',
-        placeholder: '请输入用户名称',
-        associateName: 'address',
-        validator: ({ value, placeholder }, { value: assValue }) => {
-          if (!value) {
-            this.$errorMsg(placeholder)
-            return false
-          }
-          if (!assValue) {
-            this.$errorMsg('地址不行')
-            return false
-          }
-          return true
-        }
-      })
-      .formItem({
-        label: '用户性别',
-        type: 'radio-group',
-        name: 'gender',
-        style: 'button',
-        value: 0,
-        radioOptions: [
-          {
-            label: '男',
-            value: 0
-          },
-          {
-            label: '女',
-            value: 1
-          }
-        ]
-      })
-      .formItem({
-        label: '联系地址',
-        type: 'input',
-        name: 'address',
-        value: '',
-        maxLength: 10,
-        inputType: 'textarea',
-        row: 5,
-        placeholder: '请输入联系地址'
-      })
-      .build()
-    this.formItems = formItems
     this.initGetData({
       url: this.$urlPath.getTableList,
       params: this.withPageInfoData(),
@@ -272,17 +278,6 @@ export default {
     }).then(() => {
       this.getData()
     })
-    this.initUpdateItem({
-      url: this.$urlPath.getTableList,
-      addData: () => {
-        return this.userModel
-      },
-      onUpdateItem: (item) => {
-        this.$refs.dialog.show().then(() => {
-          this.$refs.baseForm.submit()
-        })
-      }
-    })
     this.initAddItem({
       url: this.$urlPath.getTableList,
       addData: () => {
@@ -291,18 +286,38 @@ export default {
       },
       onAddItem: () => {
         this.$refs.dialog
-          .show(() => {
-            this.userModel.address = ''
-            this.userModel.avatar = ''
-            this.userModel.gender = 0
-            this.userModel.lastLoginIp = ''
-            this.userModel.lastLoginTime = ''
-            this.userModel.nickName = ''
-            this.userModel.status = 1
-            this.userModel.vip = 1
+          .show({
+            beforeShowAction: () => {
+              this.userModel.address = ''
+              this.userModel.avatar = ''
+              this.userModel.gender = 1
+              this.userModel.lastLoginIp = ''
+              this.userModel.lastLoginTime = ''
+              this.userModel.nickName = ''
+              this.userModel.status = 1
+              this.userModel.vip = 1
+            },
+            beforeResolveAction: () => {
+              return this.$refs.baseForm.checkParams()
+            }
           })
           .then(() => {
             console.log(this.$refs.baseForm.submit())
+          })
+      }
+    })
+    this.initUpdateItem({
+      url: this.$urlPath.getTableList,
+      addData: () => {
+        return this.userModel
+      },
+      onUpdateItem: (item) => {
+        this.$refs.dialog
+          .show(() => {
+            this.userModel.nickName = item.nickName
+          })
+          .then(() => {
+            this.$refs.baseForm.submit()
           })
       }
     })

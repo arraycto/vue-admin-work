@@ -5,6 +5,7 @@
       :label-position="config.labelPosition || 'right' "
       :label-width="(config.labelWidth || 80) + 'px'"
       :size="config.size || 'small'"
+      :model="model"
     >
       <el-form-item
         v-for="(item, i) of formItems"
@@ -130,6 +131,12 @@ export default {
       type: Array,
       default: function () {
         return []
+      }
+    },
+    model: {
+      type: Object,
+      default: function () {
+        return {}
       }
     }
   },
