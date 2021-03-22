@@ -296,25 +296,32 @@ export default {
         return {}
       },
       onAddItem: () => {
-        this.$refs.dialog
-          .show({
-            beforeShowAction: () => {
-              this.userModel.address = ''
-              this.userModel.avatar = ''
-              this.userModel.gender = 0
-              this.userModel.lastLoginIp = ''
-              this.userModel.lastLoginTime = ''
-              this.userModel.nickName = ''
-              this.userModel.status = 1
-              this.userModel.vip = 1
-            },
-            onConfirmCallback: () => {
-              const params = this.$refs.baseForm.getParams()
-              this.dataList.push({
-                ...params
-              })
+        this.$refs.dialog.show({
+          beforeShowAction: () => {
+            this.userModel = {
+              address: '',
+              avatar: '',
+              gender: 1,
+              id: 1,
+              lastLoginIp: '',
+              lastLoginTime: '',
+              nickName: '',
+              status: 0,
+              vip: 1
             }
-          })
+          },
+          onConfirmCallback: () => {
+            const params = this.$refs.baseForm.getParams()
+            params.avatar =
+              'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201411%2F29%2F20141129194517_5Z2Lu.png&refer=http%3A%2F%2Fb-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1615013287&t=832537ff575fa5c5bb2e65b71c2b52fb'
+            params.lastLoginIp = '221.189.176.207'
+            params.lastLoginTime = '2021-03-22 20:39:25'
+            this.dataList.unshift({
+              ...params
+            })
+            this.$refs.dialog.close()
+          }
+        })
       }
     })
     this.initUpdateItem({
@@ -323,26 +330,25 @@ export default {
         return this.userModel
       },
       onUpdateItem: (item) => {
-        this.$refs.dialog
-          .show({
-            beforeShowAction: () => {
-              this.userModel.nickName = item.nickName
-              this.userModel.gender = item.gender
-              this.userModel.address = item.address
-              this.userModel.status = item.status
-              this.userModel.avatar = item.avatar
-            },
-            onConfirmCallback: () => {
-              const params = this.$refs.baseForm.getParams()
-              if (params) {
-                item.nickName = params.nickName
-                item.gender = params.gender
-                item.address = params.address
-                item.status = params.status
-                this.$refs.dialog.close()
-              }
+        this.$refs.dialog.show({
+          beforeShowAction: () => {
+            this.userModel.nickName = item.nickName
+            this.userModel.gender = item.gender
+            this.userModel.address = item.address
+            this.userModel.status = item.status
+            this.userModel.avatar = item.avatar
+          },
+          onConfirmCallback: () => {
+            const params = this.$refs.baseForm.getParams()
+            if (params) {
+              item.nickName = params.nickName
+              item.gender = params.gender
+              item.address = params.address
+              item.status = params.status
+              this.$refs.dialog.close()
             }
-          })
+          }
+        })
       }
     })
     this.initDeleteItems({
