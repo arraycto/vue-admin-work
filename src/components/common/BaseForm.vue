@@ -5,10 +5,9 @@
       :label-position="config.labelPosition || 'right' "
       :label-width="(config.labelWidth || 80) + 'px'"
       :size="config.size || 'small'"
-      :model="model"
     >
       <el-form-item
-        v-for="(item, i) of formItems"
+        v-for="(item, i) of innerFormItems"
         :key="i"
         :label="item.label"
       >
@@ -132,24 +131,26 @@ export default {
       default: function () {
         return []
       }
-    },
-    model: {
-      type: Object,
-      default: function () {
-        return {}
-      }
     }
   },
+  watch: {
+    formItems: {
+      handler() {
+        this.refreshItems()
+      },
+      deep: true
+    }
+  },
+  mounted() {
+    this.refreshItems()
+  },
   methods: {
-    submit() {
+    getParams() {
       if (!this.checkParams()) {
-        return
+        return false
       }
       return this.generatorParams()
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-</style>

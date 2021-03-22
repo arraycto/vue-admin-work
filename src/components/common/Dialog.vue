@@ -28,10 +28,6 @@ export default {
     title: {
       type: String,
       default: '提示'
-    },
-    autoClose: {
-      type: Boolean,
-      default: true
     }
   },
   data() {
@@ -40,13 +36,11 @@ export default {
     }
   },
   methods: {
-    show({ beforeShowAction, beforeResolveAction }) {
-      return new Promise((resolve) => {
-        beforeShowAction && beforeShowAction()
-        this.beforeResolveAction = beforeResolveAction
-        this.dialogVisible = true
-        this.resolve = resolve
-      })
+    show({ autoClose = false, beforeShowAction, onConfirmCallback }) {
+      beforeShowAction && beforeShowAction()
+      this.autoClose = autoClose
+      this.onConfirmCallback = onConfirmCallback
+      this.dialogVisible = true
     },
     close(afterAction) {
       this.dialogVisible = false
@@ -59,17 +53,8 @@ export default {
       if (this.autoClose) {
         this.dialogVisible = false
       }
-      if (this.beforeResolveAction) {
-        if (this.beforeResolveAction()) {
-          this.resolve && this.resolve()
-        }
-      } else {
-        this.resolve && this.resolve()
-      }
+      this.onConfirmCallback && this.onConfirmCallback()
     }
   }
 }
 </script>
-
-<style>
-</style>

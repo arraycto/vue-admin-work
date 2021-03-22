@@ -145,7 +145,6 @@
         <BaseForm
           ref="baseForm"
           :form-items="formItems"
-          :model="userModel"
         >
           <template #extra>
             <el-form-item label="上传头像">
@@ -155,14 +154,10 @@
                 file-name="textBookCoverFile"
                 :extra-style="{width: '100px', height: '100px'}"
                 :multiple="true"
-                image-path=""
+                :image-path="userModel.avatar"
                 :before-upload="beforeUpload"
                 @onSingleSuccess="onSingleSuccess"
-              >
-                <template slot="tip">
-                  asdf
-                </template>
-              </SingleUpload>
+              />
             </el-form-item>
           </template>
         </BaseForm>
@@ -210,13 +205,13 @@ export default {
   },
   computed: {
     formItems() {
-      return formBuilder({ size: 'small' })
+      return formBuilder()
         .formItem({
           label: '用户名称',
           type: 'input',
           name: 'nickName',
           value: this.userModel.nickName,
-          maxLength: 10,
+          maxLength: 50,
           inputType: 'text',
           placeholder: '请输入用户名称',
           associateName: 'address',
@@ -254,10 +249,26 @@ export default {
           type: 'input',
           name: 'address',
           value: this.userModel.address,
-          maxLength: 10,
+          maxLength: 50,
           inputType: 'textarea',
           row: 5,
           placeholder: '请输入联系地址'
+        })
+        .formItem({
+          label: '用户状态',
+          type: 'radio-group',
+          name: 'status',
+          value: this.userModel.status,
+          radioOptions: [
+            {
+              label: '正常',
+              value: 1
+            },
+            {
+              label: '禁用',
+              value: 0
+            }
+          ]
         })
         .build().formItems
     }
@@ -290,19 +301,19 @@ export default {
             beforeShowAction: () => {
               this.userModel.address = ''
               this.userModel.avatar = ''
-              this.userModel.gender = 1
+              this.userModel.gender = 0
               this.userModel.lastLoginIp = ''
               this.userModel.lastLoginTime = ''
               this.userModel.nickName = ''
               this.userModel.status = 1
               this.userModel.vip = 1
             },
-            beforeResolveAction: () => {
-              return this.$refs.baseForm.checkParams()
+            onConfirmCallback: () => {
+              const params = this.$refs.baseForm.getParams()
+              this.dataList.push({
+                ...params
+              })
             }
-          })
-          .then(() => {
-            console.log(this.$refs.baseForm.submit())
           })
       }
     })
@@ -313,11 +324,24 @@ export default {
       },
       onUpdateItem: (item) => {
         this.$refs.dialog
-          .show(() => {
-            this.userModel.nickName = item.nickName
-          })
-          .then(() => {
-            this.$refs.baseForm.submit()
+          .show({
+            beforeShowAction: () => {
+              this.userModel.nickName = item.nickName
+              this.userModel.gender = item.gender
+              this.userModel.address = item.address
+              this.userModel.status = item.status
+              this.userModel.avatar = item.avatar
+            },
+            onConfirmCallback: () => {
+              const params = this.$refs.baseForm.getParams()
+              if (params) {
+                item.nickName = params.nickName
+                item.gender = params.gender
+                item.address = params.address
+                item.status = params.status
+                this.$refs.dialog.close()
+              }
+            }
           })
       }
     })
@@ -330,7 +354,7 @@ export default {
       if (res.status !== 200) {
         this.$errorMsg(res.msg)
       } else {
-        this.path = ''
+        this.userModel = res.obj
       }
     },
     beforeUpload(file) {

@@ -1,13 +1,22 @@
 export default {
+  data() {
+    return {
+      innerFormItems: []
+    }
+  },
   methods: {
+    refreshItems() {
+      this.innerFormItems = []
+      this.innerFormItems.push(...this.formItems)
+    },
     checkParams() {
-      return this.formItems.every(it => {
-        return it.validator ? (it.validator.call(this, it, this.formItems.find(item => it.associateName === item.name))) : true
+      return this.innerFormItems.every(it => {
+        return it.validator ? (it.validator.call(this, it, this.innerFormItems.find(item => it.associateName === item.name))) : true
       })
     },
     generatorParams() {
-      if (this.formItems && this.formItems.length !== 0) {
-        return this.formItems.reduce((pre, cur) => {
+      if (this.innerFormItems && this.innerFormItems.length !== 0) {
+        return this.innerFormItems.reduce((pre, cur) => {
           pre[cur.name] = cur.value
           return pre
         }, {})
@@ -15,7 +24,7 @@ export default {
       return {}
     },
     resetParams() {
-      this.formItems && (this.formItems.forEach(it => it.value === ''))
+      this.innerFormItems && (this.innerFormItems.forEach(it => it.value === ''))
     }
   }
 }
