@@ -124,6 +124,7 @@
                 v-if="isInited('deleteItemsModel')"
                 type="danger"
                 :underline="false"
+                @click="onDeleteItems(scope.row)"
               >删除</el-link>
             </template>
           </el-table-column>
@@ -291,9 +292,8 @@ export default {
     })
     this.initAddItem({
       url: this.$urlPath.getTableList,
-      addData: () => {
-        console.log('调用了data')
-        return {}
+      paras: () => {
+        return this.$refs.baseForm.generatorParams()
       },
       onAddItem: () => {
         this.$refs.dialog.show({
@@ -311,23 +311,34 @@ export default {
             }
           },
           onConfirmCallback: () => {
-            const params = this.$refs.baseForm.getParams()
-            params.avatar =
-              'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201411%2F29%2F20141129194517_5Z2Lu.png&refer=http%3A%2F%2Fb-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1615013287&t=832537ff575fa5c5bb2e65b71c2b52fb'
-            params.lastLoginIp = '221.189.176.207'
-            params.lastLoginTime = '2021-03-22 20:39:25'
-            this.dataList.unshift({
-              ...params
-            })
-            this.$refs.dialog.close()
+            const checkResult = this.$refs.baseForm.checkParams()
+            if (checkResult) {
+              this.doAddItem()
+            }
           }
         })
+      },
+      onResult: (res) => {
+        this.$successMsg('用户信息模拟添加成功')
+        const params = this.$refs.baseForm.generatorParams()
+        params.avatar =
+          'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201411%2F29%2F20141129194517_5Z2Lu.png&refer=http%3A%2F%2Fb-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1615013287&t=832537ff575fa5c5bb2e65b71c2b52fb'
+        params.lastLoginIp = '221.189.176.207'
+        params.lastLoginTime = '2021-03-22 20:39:25'
+        this.dataList.unshift({
+          ...params
+        })
+        this.$refs.dialog.close()
+      },
+      onError: (error) => {
+        this.$errorMsg(error)
+        this.$refs.dialog.close()
       }
     })
     this.initUpdateItem({
-      url: this.$urlPath.getTableList,
-      addData: () => {
-        return this.userModel
+      url: this.$urlPath.updateUserInfo,
+      params: () => {
+        return this.$refs.baseForm.generatorParams()
       },
       onUpdateItem: (item) => {
         this.$refs.dialog.show({
@@ -339,20 +350,33 @@ export default {
             this.userModel.avatar = item.avatar
           },
           onConfirmCallback: () => {
-            const params = this.$refs.baseForm.getParams()
-            if (params) {
-              item.nickName = params.nickName
-              item.gender = params.gender
-              item.address = params.address
-              item.status = params.status
-              this.$refs.dialog.close()
+            if (this.$refs.baseForm.checkParams()) {
+              this.doUpdateItem()
             }
           }
         })
+      },
+      onResult: (res) => {
+        this.$successMsg('用户信息模拟修改成功')
+        this.$refs.dialog.close()
+      },
+      onError: (error) => {
+        this.$errorMsg(error)
+        this.$refs.dialog.close()
       }
     })
     this.initDeleteItems({
-      url: this.$urlPath.getTableList
+      url: this.$urlPath.getTableList,
+      params: () => { },
+      onDeleteItems: (item) => {
+        this.$showConfirmDialog('确定要删除此用户信息吗？')
+          .then(_ => {
+            this.$successMsg('用户模拟删除成功')
+            this.dataList.splice(this.dataList.indexOf(item), 1)
+          })
+      },
+      onResult: () => { },
+      onError: () => { }
     })
   },
   methods: {

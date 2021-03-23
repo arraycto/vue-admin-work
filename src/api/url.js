@@ -4,6 +4,12 @@ export const test = '/test'
 
 export const login = '/login'
 
+export const updateUserInfo = '/updateUser'
+
+export const addUserInfo = '/addUser'
+
+export const deleteUserById = '/deleteUserById'
+
 export const getDepartmentList = '/getDepartmentList'
 
 export const getRoleList = '/getRoleList'

@@ -63,7 +63,7 @@ export function deleteItems(items, { url = '', method = 'GET', data, beforeReque
  * @param {*} item
  * @param {*} param1
  */
-export function updateItem(item, { url = '', method = 'GET', data, beforeRequest, afterRequest }) {
+export function updateItem({ url = '', method = 'GET', data, beforeRequest, afterRequest }) {
   if (checkParams({ url, method })) {
     return this[`$${method.toLowerCase()}`]({ url, data, beforeRequest, afterRequest })
   }

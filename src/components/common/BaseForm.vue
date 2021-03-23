@@ -143,14 +143,6 @@ export default {
   },
   mounted() {
     this.refreshItems()
-  },
-  methods: {
-    getParams() {
-      if (!this.checkParams()) {
-        return false
-      }
-      return this.generatorParams()
-    }
   }
 }
 </script>

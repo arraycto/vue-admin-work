@@ -122,7 +122,7 @@ export const DeleteItemsMixin = {
     }
   },
   methods: {
-    initDeleteItems({ url, method, deleteKey = 'id', beforeAction, onResult, onError, afterAction }) {
+    initDeleteItems({ url, method, params, onDeleteItems, beforeAction, onResult, onError, afterAction }) {
       if (!url) {
         throw new Error('please init url')
       }
@@ -132,22 +132,35 @@ export const DeleteItemsMixin = {
       this.deleteItemsModel.onError = onError
       this.deleteItemsModel.beforeAction = beforeAction
       this.deleteItemsModel.afterAction = afterAction
-      this.deleteItemsModel.deleteKey = deleteKey
+      this.deleteItemsModel.params = params
+      this.deleteItemsModel.onDeleteItems = onDeleteItems
       this.deleteItemsModel.init = true
     },
-    doDeleteItems(items) {
+    onDeleteItems(item) {
+      if (!this.deleteItemsModel.onDeleteItems) {
+        throw new Error('please init onDeleteItems')
+      }
+      if (!(this.deleteItemsModel.onDeleteItems instanceof Function)) {
+        throw new Error('onDeleteItems must be Function')
+      }
+      this.deleteItemsModel.onDeleteItems(item)
+    },
+    doDeleteItems() {
       if (!this.deleteItemsModel.init) {
         throw new Error('please init deleteItemsModel first')
       }
-      if (!items) {
-        throw new Error('please select the option to delete')
+      let data = null
+      if (isFunction(this.deleteItemsModel.params)) {
+        data = this.deleteItemsModel.params()
+      } else if (isOjbect(this.deleteItemsModel.params)) {
+        data = this.deleteItemsModel.params
+      } else {
+        throw new Error('please set update param')
       }
       deleteItems.call(this, {
         url: this.deleteItemsModel.url,
         method: this.deleteItemsModel.method || 'post',
-        data: {
-          [this.initDeleteItemsModel.deleteKey]: items[this.initDeleteItemsModel.deleteKey]
-        }
+        data
       }).then((res) => {
         handleResult.call(this, this.initDeleteItemsModel, res)
       }).catch((error) => {
@@ -194,9 +207,9 @@ export const UpdateItemMixin = {
         throw new Error('please init updateItemModel first')
       }
       let data = null
-      if (isFunction(this.updateItemModel.params) === '[object Function]') {
+      if (isFunction(this.updateItemModel.params)) {
         data = this.updateItemModel.params()
-      } else if (isOjbect(this.updateItemModel.params) === '[object Object]') {
+      } else if (isOjbect(this.updateItemModel.params)) {
         data = this.updateItemModel.params
       } else {
         throw new Error('please set update param')
@@ -251,9 +264,9 @@ export const AddItemMixin = {
         throw new Error('please init addItemModel first')
       }
       let data = null
-      if (isFunction(this.addItemModel.params) === '[object Function]') {
+      if (isFunction(this.addItemModel.params)) {
         data = this.addItemModel.params()
-      } else if (isOjbect(this.addItemModel.params) === '[object Object]') {
+      } else if (isOjbect(this.addItemModel.params)) {
         data = this.addItemModel.params
       } else {
         throw new Error('please set add param')
