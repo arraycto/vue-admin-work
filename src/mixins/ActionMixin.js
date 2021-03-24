@@ -11,6 +11,16 @@ function handleError(model, error) {
   model.afterAction && model.afterAction()
 }
 
+function checkParams(model) {
+  if (isFunction(model.params)) {
+    return model.params()
+  } else if (isOjbect(model.params)) {
+    return model.params
+  } else {
+    return false
+  }
+}
+
 export const GetDataMixin = {
   data() {
     return {
@@ -84,9 +94,10 @@ export const LikeSearchMixin = {
         throw new Error('please init likeSearchModel first')
       }
       let searchParams = this.generatorSearchParams()
-      if (this.likeSearchModel.extraParams) {
-        const params = this.likeSearchModel.extraParams()
-        searchParams = { ...searchParams, ...params }
+      if (isOjbect(this.likeSearchModel.extraParams)) {
+        searchParams = { ...searchParams, ...this.likeSearchModel.extraParams }
+      } else if (isFunction(this.likeSearchModel.extraParams)) {
+        searchParams = { ...searchParams, ...this.likeSearchModel.extraParams() }
       }
       likeSearch.call(this, {
         url: this.likeSearchModel.url,
@@ -100,6 +111,9 @@ export const LikeSearchMixin = {
     },
     resetSearch() {
       this.likeSearchModel.conditionItems && this.likeSearchModel.conditionItems.forEach(it => { it.value = '' })
+    },
+    hasSearchParams() {
+      return this.likeSearchModel.conditionItems.some(it => it.value !== '')
     },
     generatorSearchParams() {
       if (this.likeSearchModel.conditionItems && this.likeSearchModel.conditionItems.length !== 0) {
@@ -149,12 +163,8 @@ export const DeleteItemsMixin = {
       if (!this.deleteItemsModel.init) {
         throw new Error('please init deleteItemsModel first')
       }
-      let data = null
-      if (isFunction(this.deleteItemsModel.params)) {
-        data = this.deleteItemsModel.params()
-      } else if (isOjbect(this.deleteItemsModel.params)) {
-        data = this.deleteItemsModel.params
-      } else {
+      const data = checkParams(this.deleteItemsModel)
+      if (!data) {
         throw new Error('please set update param')
       }
       deleteItems.call(this, {
@@ -206,12 +216,8 @@ export const UpdateItemMixin = {
       if (!this.updateItemModel.init) {
         throw new Error('please init updateItemModel first')
       }
-      let data = null
-      if (isFunction(this.updateItemModel.params)) {
-        data = this.updateItemModel.params()
-      } else if (isOjbect(this.updateItemModel.params)) {
-        data = this.updateItemModel.params
-      } else {
+      const data = checkParams(this.updateItemModel)
+      if (!data) {
         throw new Error('please set update param')
       }
       updateItem.call(this, {
@@ -263,12 +269,8 @@ export const AddItemMixin = {
       if (!this.addItemModel.init) {
         throw new Error('please init addItemModel first')
       }
-      let data = null
-      if (isFunction(this.addItemModel.params)) {
-        data = this.addItemModel.params()
-      } else if (isOjbect(this.addItemModel.params)) {
-        data = this.addItemModel.params
-      } else {
+      const data = checkParams(this.addItemModel)
+      if (!data) {
         throw new Error('please set add param')
       }
       addItem.call(this, {
@@ -280,6 +282,52 @@ export const AddItemMixin = {
       }).catch((error) => {
         handleError.call(this, this.addItemModel, error)
       })
+    }
+  }
+}
+
+export const CommonActionMixin = {
+  methods: {
+    performAction({ url, method, params, beforeAction, onResult, onError, afterAction }) {
+      if (!url) {
+        throw new Error('url must be set')
+      }
+      let data = {}
+      if (isFunction(params)) {
+        data = params()
+      } else if (isOjbect(params)) {
+        data = params
+      }
+      beforeAction && beforeAction()
+      loadData.call(this, {
+        url,
+        method: method || 'post',
+        data: data || {}
+      }).then((res) => {
+        onResult && onResult(res)
+        afterAction && afterAction()
+      }).catch((error) => {
+        onError && onError(error)
+        afterAction && afterAction()
+      })
+    }
+  }
+}
+
+export const RefreshActionMixin = {
+  methods: {
+    doRefresh() {
+      if (this.isInited('likeSearchModel')) {
+        if (this.hasSearchParams()) { // 搜索有值，优先执行模糊搜索的方法
+          this.doSearch()
+        } else { // 执行普通的列表查询
+          this.getData()
+        }
+      } else if (this.isInited('getDataModel')) { // 执行普通的列表查询
+        this.getData()
+      } else { // 如果都没有设置就报错
+        throw new Error('can`t exec doRefresh function')
+      }
     }
   }
 }

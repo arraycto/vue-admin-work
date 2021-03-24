@@ -1,20 +1,34 @@
 <template>
-  <el-card :body-style="{ padding: 0 }" class="table-footer-container">
-    <el-pagination
-      :current-page.sync="currentPage"
-      :page-sizes="pageSizes"
-      :page-size="pageSize"
-      :layout="
-        $isMobile
-          ? 'total, pager, jumper'
-          : 'total, sizes, prev, pager, next, jumper'
-      "
-      :total="totalSize"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      @prev-click="prevClick"
-      @next-click="nextClick"
-    />
+  <el-card
+    :body-style="{ padding: 0 }"
+    class="table-footer-container"
+  >
+    <div class="flex">
+      <el-pagination
+        :current-page.sync="currentPage"
+        :page-sizes="pageSizes"
+        :page-size="pageSize"
+        :layout="
+          $isMobile
+            ? 'total, pager, jumper'
+            : 'total, sizes, prev, pager, next, jumper'
+        "
+        :total="totalSize"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        @prev-click="prevClick"
+        @next-click="nextClick"
+      />
+      <el-button
+        v-if="showRefresh"
+        style="margin-left: 15px"
+        circle
+        size="small"
+        icon="el-icon-refresh"
+        type="primary"
+        @click="refresh"
+      />
+    </div>
   </el-card>
 </template>
 
@@ -35,6 +49,10 @@ export default {
     totalSize: {
       type: Number,
       default: 10
+    },
+    showRefresh: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -55,6 +73,9 @@ export default {
     },
     nextClick(currentPage) {
       this.$emit('currentChanged', this.currentPage)
+    },
+    refresh() {
+      this.$emit('onRefresh')
     }
   }
 }

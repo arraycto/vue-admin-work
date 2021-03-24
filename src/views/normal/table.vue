@@ -34,7 +34,6 @@
           <el-table-column
             align="center"
             label="序号"
-            fixed="left"
             width="80"
           >
             <template slot-scope="scope">
@@ -137,6 +136,7 @@
       :total-size="pageModel.totalSize"
       @pageSizeChanged="pageSizeChanged"
       @currentChanged="currentChanged"
+      @onRefresh="doRefresh"
     />
     <Dialog
       ref="dialog"
@@ -173,7 +173,8 @@ import {
   GetDataMixin,
   AddItemMixin,
   DeleteItemsMixin,
-  UpdateItemMixin
+  UpdateItemMixin,
+  RefreshActionMixin
 } from '@/mixins/ActionMixin'
 import SingleUpload from '@/components/common/SingleUpload.vue'
 import BaseForm from '@/components/common/BaseForm.vue'
@@ -187,7 +188,8 @@ export default {
     GetDataMixin,
     AddItemMixin,
     DeleteItemsMixin,
-    UpdateItemMixin
+    UpdateItemMixin,
+    RefreshActionMixin
   ],
   data() {
     return {

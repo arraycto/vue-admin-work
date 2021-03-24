@@ -3,24 +3,10 @@
     <TableHeader
       :can-collapsed="likeSearchModel.conditionItems && likeSearchModel.conditionItems.length !== 0"
       :search-model="likeSearchModel.conditionItems"
+      :default-collapsed-state="false"
       @doSearch="doSearch"
       @resetSearch="resetSearch"
-    >
-      <template slot="right">
-        <el-button
-          type="primary"
-          size="mini"
-          icon="el-icon-plus"
-        >添加
-        </el-button>
-        <el-button
-          type="danger"
-          size="mini"
-          icon="el-icon-delete"
-        >删除
-        </el-button>
-      </template>
-    </TableHeader>
+    />
     <TableBody ref="tableBody">
       <template slot="table">
         <el-table
@@ -36,7 +22,6 @@
           <el-table-column
             align="center"
             label="序号"
-            fixed="left"
             width="80"
           >
             <template slot-scope="scope">
@@ -45,18 +30,71 @@
           </el-table-column>
           <el-table-column
             align="center"
-            label="标题"
-            prop="name"
-          />
-          <el-table-column
-            align="center"
-            label="昵称"
+            label="名称"
             prop="nickName"
           />
           <el-table-column
             align="center"
+            label="头像"
+          >
+            <template slot-scope="scope">
+              <div class="avatar-container">
+                <el-image
+                  :src="scope.row.avatar"
+                  class="avatar"
+                  :class="{'avatar-vip' : scope.row.vip === 1}"
+                />
+                <img
+                  v-if="scope.row.vip === 1"
+                  class="vip"
+                  :src="require('@/assets/img_vip_icon.png')"
+                />
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
             label="性别"
-            prop="sex"
+            prop="gender"
+          >
+            <template slot-scope="scope">
+              <div class="gender-container flex justify-center align-center">
+                <img
+                  class="gender-icon"
+                  :src="scope.row.gender === 0 ? require('@/assets/icon_sex_man.png') : require('@/assets/icon_sex_woman.png')"
+                />
+                <span>{{ scope.row.gender === 0 ? '男' : '女' }}</span>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            label="状态"
+          >
+            <template slot-scope="scope">
+              <el-switch
+                v-model="scope.row.status"
+                :active-value="1"
+                :inactive-value="0"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            label="地址"
+            prop="address"
+          />
+          <el-table-column
+            align="center"
+            label="上次登录时间"
+            prop="lastLoginTime"
+            width="160px"
+          />
+          <el-table-column
+            align="center"
+            label="上次登录IP"
+            prop="lastLoginIp"
+            width="130px"
           />
         </el-table>
       </template>
@@ -67,35 +105,35 @@
       :total-size="pageModel.totalSize"
       @pageSizeChanged="pageSizeChanged"
       @currentChanged="currentChanged"
+      @onRefresh="doRefresh"
     />
   </div>
 </template>
 
 <script>
-import TableMixin from '@/mixins/TableMixin'
-import { LikeSearchMixin } from '@/mixins/ActionMixin'
+import TableMixin, { PageModelMixin } from '@/mixins/TableMixin'
+import { LikeSearchMixin, GetDataMixin, RefreshActionMixin } from '@/mixins/ActionMixin'
 export default {
   name: 'TableWithSearch',
-  mixins: [TableMixin, LikeSearchMixin],
+  mixins: [TableMixin, LikeSearchMixin, GetDataMixin, PageModelMixin, RefreshActionMixin],
   created() {
-    this.initLikeSearchModel({
-      url: this.$urlPath.getCommentList,
+    this.initLikeSearch({
+      url: this.$urlPath.getTableList,
       conditionItems: [
         {
           name: 'name',
-          label: '学生姓名',
+          label: '用户姓名',
           value: '',
           type: 'input',
-          placeholder: '请输入学生姓名',
+          placeholder: '请输入用户姓名',
           span: 8
         },
         {
           name: 'sex',
-          label: '学生姓别',
+          label: '用户姓别',
           value: '',
           type: 'select',
-          placeholder: '请选择学生性别',
-          associatedOption: 'school',
+          placeholder: '请选择用户姓别',
           selectOptions: [
             {
               label: '男',
@@ -106,25 +144,6 @@ export default {
               value: 1
             }
           ],
-          span: 8,
-          onChange: (res, associatedOption) => {
-            if (associatedOption) {
-              const item = this.likeSearchModel.conditionItems.find(
-                (it) => it.name === associatedOption
-              )
-              item.selectOptions.push({
-                label: '山东大学',
-                value: 0
-              })
-            }
-          }
-        },
-        {
-          name: 'school',
-          label: '选择学校',
-          value: '',
-          type: 'select',
-          selectOptions: [],
           span: 8
         },
         {
@@ -132,34 +151,55 @@ export default {
           label: '选择日期',
           value: '',
           type: 'date'
-        },
-        {
-          name: 'datetime',
-          label: '选择日期',
-          value: '',
-          type: 'datetime'
-        },
-        {
-          name: 'time',
-          label: '选择时间',
-          value: '',
-          type: 'time'
         }
       ],
-      extraParams: () => {
-        return {
-          page: this.pageModel.currentPage,
-          pageSize: this.pageModel.pageSize
-        }
+      extraParams: this.withPageInfoData(),
+      onResult: (res) => {
+        this.handleSuccess(res)
       },
-      onSearchResult: (res) => {
-        console.log(res)
-        console.log(res.dada.length)
-      },
-      onSearchError: (error) => {
+      onError: (error) => {
         console.log(error)
       }
+    })
+  },
+  mounted() {
+    this.initGetData({
+      url: this.$urlPath.getTableList,
+      params: this.withPageInfoData(),
+      onResult: (res) => {
+        this.handleSuccess(res)
+      }
+    }).then(_ => {
+      this.getData()
     })
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.avatar-container {
+  position: relative;
+  width: 30px;
+  margin: 0 auto;
+  vertical-align: middle;
+  .avatar {
+    width: 100%;
+    border-radius: 50%;
+  }
+  .avatar-vip {
+    border: 2px solid #cece1e;
+  }
+  .vip {
+    position: absolute;
+    top: 0;
+    right: -9px;
+    width: 15px;
+    transform: rotate(60deg);
+  }
+}
+.gender-container {
+  .gender-icon {
+    width: 20px;
+  }
+}
+</style>

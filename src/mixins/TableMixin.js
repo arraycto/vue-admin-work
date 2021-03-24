@@ -64,6 +64,7 @@ export default {
   mounted() {
     this.$on('tableHeightChanged', _ => {
       setTimeout(_ => {
+        console.log(1)
         this.tableConfig.height = this.$refs.tableBody ? this.$refs.tableBody.$el.offsetHeight - 10 - 2 : '100%'
         this.$refs.table && this.$refs.table.doLayout()
       }, 350)

@@ -177,6 +177,10 @@ export default {
     searchModel: {
       type: Array,
       default: null
+    },
+    defaultCollapsedState: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
