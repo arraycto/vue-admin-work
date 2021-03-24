@@ -3,7 +3,7 @@
     <TableHeader
       :can-collapsed="likeSearchModel.conditionItems && likeSearchModel.conditionItems.length !== 0"
       :search-model="likeSearchModel.conditionItems"
-      :default-collapsed-state="false"
+      :default-collapsed-state="true"
       @doSearch="doSearch"
       @resetSearch="resetSearch"
     />
@@ -112,10 +112,20 @@
 
 <script>
 import TableMixin, { PageModelMixin } from '@/mixins/TableMixin'
-import { LikeSearchMixin, GetDataMixin, RefreshActionMixin } from '@/mixins/ActionMixin'
+import {
+  LikeSearchMixin,
+  GetDataMixin,
+  RefreshActionMixin
+} from '@/mixins/ActionMixin'
 export default {
   name: 'TableWithSearch',
-  mixins: [TableMixin, LikeSearchMixin, GetDataMixin, PageModelMixin, RefreshActionMixin],
+  mixins: [
+    TableMixin,
+    LikeSearchMixin,
+    GetDataMixin,
+    PageModelMixin,
+    RefreshActionMixin
+  ],
   created() {
     this.initLikeSearch({
       url: this.$urlPath.getTableList,
@@ -169,7 +179,7 @@ export default {
       onResult: (res) => {
         this.handleSuccess(res)
       }
-    }).then(_ => {
+    }).then((_) => {
       this.getData()
     })
   }

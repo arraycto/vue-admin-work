@@ -185,7 +185,7 @@ export default {
   },
   data() {
     return {
-      showSearchContent: true
+      showSearchContent: this.defaultCollapsedState
     }
   },
   computed: {

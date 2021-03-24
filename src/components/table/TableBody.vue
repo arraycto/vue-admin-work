@@ -15,6 +15,3 @@ export default {
   mixins: [TableBodyMixin]
 }
 </script>
-
-<style lang="scss" scoped>
-</style>
