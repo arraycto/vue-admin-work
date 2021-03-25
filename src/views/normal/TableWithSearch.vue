@@ -12,7 +12,7 @@
         <el-table
           ref="table"
           v-loading="tableLoading"
-          :data="dataList"
+          :data="filterList || dataList"
           :header-cell-style="tableConfig.headerCellStyle"
           :size="tableConfig.size"
           :stripe="tableConfig.stripe"
@@ -126,6 +126,11 @@ export default {
     PageModelMixin,
     RefreshActionMixin
   ],
+  data() {
+    return {
+      filterList: null
+    }
+  },
   created() {
     this.initLikeSearch({
       url: this.$urlPath.getTableList,
@@ -155,12 +160,6 @@ export default {
             }
           ],
           span: 8
-        },
-        {
-          name: 'date',
-          label: '选择日期',
-          value: '',
-          type: 'date'
         }
       ],
       extraParams: this.withPageInfoData(),
@@ -182,6 +181,29 @@ export default {
     }).then((_) => {
       this.getData()
     })
+  },
+  methods: {
+    // 重写 doSearch方法，自定义实现过程
+    doSearch() {
+      const { name, sex } = this.generatorSearchParams()
+      this.filterList = this.dataList.filter(it => {
+        if (name && sex) {
+          return it.nickName.indexOf(name) !== -1 && parseInt(it.gener) === parseInt(sex)
+        }
+        if (name) {
+          return it.nickName.indexOf(name) !== -1
+        }
+        if (sex !== '') {
+          return parseInt(it.gender) === parseInt(sex)
+        }
+        return true
+      })
+    },
+    // 重写 resetSearch方法，自定义实现过程
+    resetSearch() {
+      this.likeSearchModel.conditionItems && this.likeSearchModel.conditionItems.forEach(it => { it.value = '' })
+      this.filterList = null
+    }
   }
 }
 </script>

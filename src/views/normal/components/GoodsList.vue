@@ -43,26 +43,24 @@
 </template>
 
 <script>
-import TableMixin from '@/mixins/TableMixin'
+import TableMixin, { PageModelMixin } from '@/mixins/TableMixin'
+import { GetDataMixin } from '@/mixins/ActionMixin'
 export default {
   name: 'GoodsList',
-  mixins: [TableMixin],
+  mixins: [TableMixin, PageModelMixin, GetDataMixin],
   mounted() {
-    this.getData()
-  },
-  methods: {
-    getData() {
-      this.$post({
-        url: this.$urlPath.getCardList,
-        data: {
-          page: this.pageModel.currentPage,
-          pageSize: this.pageModel.pageSize
-        }
-      }).then((res) => {
+    this.initGetData({
+      url: this.$urlPath.getCardList,
+      params: {
+        page: this.pageModel.currentPage,
+        pageSize: this.pageModel.pageSize
+      },
+      onResult: (res) => {
         this.handleSuccess(res)
-        this.dataList = res.data
-      })
-    }
+      }
+    }).then(_ => {
+      this.getData()
+    })
   }
 }
 </script>

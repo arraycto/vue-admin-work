@@ -77,23 +77,30 @@
 </template>
 
 <script>
-import TableMixin from '@/mixins/TableMixin'
+import TableMixin, { PageModelMixin } from '@/mixins/TableMixin'
+import { GetDataMixin } from '@/mixins/ActionMixin'
 export default {
   name: 'CommentList',
-  mixins: [TableMixin],
+  mixins: [TableMixin, PageModelMixin, GetDataMixin],
   mounted() {
-    this.getData()
+    this.initGetData({
+      url: this.$urlPath.getCommentList,
+      params: {
+        page: this.pageModel.currentPage,
+        pageSize: this.pageModel.pageSize
+      },
+      onResult: (res) => {
+        console.log(res)
+        this.handleSuccess(res)
+      },
+      onError: (error) => {
+        console.log(error)
+      }
+    }).then(() => {
+      this.getData()
+    })
   },
   methods: {
-    getData() {
-      this.$post({
-        url: this.$urlPath.getCommentList,
-        data: this.withPageInfoData()
-      }).then((res) => {
-        this.handleSuccess(res)
-        this.dataList = res.data
-      })
-    },
     handleCommand({ type, item }) {
       if (type === 'delete') {
         this.$showConfirmDialog('是否要删除此评论？', () => {
@@ -176,7 +183,7 @@ export default {
     }
   }
   ::v-deep .table-footer-container {
-    margin: 0 5px;
+    margin: 8px 5px;
   }
 }
 </style>
