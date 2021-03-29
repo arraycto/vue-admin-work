@@ -137,24 +137,23 @@
 </template>
 
 <script>
-import TableMixin from '@/mixins/TableMixin'
+import TableMixin, { PageModelMixin } from '@/mixins/TableMixin'
+import { GetDataMixin } from '@/mixins/ActionMixin'
 export default {
   name: 'Table',
-  mixins: [TableMixin],
+  mixins: [TableMixin, PageModelMixin, GetDataMixin],
   mounted() {
-    this.getData()
+    this.initGetData({
+      url: this.$urlPath.getTableList,
+      params: this.withPageInfoData(),
+      onResult: (res) => {
+        this.handleSuccess(res)
+      }
+    }).then(_ => {
+      this.getData()
+    })
   },
   methods: {
-    getData() {
-      this.$post({
-        url: this.$urlPath.getTableList,
-        data: this.withPageInfoData()
-      }).then(res => {
-        this.handleSuccess(res)
-      }).catch(_ => {
-        this.$errorMsg('数据加载失败')
-      })
-    },
     add() {
       this.$store.dispatch('app/changeTheme', 2)
     }

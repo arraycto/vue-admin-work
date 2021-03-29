@@ -39,6 +39,7 @@ $top: $navBarHeight + 35;
   height: calc(100vh - #{$top});
   width: 100%;
   background-color: #f5f5f5;
+  padding: 5px;
   overflow-x: hidden;
 }
 </style>

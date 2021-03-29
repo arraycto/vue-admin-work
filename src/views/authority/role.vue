@@ -127,10 +127,11 @@
 <script>
 import TableMixin from '@/mixins/TableMixin'
 import { uuid } from '@/utils/utils'
+import { GetDataMixin } from '@/mixins/ActionMixin'
 const ROLE_CODE_FLAG = 'ROLE_'
 export default {
   name: 'Role',
-  mixins: [TableMixin],
+  mixins: [TableMixin, GetDataMixin],
   data() {
     return {
       roleModel: {
@@ -143,29 +144,20 @@ export default {
     }
   },
   mounted() {
-    this.getData()
+    this.initGetData({
+      url: this.$urlPath.getRoleList,
+      params: {},
+      onResult: (res) => {
+        this.handleSuccess(res)
+      },
+      onError: (error) => {
+        this.$errorMsg(error)
+      }
+    }).then(_ => {
+      this.getData()
+    })
   },
   methods: {
-    initSetup() {
-      return {
-        loadDataUrl: this.$urlPath.getRoleList,
-        getData: this.getData,
-        addUrl: '',
-        addItem: this.addItem,
-        editUrl: '',
-        editItem: this.editItem,
-        deleteUrl: '',
-        deleteItems: this.deleteItems,
-        validateFormHandler: this.validateForm
-      }
-    },
-    getData() {
-      this.$post({
-        url: this.actionModel.loadDataUrl
-      }).then((res) => {
-        this.handleSuccess(res)
-      })
-    },
     addItem() {
       this.$refs.dialog.show(() => {
         this.roleModel.title = '添加角色信息'

@@ -4,7 +4,7 @@
 $navBarHeight: 49px;
 
 // sidebar
-$app-left-menu-width: 200px;
+$app-left-menu-width: 250px;
 
 $theme1_menuBg: #21264a;
 $theme1_menuDarkBg: #1f2d3d;
@@ -17,6 +17,12 @@ $theme2_menuDarkBg: #047FFF;
 $theme2_menuHoverBg: #047FFF;
 $theme2_menuColor: #ffffff;
 $theme2_activeColor: #ffffff;
+
+$theme3_menuBg: #ffffff;
+$theme3_menuDarkBg: #ffffff;
+$theme3_menuHoverBg: #ffffff;
+$theme3_menuColor: #515a6e;
+$theme3_activeColor: #047FFF;
 
 $mainPadding: 2px;
 
@@ -32,4 +38,10 @@ $mainPadding: 2px;
   theme2_menuHoverBg: $theme2_menuHoverBg;
   theme2_menuColor: $theme2_menuColor;
   theme2_activeColor: $theme2_activeColor;
+
+  theme3_menuBg: $theme3_menuBg;
+  theme3_menuDarkBg: $theme3_menuDarkBg;
+  theme3_menuHoverBg: $theme3_menuHoverBg;
+  theme3_menuColor: $theme3_menuColor;
+  theme3_activeColor: $theme3_activeColor;
 }
