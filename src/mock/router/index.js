@@ -1,4 +1,4 @@
-import { baseAddress } from '@/api/url'
+import { getMenuList } from '@/api/url'
 import Mock from 'mockjs'
 import { baseData } from '../base'
 
@@ -66,7 +66,7 @@ export const adminRoutes = [
     ]
   }
 ]
-Mock.mock(RegExp(baseAddress + '/getMenu' + '.*'), function () {
+Mock.mock(RegExp(getMenuList), function () {
   baseData.data = adminRoutes
   return Mock.mock(baseData)
 })

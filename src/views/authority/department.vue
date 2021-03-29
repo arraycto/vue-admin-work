@@ -1,15 +1,13 @@
 <template>
   <div class="main-container">
     <TableHeader :can-collapsed="false">
-      <template
-        v-if="actionModel"
-        slot="right"
-      >
+      <template slot="right">
         <el-button
+          v-if="isInited('addItemModel')"
           type="primary"
           size="mini"
           icon="el-icon-plus"
-          @click="actionModel.addItem"
+          @click="onAddItem"
         >添加
         </el-button>
       </template>
@@ -93,51 +91,13 @@
     </TableBody>
     <Dialog
       ref="dialog"
-      :validate-form="actionModel.validateForm"
-      :title="departmentModel.title"
+      :auto-close="false"
     >
-      <template slot="body">
-        <el-form
-          v-model="departmentModel"
-          label-width="80px"
-          label-position="right"
-        >
-          <el-form-item label="部门名称">
-            <el-col :span="20">
-              <el-input
-                v-model="departmentModel.name"
-                size="small"
-                placeholder="请输入部门名称"
-              />
-            </el-col>
-          </el-form-item>
-          <el-form-item label="部门编号">
-            <el-col :span="20">
-              <el-input
-                v-model="departmentModel.depCode"
-                size="small"
-                placeholder="请输入部门编号"
-              >
-                <template slot="prepend">dp_code_</template>
-              </el-input>
-            </el-col>
-          </el-form-item>
-          <el-form-item label="排序">
-            <el-col :span="20">
-              <el-input-number
-                v-model="departmentModel.order"
-                :step="1"
-                :min="1"
-                size="small"
-              />
-            </el-col>
-          </el-form-item>
-          <el-form-item label="状态">
-            <el-col :span="20">
-              <el-switch v-model="departmentModel.status" />
-            </el-col>
-          </el-form-item>
-        </el-form>
+      <template>
+        <BaseForm
+          ref="baseForm"
+          :form-items="formItems"
+        />
       </template>
     </Dialog>
   </div>
@@ -145,46 +105,124 @@
 
 <script>
 import TableMixin from '@/mixins/TableMixin'
+import { AddItemMixin, GetDataMixin } from '@/mixins/ActionMixin'
+import { formBuilder } from '@/utils/form'
+import BaseForm from '@/components/common/BaseForm.vue'
+import { currentDate, uuid } from '@/utils/utils'
 const DP_CODE_FLAG = 'dp_code_'
 export default {
   name: 'Department',
-  mixins: [TableMixin],
+  components: { BaseForm },
+  mixins: [TableMixin, GetDataMixin, AddItemMixin],
   data() {
     return {
       departmentModel: {
-        title: '',
         itemId: 0,
         name: '',
         depCode: '',
         order: 1,
-        status: true
+        status: 1
       }
     }
   },
+  computed: {
+    formItems() {
+      return formBuilder()
+        .formItem({
+          label: '部门名称',
+          type: 'input',
+          name: 'name',
+          value: this.departmentModel.name,
+          maxLength: 50,
+          inputType: 'text',
+          placeholder: '请输入部门名称',
+          validator: ({ value, placeholder }) => {
+            if (!value) {
+              this.$errorMsg(placeholder)
+              return false
+            }
+            return true
+          }
+        })
+        .formItem({
+          label: '部门编号',
+          type: 'input',
+          name: 'depCode',
+          value: this.departmentModel.depCode,
+          maxLength: 10,
+          inputType: 'text',
+          placeholder: '请输入部门编号',
+          validator: ({ value, placeholder }) => {
+            if (!value) {
+              this.$errorMsg(placeholder)
+              return false
+            }
+            return true
+          }
+        })
+        .formItem({
+          label: '部门状态',
+          type: 'radio-group',
+          name: 'status',
+          value: this.departmentModel.status,
+          radioOptions: [
+            {
+              label: '正常',
+              value: 1
+            },
+            {
+              label: '禁用',
+              value: 0
+            }
+          ]
+        })
+        .build().formItems
+    }
+  },
   mounted() {
-    this.getData()
+    this.initGetData({
+      url: this.$urlPath.getDepartmentList,
+      onResult: (res) => {
+        this.handleSuccess(res)
+      }
+    }).then((_) => {
+      this.getData()
+    })
+    this.initAddItem({
+      url: this.$urlPath.addDepartment,
+      params: () => {
+        return this.$refs.baseForm.generatorParams()
+      },
+      onAddItem: () => {
+        this.$refs.dialog.show({
+          beforeShowAction: () => {
+            this.departmentModel = {
+              itemId: 0,
+              name: '',
+              depCode: '',
+              order: 1,
+              status: 1
+            }
+          },
+          onConfirmCallback: () => {
+            const checkResult = this.$refs.baseForm.checkParams()
+            if (checkResult) {
+              this.doAddItem()
+            }
+          }
+        })
+      },
+      onResult: (res) => {
+        const item = this.$refs.baseForm.generatorParams()
+        item.itemId = uuid()
+        item.order = 1
+        item.createTime = currentDate()
+        this.dataList.unshift(item)
+        this.$refs.dialog.close()
+      }
+    })
   },
   methods: {
-    initSetup() {
-      return {
-        loadDataUrl: this.$urlPath.getDepartmentList,
-        getData: this.getData,
-        addUrl: '',
-        addItem: this.addItem,
-        editUrl: '',
-        editItem: this.editItem,
-        deleteUrl: '',
-        deleteItems: this.deleteItems,
-        validateFormHandler: this.validateForm
-      }
-    },
-    getData() {
-      this.$post({
-        url: this.actionModel.loadDataUrl
-      }).then((res) => {
-        this.handleSuccess(res)
-      })
-    },
     addItem() {
       this.$refs.dialog
         .show(() => {
@@ -224,10 +262,11 @@ export default {
         })
     },
     deleteItems(item) {
-      this.$showConfirmDialog('是否要删除此部门信息，删除后不可恢复？')
-        .then(() => {
+      this.$showConfirmDialog('是否要删除此部门信息，删除后不可恢复？').then(
+        () => {
           this.dataList.splice(this.dataList.indexOf(item), 1)
-        })
+        }
+      )
     },
     validateForm() {
       if (!this.departmentModel.name) {

@@ -5,13 +5,13 @@ import store from '@/store'
 import service from '@/api/axios'
 import Layout from '@/layout'
 import { pathToFileName } from './AsyncRouteMap'
-import { baseAddress } from '@/api/url'
+import { baseAddress, getMenuList } from '@/api/url'
 
 NProgress.configure({ showSpinner: false })
 
 function getRoutes() {
   return service({
-    url: baseAddress + '/getMenu',
+    url: baseAddress + getMenuList,
     method: 'POST',
     data: {
       userId: 1,

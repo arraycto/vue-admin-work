@@ -12,6 +12,8 @@ export const deleteUserById = '/deleteUserById'
 
 export const getDepartmentList = '/getDepartmentList'
 
+export const addDepartment = '/addDepartment'
+
 export const getRoleList = '/getRoleList'
 
 export const getMenuList = '/getMenuList'
