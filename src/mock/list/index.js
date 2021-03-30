@@ -1,6 +1,6 @@
 import Mock, { Random } from 'mockjs'
 import { baseData } from '../base'
-import { getDepartmentList, getTableList, getCardList, getCommentList, addDepartment } from '@/api/url.js'
+import { getDepartmentList, getTableList, getCardList, getCommentList, addDepartment, getRoleList } from '@/api/url.js'
 
 const totalSize = 30
 
@@ -62,6 +62,42 @@ Mock.mock(RegExp(getDepartmentList), function ({ body }) {
         'order|+1': 1, // 0不是 1是
         'createTime': Random.now('yyyy-MM-dd HH:mm:ss'),
         'status': 1 // 0 禁用 1正常
+      }
+    ]
+  })
+})
+
+Mock.mock(RegExp(getRoleList), function () {
+  return Mock.mock({
+    ...baseData,
+    'data': [
+      {
+        'id': 1,
+        'name': '管理员',
+        'roleCode': 'ROLE_manager',
+        'description': '管理员',
+        'createTime': Random.now('yyyy-MM-dd HH:mm:ss')
+      },
+      {
+        'id': 1,
+        'name': '教研员',
+        'roleCode': 'ROLE_teacher',
+        'description': '教研员',
+        'createTime': Random.now('yyyy-MM-dd HH:mm:ss')
+      },
+      {
+        'id': 1,
+        'name': '市场运营',
+        'roleCode': 'ROLE_market',
+        'description': '市场运营',
+        'createTime': Random.now('yyyy-MM-dd HH:mm:ss')
+      },
+      {
+        'id': 1,
+        'name': '技术开发',
+        'roleCode': 'ROLE_dev',
+        'description': '技术开发',
+        'createTime': Random.now('yyyy-MM-dd HH:mm:ss')
       }
     ]
   })

@@ -202,7 +202,7 @@ export default {
     this.initAddItem({
       url: this.$urlPath.addDepartment,
       params: () => {
-        return this.$refs.baseForm.generatorParams()
+        return this.$refs.baseForm.checkParams()
       },
       onAddItem: () => {
         this.$refs.dialog.show({
@@ -225,6 +225,9 @@ export default {
       },
       onResult: (res) => {
         const item = this.$refs.baseForm.generatorParams()
+        if (!item.depCode.startsWith(DP_CODE_FLAG)) {
+          item.depCode = DP_CODE_FLAG + item.depCode
+        }
         item.itemId = uuid()
         item.order = 1
         item.createTime = currentDate()
@@ -262,15 +265,17 @@ export default {
     })
     this.initDeleteItems({
       url: this.$urlPath.getTableList,
-      params: () => {},
+      params: () => { },
       onDeleteItems: (item) => {
+        this.departmentModel = item
         this.$showConfirmDialog('确定要删除此部门信息吗？').then((_) => {
-          this.$successMsg('部门模拟删除成功')
-          this.dataList.splice(this.dataList.indexOf(item), 1)
+          this.doDeleteItems()
         })
       },
-      onResult: () => {},
-      onError: () => {}
+      onResult: () => {
+        this.$successMsg('部门信息模拟删除成功')
+      },
+      onError: () => { }
     })
   }
 }

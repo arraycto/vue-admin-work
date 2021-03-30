@@ -118,8 +118,10 @@ export default {
   padding: 5px 10px;
   background-color: #fff;
   border-bottom: #f5f5f5 solid 1px;
+  box-shadow: 0 10px 10px -10px #d0d0d0;
   white-space: nowrap;
   overflow: hidden;
+  z-index: 10;
   .tag-view-content {
     .tag-item {
       margin-right: 5px;

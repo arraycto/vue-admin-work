@@ -21,6 +21,19 @@ function checkParams(model) {
   }
 }
 
+export const MultiSelection = {
+  data() {
+    return {
+      items: []
+    }
+  },
+  methods: {
+    handleSelectionChange(items) {
+      this.items = items
+    }
+  }
+}
+
 export const GetDataMixin = {
   data() {
     return {
@@ -128,6 +141,7 @@ export const LikeSearchMixin = {
 }
 
 export const DeleteItemsMixin = {
+  mixins: [MultiSelection],
   data() {
     return {
       deleteItemsModel: {
@@ -136,7 +150,7 @@ export const DeleteItemsMixin = {
     }
   },
   methods: {
-    initDeleteItems({ url, method, params, onDeleteItems, beforeAction, onResult, onError, afterAction }) {
+    initDeleteItems({ url, method, params, multiParams, onDeleteItems, beforeAction, onResult, onError, afterAction }) {
       if (!url) {
         throw new Error('please init url')
       }
@@ -147,6 +161,7 @@ export const DeleteItemsMixin = {
       this.deleteItemsModel.beforeAction = beforeAction
       this.deleteItemsModel.afterAction = afterAction
       this.deleteItemsModel.params = params
+      this.deleteItemsModel.multiParams = multiParams
       this.deleteItemsModel.onDeleteItems = onDeleteItems
       this.deleteItemsModel.init = true
     },
@@ -159,22 +174,32 @@ export const DeleteItemsMixin = {
       }
       this.deleteItemsModel.onDeleteItems(item)
     },
-    doDeleteItems() {
+    doDeleteItems(item) {
       if (!this.deleteItemsModel.init) {
         throw new Error('please init deleteItemsModel first')
       }
-      const data = checkParams(this.deleteItemsModel)
-      if (!data) {
-        throw new Error('please set update param')
+      let data = {}
+      if (item) {
+        data = checkParams(this.deleteItemsModel)
+      } else if (this.items) {
+        if (this.deleteItemsModel.multiParams && isFunction(this.deleteItemsModel.multiParams)) {
+          data = this.deleteItemsModel.multiParams(this.items)
+        }
+      } else {
+        throw new Error('only support delete single or multi')
       }
+      if (!data) {
+        throw new Error('please set delete param')
+      }
+      console.log(data)
       deleteItems.call(this, {
         url: this.deleteItemsModel.url,
         method: this.deleteItemsModel.method || 'post',
         data
       }).then((res) => {
-        handleResult.call(this, this.initDeleteItemsModel, res)
+        handleResult.call(this, this.deleteItemsModel, res)
       }).catch((error) => {
-        handleError.call(this, this.initDeleteItemsModel, error)
+        handleError.call(this, this.deleteItemsModel, error)
       })
     }
   }
@@ -330,4 +355,8 @@ export const RefreshActionMixin = {
       }
     }
   }
+}
+
+export default {
+  mixins: [GetDataMixin, UpdateItemMixin, AddItemMixin, DeleteItemsMixin]
 }

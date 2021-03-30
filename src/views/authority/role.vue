@@ -1,15 +1,13 @@
 <template>
   <div class="main-container">
     <TableHeader :can-collapsed="false">
-      <template
-        v-if="actionModel"
-        slot="right"
-      >
+      <template slot="right">
         <el-button
+          v-if="isInited('addItemModel')"
           type="primary"
           size="mini"
           icon="el-icon-plus"
-          @click="actionModel.addItem"
+          @click="onAddItem"
         >添加
         </el-button>
       </template>
@@ -65,60 +63,24 @@
               <el-link
                 type="primary"
                 :underline="false"
-                @click="actionModel.editItem(scope.row)"
+                @click="onUpdateItem(scope.row)"
               >编辑</el-link>
               <el-link
                 type="danger"
                 :underline="false"
-                @click="actionModel.deleteItems(scope.row)"
+                @click="onDeleteItems(scope.row)"
               >删除</el-link>
             </template>
           </el-table-column>
         </el-table>
       </template>
     </TableBody>
-    <Dialog
-      v-if="actionModel"
-      ref="dialog"
-      :validate-form="actionModel.validateFormHandler"
-      :title="roleModel.title"
-    >
+    <Dialog ref="dialog">
       <template>
-        <el-form
-          v-model="roleModel"
-          label-width="80px"
-          label-position="right"
-        >
-          <el-form-item label="角色名称">
-            <el-col :span="20">
-              <el-input
-                v-model="roleModel.name"
-                size="small"
-                placeholder="请输入角色名称"
-              />
-            </el-col>
-          </el-form-item>
-          <el-form-item label="角色编号">
-            <el-col :span="20">
-              <el-input
-                v-model="roleModel.roleCode"
-                size="small"
-                placeholder="请输入角色编号"
-              >
-                <template slot="prepend">ROLE_</template>
-              </el-input>
-            </el-col>
-          </el-form-item>
-          <el-form-item label="角色描述">
-            <el-col :span="20">
-              <el-input
-                v-model="roleModel.description"
-                size="small"
-                placeholder="请输入角色描述"
-              />
-            </el-col>
-          </el-form-item>
-        </el-form>
+        <BaseForm
+          ref="baseForm"
+          :form-items="formItems"
+        />
       </template>
     </Dialog>
   </div>
@@ -126,21 +88,77 @@
 
 <script>
 import TableMixin from '@/mixins/TableMixin'
-import { uuid } from '@/utils/utils'
-import { GetDataMixin } from '@/mixins/ActionMixin'
+import { currentDate, uuid } from '@/utils/utils'
+import CRUDMixins from '@/mixins/ActionMixin'
+import { formBuilder } from '@/utils/form'
+import BaseForm from '@/components/common/BaseForm'
 const ROLE_CODE_FLAG = 'ROLE_'
 export default {
   name: 'Role',
-  mixins: [TableMixin, GetDataMixin],
+  components: { BaseForm },
+  mixins: [TableMixin, CRUDMixins],
   data() {
     return {
       roleModel: {
-        title: '',
         id: 0,
         name: '',
         roleCode: '',
-        description: ''
+        description: '',
+        createTime: ''
       }
+    }
+  },
+  computed: {
+    formItems() {
+      return formBuilder()
+        .formItem({
+          label: '角色名称',
+          type: 'input',
+          name: 'name',
+          value: this.roleModel.name,
+          maxLength: 50,
+          inputType: 'text',
+          placeholder: '请输入角色名称',
+          validator: ({ value, placeholder }) => {
+            if (!value) {
+              this.$errorMsg(placeholder)
+              return false
+            }
+            return true
+          }
+        })
+        .formItem({
+          label: '角色编号',
+          type: 'input',
+          name: 'roleCode',
+          value: this.roleModel.roleCode,
+          maxLength: 20,
+          inputType: 'text',
+          placeholder: '请输入角色编号',
+          validator: ({ value, placeholder }) => {
+            if (!value) {
+              this.$errorMsg(placeholder)
+              return false
+            }
+            return true
+          }
+        })
+        .formItem({
+          label: '角色描述',
+          type: 'input',
+          name: 'description',
+          value: this.roleModel.description,
+          maxLength: 50,
+          inputType: 'text',
+          placeholder: '请输入角色描述',
+          validator: ({ value, placeholder }) => {
+            if (!value) {
+              this.$errorMsg(placeholder)
+              return false
+            }
+            return true
+          }
+        }).build().formItems
     }
   },
   mounted() {
@@ -156,57 +174,85 @@ export default {
     }).then(_ => {
       this.getData()
     })
-  },
-  methods: {
-    addItem() {
-      this.$refs.dialog.show(() => {
-        this.roleModel.title = '添加角色信息'
-        this.roleModel.name = ''
-        this.roleModel.roleCode = ''
-        this.roleModel.description = ''
-      }).then(() => {
-        this.dataList.push({
-          id: uuid,
-          name: this.roleModel.name,
-          roleCode: ROLE_CODE_FLAG + this.roleModel.roleCode,
-          description: this.roleModel.description,
-          createTime: '2021-01-01 12:00:11'
+    this.initAddItem({
+      url: this.$urlPath.getRoleList,
+      params: () => {
+        return this.$refs.baseForm.checkParams()
+      },
+      onAddItem: () => {
+        this.$refs.dialog.show({
+          beforeShowAction: () => {
+            this.roleModel = {
+              name: '',
+              roleCode: '',
+              description: ''
+            }
+          },
+          onConfirmCallback: () => {
+            const checkResult = this.$refs.baseForm.checkParams()
+            if (checkResult) {
+              this.doAddItem()
+            }
+          }
         })
-      })
-    },
-    editItem(item) {
-      this.$refs.dialog.show(() => {
-        this.roleModel.title = '编辑角色信息'
-        this.roleModel.name = item.name
-        this.roleModel.roleCode = item.roleCode
-        this.roleModel.description = item.description
-      }).then(() => {
-        item.name = this.roleModel.name
-        item.roleModel = ROLE_CODE_FLAG + this.roleModel.roleCode
-        item.description = this.roleModel.description
-      })
-    },
-    deleteItems(item) {
-      this.$showConfirmDialog('是否要删除此角色信息，删除后不可恢复？')
-        .then(() => {
-          this.dataList.splice(this.dataList.indexOf(item), 1)
+      },
+      onResult: (res) => {
+        const item = this.$refs.baseForm.generatorParams()
+        console.log(item)
+        if (!item.roleCode.startsWith(ROLE_CODE_FLAG)) {
+          item.roleCode = ROLE_CODE_FLAG + item.roleCode
+        }
+        item.itemId = uuid()
+        item.createTime = currentDate()
+        this.dataList.unshift(item)
+        this.$refs.dialog.close()
+      },
+      onError: (error) => {
+        this.$errorMsg(error)
+      }
+    })
+    this.initUpdateItem({
+      url: this.$urlPath.getRoleList,
+      params: () => {
+        return this.$refs.baseForm.checkParams()
+      },
+      onUpdateItem: (item) => {
+        this.$refs.dialog.show({
+          beforeShowAction: () => {
+            this.roleModel.name = item.name
+            this.roleModel.roleCode = item.roleCode
+            this.roleModel.description = item.description
+          },
+          onConfirmCallback: () => {
+            const checkResult = this.$refs.baseForm.checkParams()
+            if (checkResult) {
+              this.doUpdateItem()
+            }
+          }
         })
-    },
-    validateForm() {
-      if (!this.roleModel.name) {
-        this.$errorMsg('请输入角色名称')
-        return false
+      },
+      onResult: () => {
+        this.$successMsg('模拟修改角色信息成功')
+        this.$refs.dialog.close()
       }
-      if (!this.roleModel.roleCode) {
-        this.$errorMsg('请输入角色编码')
-        return false
+    })
+    this.initDeleteItems({
+      url: this.$urlPath.getRoleList,
+      params: {},
+      onDeleteItems: (item) => {
+        this.roleModel = item
+        this.$showConfirmDialog('确定要删除此角色信息吗？').then((_) => {
+          this.doDeleteItems()
+        })
+      },
+      onResult: () => {
+        this.dataList.splice(this.dataList.indexOf(this.roleModel), 1)
+        this.$successMsg('角色模拟删除成功')
+      },
+      onError: () => {
+        this.$successMsg('角色模拟删除失败')
       }
-      if (!this.roleModel.description) {
-        this.$errorMsg('请输入角色描述')
-        return false
-      }
-      return true
-    }
+    })
   }
 }
 </script>

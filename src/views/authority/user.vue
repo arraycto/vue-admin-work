@@ -6,13 +6,13 @@
           type="primary"
           size="mini"
           icon="el-icon-plus"
-          @click="add"
         >添加
         </el-button>
         <el-button
           type="danger"
           size="mini"
           icon="el-icon-delete"
+          @click="onDeleteItems(null)"
         >删除
         </el-button>
       </template>
@@ -28,6 +28,7 @@
           :stripe="tableConfig.stripe"
           :border="tableConfig.border"
           :height="tableConfig.height"
+          @selection-change="handleSelectionChange"
         >
           <el-table-column
             type="selection"
@@ -114,14 +115,17 @@
             align="center"
             label="操作"
           >
-            <el-link
-              type="primary"
-              :underline="false"
-            >编辑</el-link>
-            <el-link
-              type="danger"
-              :underline="false"
-            >删除</el-link>
+            <template slot-scope="scope">
+              <el-link
+                type="primary"
+                :underline="false"
+              >编辑</el-link>
+              <el-link
+                type="danger"
+                :underline="false"
+                @click="onDeleteItems(scope.row)"
+              >删除</el-link>
+            </template>
           </el-table-column>
         </el-table>
       </template>
@@ -138,25 +142,53 @@
 
 <script>
 import TableMixin, { PageModelMixin } from '@/mixins/TableMixin'
-import { GetDataMixin } from '@/mixins/ActionMixin'
+import { GetDataMixin, DeleteItemsMixin } from '@/mixins/ActionMixin'
 export default {
   name: 'Table',
-  mixins: [TableMixin, PageModelMixin, GetDataMixin],
+  mixins: [TableMixin, PageModelMixin, GetDataMixin, DeleteItemsMixin],
+  data() {
+    return {
+      userModel: {}
+    }
+  },
   mounted() {
     this.initGetData({
       url: this.$urlPath.getTableList,
       params: this.withPageInfoData(),
+      multiParams: (item) => {
+        return {
+          ids: item.map(it => it.id).join(',')
+        }
+      },
       onResult: (res) => {
         this.handleSuccess(res)
       }
     }).then(_ => {
       this.getData()
     })
-  },
-  methods: {
-    add() {
-      this.$store.dispatch('app/changeTheme', 2)
-    }
+    this.initDeleteItems({
+      url: this.$urlPath.getTableList,
+      params: () => {
+        return { id: this.userMode.id }
+      },
+      multiParams: (items) => {
+        return {
+          ids: items.map(it => it.id).join(',')
+        }
+      },
+      onDeleteItems: (item) => {
+        this.userMode = item
+        this.$showConfirmDialog('确定要删用户信息吗？').then((_) => {
+          this.doDeleteItems(item)
+        })
+      },
+      onResult: (res) => {
+        this.$successMsg('模拟删除成功')
+      },
+      onError: (error) => {
+        this.$errorMsg(error)
+      }
+    })
   }
 }
 </script>
