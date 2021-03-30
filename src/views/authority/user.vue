@@ -3,12 +3,6 @@
     <TableHeader :can-collapsed="false">
       <template slot="right">
         <el-button
-          type="primary"
-          size="mini"
-          icon="el-icon-plus"
-        >添加
-        </el-button>
-        <el-button
           type="danger"
           size="mini"
           icon="el-icon-delete"
@@ -23,10 +17,9 @@
           ref="table"
           v-loading="tableLoading"
           :data="dataList"
-          :header-cell-style="tableConfig.headerCellStyle"
           :size="tableConfig.size"
           :stripe="tableConfig.stripe"
-          :border="tableConfig.border"
+          :border="false"
           :height="tableConfig.height"
           @selection-change="handleSelectionChange"
         >
@@ -117,10 +110,6 @@
           >
             <template slot-scope="scope">
               <el-link
-                type="primary"
-                :underline="false"
-              >编辑</el-link>
-              <el-link
                 type="danger"
                 :underline="false"
                 @click="onDeleteItems(scope.row)"
@@ -157,13 +146,13 @@ export default {
       params: this.withPageInfoData(),
       multiParams: (item) => {
         return {
-          ids: item.map(it => it.id).join(',')
+          ids: item.map((it) => it.id).join(',')
         }
       },
       onResult: (res) => {
         this.handleSuccess(res)
       }
-    }).then(_ => {
+    }).then((_) => {
       this.getData()
     })
     this.initDeleteItems({
@@ -173,10 +162,14 @@ export default {
       },
       multiParams: (items) => {
         return {
-          ids: items.map(it => it.id).join(',')
+          ids: items.map((it) => it.id).join(',')
         }
       },
       onDeleteItems: (item) => {
+        if (!item && +this.items === 0) {
+          this.$errorMsg('请选择要删除的元素')
+          return
+        }
         this.userMode = item
         this.$showConfirmDialog('确定要删用户信息吗？').then((_) => {
           this.doDeleteItems(item)
