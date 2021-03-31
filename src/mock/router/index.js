@@ -64,6 +64,32 @@ export const adminRoutes = [
         ]
       }
     ]
+  },
+  {
+    menuUrl: '/pages',
+    menuName: '页面详情',
+    children: [
+      {
+        menuUrl: '/pages/success',
+        menuName: '成功页面'
+      },
+      {
+        menuUrl: '/pages/fail',
+        menuName: '失败页面'
+      },
+      {
+        menuUrl: '/pages/404',
+        menuName: '404'
+      },
+      {
+        menuUrl: '/pages/403',
+        menuName: '403'
+      },
+      {
+        menuUrl: '/pages/500',
+        menuName: '500'
+      }
+    ]
   }
 ]
 Mock.mock(RegExp(getMenuList), function () {
