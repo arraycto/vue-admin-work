@@ -1,9 +1,18 @@
 <template>
   <div class="main-container">
     <el-row :gutter="10">
-      <el-col :span="6">
-        <DataItem :data-model="dataModel1">
-          <template #extra="{ extra }">
+      <el-col
+        v-for="(item, index) of dataList"
+        :key="index"
+        :xs="24"
+        :sm="12"
+        :md="6"
+      >
+        <DataItem :data-model="item">
+          <template
+            v-if="index === 0"
+            #extra="{ extra }"
+          >
             <div class="margin-top">
               <div class="text-gray">
                 较昨日新增：{{ extra.data }}
@@ -15,11 +24,10 @@
               </div>
             </div>
           </template>
-        </DataItem>
-      </el-col>
-      <el-col :span="6">
-        <DataItem :data-model="dataModel2">
-          <template #extra="{ extra }">
+          <template
+            v-else-if="index === 1"
+            #extra="{ extra }"
+          >
             <div class="margin-top">
               <div class="text-gray">
                 较昨日新增：{{ extra.data }}
@@ -31,11 +39,10 @@
               </div>
             </div>
           </template>
-        </DataItem>
-      </el-col>
-      <el-col :span="6">
-        <DataItem :data-model="dataModel3">
-          <template #extra="{ extra }">
+          <template
+            v-else-if="index === 2"
+            #extra="{ extra }"
+          >
             <el-progress
               :text-inside="true"
               :stroke-width="15"
@@ -43,14 +50,13 @@
               status="exception"
             />
           </template>
-        </DataItem>
-      </el-col>
-      <el-col :span="6">
-        <DataItem :data-model="dataModel4">
-          <template #extra>
+          <template
+            v-else-if="index === 3"
+            #extra
+          >
             <div
               id="echart"
-              style="height: 60px"
+              style="height: 100%; width: 100%"
             ></div>
           </template>
         </DataItem>
@@ -62,49 +68,62 @@
 <script>
 import DataItem from './components/DataItem'
 import * as eCharts from 'echarts'
+import { mapGetters } from 'vuex'
 export default {
   name: 'Index',
   components: { DataItem },
   data() {
     return {
-      dataModel1: {
-        title: '今日访问量',
-        data: '+1000',
-        bottomTitle: '总访问量',
-        totalSum: '100万+',
-        extra: {
-          data: 1000,
-          data1: 2350
+      dataList: [
+        {
+          title: '今日访问量',
+          data: '+1000',
+          bottomTitle: '总访问量',
+          totalSum: '100万+',
+          extra: {
+            data: 1000,
+            data1: 2350
+          }
+        },
+        {
+          title: '新增用户',
+          data: '+500',
+          bottomTitle: '总用户量',
+          totalSum: '200万+',
+          extra: {
+            data: 700,
+            data1: 968
+          }
+        },
+        {
+          title: '当月销售额',
+          data: '￥50000',
+          bottomTitle: '累计销售额',
+          totalSum: '2000万+',
+          extra: {
+            data: 80
+          }
+        },
+        {
+          title: '当月订单量',
+          data: '189笔',
+          bottomTitle: '累计订单量',
+          totalSum: '1万+',
+          extra: {
+            data: 80
+          }
         }
-      },
-      dataModel2: {
-        title: '新增用户',
-        data: '+500',
-        bottomTitle: '总用户量',
-        totalSum: '200万+',
-        extra: {
-          data: 700,
-          data1: 968
-        }
-      },
-      dataModel3: {
-        title: '当月销售额',
-        data: '￥50000',
-        bottomTitle: '累计销售额',
-        totalSum: '2000万+',
-        extra: {
-          data: 80
-        }
-      },
-      dataModel4: {
-        title: '当月订单量',
-        data: '189笔',
-        bottomTitle: '累计订单量',
-        totalSum: '1万+',
-        extra: {
-          data: 80
-        }
-      }
+      ]
+    }
+  },
+  computed: {
+    ...mapGetters({
+      collapse: 'app/isCollapseSideBar'
+    })
+  },
+  watch: {
+    collapse(newVal) {
+      this.chart.resize()
     }
   },
   mounted() {
@@ -112,13 +131,30 @@ export default {
   },
   methods: {
     initECharts() {
-      const chart = eCharts.init(document.getElementById('echart'))
+      this.chart = eCharts.init(document.getElementById('echart'))
       const option = {
+        tooltip: {
+          trigger: 'item',
+          axisPointer: {
+            type: 'cross',
+            label: {
+              backgroundColor: '#6a7985'
+            }
+          }
+        },
+        grid: {
+          x: '-5%',
+          y: 0,
+          x2: '-5%',
+          y2: 0
+        },
         xAxis: {
-          type: 'category'
+          type: 'category',
+          splitLine: { show: false }
         },
         yAxis: [{
-          type: 'value'
+          type: 'value',
+          splitLine: { show: false }
         }],
         series: [{
           data: [82, 93, 90, 74, 82, 60, 50],
@@ -129,11 +165,18 @@ export default {
           },
           showSymbol: false,
           areaStyle: {
-            opacity: 0.8
+            opacity: 0.8,
+            color: new eCharts.graphic.LinearGradient(0, 0, 0, 1, [{
+              offset: 0,
+              color: 'rgba(128, 255, 165)'
+            }, {
+              offset: 1,
+              color: 'rgba(1, 191, 236)'
+            }])
           }
         }]
       }
-      chart.setOption(option)
+      this.chart.setOption(option)
     }
   }
 }
