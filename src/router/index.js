@@ -46,7 +46,7 @@ export const routes = [
     component: Layout,
     hidden: false,
     meta: {
-      title: '控制面板',
+      title: 'Dashboard',
       icon: 'index',
       affix: true
     },
@@ -55,7 +55,14 @@ export const routes = [
         path: '',
         component: () => import('@/views/index'),
         meta: {
-          title: '首页'
+          title: '主控页'
+        }
+      },
+      {
+        path: 'workplace',
+        component: () => import('@/views/index/WorkPlace'),
+        meta: {
+          title: '工作台'
         }
       }
     ]

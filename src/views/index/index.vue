@@ -62,6 +62,50 @@
         </DataItem>
       </el-col>
     </el-row>
+    <el-row :gutter="10">
+      <el-col
+        :xs="24"
+        :sm="6"
+      >
+        <div
+          class="flex flex-direction"
+          style="height: 100px"
+        >
+          <div
+            class="flex-sub"
+            style="background-color: red"
+          ></div>
+          <div
+            class="flex-sub"
+            style="background-color: green"
+          ></div>
+        </div>
+      </el-col>
+      <el-col
+        :xs="24"
+        :md="12"
+      >
+        <div style="background-color: blue; height: 100px"></div>
+      </el-col>
+      <el-col
+        :xs="24"
+        :sm="6"
+      >
+        <div
+          class="flex flex-direction"
+          style="height: 100px"
+        >
+          <div
+            class="flex-sub"
+            style="background-color: red"
+          ></div>
+          <div
+            class="flex-sub"
+            style="background-color: green"
+          ></div>
+        </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -123,7 +167,9 @@ export default {
   },
   watch: {
     collapse(newVal) {
-      this.chart.resize()
+      setTimeout(() => {
+        this.chart.resize()
+      }, 200)
     }
   },
   mounted() {
@@ -152,29 +198,36 @@ export default {
           type: 'category',
           splitLine: { show: false }
         },
-        yAxis: [{
-          type: 'value',
-          splitLine: { show: false }
-        }],
-        series: [{
-          data: [82, 93, 90, 74, 82, 60, 50],
-          type: 'line',
-          smooth: true,
-          lineStyle: {
-            width: 0
-          },
-          showSymbol: false,
-          areaStyle: {
-            opacity: 0.8,
-            color: new eCharts.graphic.LinearGradient(0, 0, 0, 1, [{
-              offset: 0,
-              color: 'rgba(128, 255, 165)'
-            }, {
-              offset: 1,
-              color: 'rgba(1, 191, 236)'
-            }])
+        yAxis: [
+          {
+            type: 'value',
+            splitLine: { show: false }
           }
-        }]
+        ],
+        series: [
+          {
+            data: [82, 93, 90, 74, 82, 60, 50],
+            type: 'line',
+            smooth: true,
+            lineStyle: {
+              width: 0
+            },
+            showSymbol: false,
+            areaStyle: {
+              opacity: 0.8,
+              color: new eCharts.graphic.LinearGradient(0, 0, 0, 1, [
+                {
+                  offset: 0,
+                  color: 'rgba(128, 255, 165)'
+                },
+                {
+                  offset: 1,
+                  color: 'rgba(1, 191, 236)'
+                }
+              ])
+            }
+          }
+        ]
       }
       this.chart.setOption(option)
     }
@@ -183,4 +236,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.el-row + .el-row {
+  margin-top: 10px;
+}
 </style>
