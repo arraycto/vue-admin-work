@@ -49,6 +49,29 @@
             </el-col>
           </el-row>
         </el-card>
+        <el-card
+          :body-style="{padding: '5px'}"
+          class="margin-top"
+        >
+          <template #header>
+            <div class=" margin-tb-10">
+              <span class="text-black text-bold text-sm">
+                <i class="el-icon-s-opportunity text-blue"></i>
+                动态信息
+              </span>
+            </div>
+          </template>
+          <el-row
+            v-for="(item, index) of trendsItems"
+            :key="index"
+          >
+            <TrendsItem :item="item">
+              <template #title="{title}">
+                <div v-html="title"></div>
+              </template>
+            </TrendsItem>
+          </el-row>
+        </el-card>
       </div>
       <div style="flex: 2; background-color: green; height: 100px"></div>
     </div>
@@ -57,6 +80,7 @@
 
 <script>
 import ProjectItem from './components/ProjectItem'
+import TrendsItem from './components/TrendsItem'
 import HTML5_PATH from '@/assets/img_html5.jpeg'
 import CSS_PATH from '@/assets/img_css.jpeg'
 import JAVASCRIPT_PATH from '@/assets/img_javascript.jpeg'
@@ -67,7 +91,8 @@ const date = new Date()
 export default {
   name: 'WorkPlace',
   components: {
-    ProjectItem
+    ProjectItem,
+    TrendsItem
   },
   data() {
     return {
@@ -98,6 +123,38 @@ export default {
           title: 'Angular',
           imagePath: ANGULAR_PATH
         }
+      ],
+      trendsItems: [
+        {
+          avatar:
+            'https://gimg2.baidu.com/image_search/src=http%3A%2F%2F6.pic.paopaoche.net%2Fup%2F2016-4%2F2016411164044108.jpg&refer=http%3A%2F%2F6.pic.paopaoche.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1619963947&t=37d66f12a45b731771754349ac2b2056',
+          title:
+            '<span><span class="margin-right text-blue">孙悟空</span>发表了一条动态<span class="margin-left text-blue">《看我七十二变》</span></span>'
+        },
+        {
+          avatar:
+            'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.duoziwang.com%2F2018%2F13%2F03181154676032.jpg&refer=http%3A%2F%2Fimg.duoziwang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1619963922&t=69a793d41e2b5c8f07dae871827ced49',
+          title:
+            '<span><span class="margin-right text-blue">唐僧</span>赞了<span class="margin-left-sm text-blue">八戒</span><span class="margin-left text-blue">~今天晚上的猪头肉真香~</span></span>'
+        },
+        {
+          avatar:
+            'https://gimg2.baidu.com/image_search/src=http%3A%2F%2F6.pic.paopaoche.net%2Fup%2F2016-4%2F2016411164044108.jpg&refer=http%3A%2F%2F6.pic.paopaoche.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1619963947&t=37d66f12a45b731771754349ac2b2056',
+          title:
+            '<span><span class="margin-right text-blue">孙悟空</span>发表了一条动态<span class="margin-left text-blue">《看我七十二变》</span></span>'
+        },
+        {
+          avatar:
+            'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.duoziwang.com%2F2018%2F13%2F03181154676032.jpg&refer=http%3A%2F%2Fimg.duoziwang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1619963922&t=69a793d41e2b5c8f07dae871827ced49',
+          title:
+            '<span><span class="margin-right text-blue">唐僧</span>赞了<span class="margin-left-sm text-blue">八戒</span><span class="margin-left text-blue">~今天晚上的猪头肉真香~</span></span>'
+        },
+        {
+          avatar:
+            'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+          title:
+            '<span><span class="margin-right text-blue">我</span>提交了请假申请'
+        }
       ]
     }
   }
@@ -124,7 +181,7 @@ export default {
   top: 20%;
   right: 0;
   height: 60%;
-  content: "";
+  content: '';
   display: block;
   width: 1px;
   background-color: #e0e0e0;

@@ -18,7 +18,9 @@ export default {
   props: {
     item: {
       type: Object,
-      default: function () { return {} }
+      default: function () {
+        return {}
+      }
     }
   }
 }
@@ -44,6 +46,7 @@ export default {
       width: 100%;
       height: 100%;
       transform: scale(1, 1);
+      object-fit: cover;
     }
     .img-item:hover {
       transform: scale(1.5, 1.5);
@@ -51,7 +54,7 @@ export default {
     }
   }
   .img-wrapper::after {
-    content: "";
+    content: '';
     display: block;
     width: 100%;
     height: 100%;
@@ -60,11 +63,12 @@ export default {
     top: 0;
     left: 0;
     opacity: 0.4;
-    transform: translateY(0);
+    border-radius: 50%;
+    transform: scale(2, 2);
     pointer-events: none;
   }
   .img-wrapper:hover::after {
-    transform: translateY(-100%);
+    transform: scale(0, 0);
     transition: all 0.3s ease-in-out;
   }
   .info-wrapper {
