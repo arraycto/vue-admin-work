@@ -28,17 +28,77 @@
         </div>
       </div>
     </el-card>
+    <div class="flex margin-top">
+      <div style="flex: 3;">
+        <el-card :body-style="{padding: '5px'}">
+          <template #header>
+            <div class=" margin-tb-10">
+              <span class="text-black text-bold text-sm">
+                <i class="el-icon-menu text-blue"></i>
+                我的课程
+              </span>
+            </div>
+          </template>
+          <el-row>
+            <el-col
+              v-for="(item, index) of dataItems"
+              :key="index"
+              :span="8"
+            >
+              <ProjectItem :item="item" />
+            </el-col>
+          </el-row>
+        </el-card>
+      </div>
+      <div style="flex: 2; background-color: green; height: 100px"></div>
+    </div>
   </div>
 </template>
 
 <script>
+import ProjectItem from './components/ProjectItem'
+import HTML5_PATH from '@/assets/img_html5.jpeg'
+import CSS_PATH from '@/assets/img_css.jpeg'
+import JAVASCRIPT_PATH from '@/assets/img_javascript.jpeg'
+import REACT_PATH from '@/assets/img_react.jpeg'
+import VUE_PATH from '@/assets/img_vue.jpeg'
+import ANGULAR_PATH from '@/assets/img_angular.jpeg'
 const date = new Date()
 export default {
   name: 'WorkPlace',
+  components: {
+    ProjectItem
+  },
   data() {
     return {
       currentDate:
-        date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate()
+        date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate(),
+      dataItems: [
+        {
+          title: 'HTML5',
+          imagePath: HTML5_PATH
+        },
+        {
+          title: 'CSS3',
+          imagePath: CSS_PATH
+        },
+        {
+          title: 'JavaScript',
+          imagePath: JAVASCRIPT_PATH
+        },
+        {
+          title: 'React',
+          imagePath: REACT_PATH
+        },
+        {
+          title: 'Vue',
+          imagePath: VUE_PATH
+        },
+        {
+          title: 'Angular',
+          imagePath: ANGULAR_PATH
+        }
+      ]
     }
   }
 }
@@ -64,7 +124,7 @@ export default {
   top: 20%;
   right: 0;
   height: 60%;
-  content: '';
+  content: "";
   display: block;
   width: 1px;
   background-color: #e0e0e0;
