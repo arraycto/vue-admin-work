@@ -7,7 +7,7 @@
       <div class="text-bold text-xl text-black">工作台</div>
       <div class="flex margin-top">
         <div class="avatar-wrapper">
-          <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fd.ifengimg.com%2Fw600%2Fp0.ifengimg.com%2Fpmop%2F2017%2F1226%2F3b0685e61c1ae93065e5f45a7348058e41f1c671_size1091_w700_h656.gif&refer=http%3A%2F%2Fd.ifengimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1617935122&t=37e2a9aa01824978dc36373f168ae76e" />
+          <img :src="avatar" />
         </div>
         <div class="flex flex-direction justify-around margin-left">
           <div class="text-black text-xl">早上好，Andy，青春只有一次，别让自己过得不精彩</div>
@@ -28,7 +28,7 @@
         </div>
       </div>
     </el-card>
-    <div class="flex margin-top">
+    <div class="flex margin-top-xs">
       <div style="flex: 3;">
         <el-card :body-style="{padding: '5px'}">
           <template #header>
@@ -51,7 +51,7 @@
         </el-card>
         <el-card
           :body-style="{padding: '5px'}"
-          class="margin-top"
+          class="margin-top-xs"
         >
           <template #header>
             <div class=" margin-tb-10">
@@ -73,7 +73,58 @@
           </el-row>
         </el-card>
       </div>
-      <div style="flex: 2; background-color: green; height: 100px"></div>
+      <div style="flex: 2; margin-left: 5px">
+        <el-card>
+          <template #header>
+            <div class="flex justify-between margin-tb-10">
+              <span class="text-black text-bold text-sm">
+                <i class="el-icon-s-order text-blue"></i>
+                快捷操作
+              </span>
+            </div>
+          </template>
+          <el-row>
+            <el-col
+              v-for="(item, index) of fastActions"
+              :key="index"
+              :span="6"
+            >
+              <el-link
+                type="primary"
+                class="margin-bottom"
+                @click="fastActionClick(item)"
+              >{{ item.title }}</el-link>
+            </el-col>
+          </el-row>
+        </el-card>
+        <el-card class="margin-top-xs">
+          <template #header>
+            <div class="flex justify-between margin-tb-10">
+              <span class="text-black text-bold text-sm">
+                <i class="el-icon-s-order text-blue"></i>
+                待办事项
+              </span>
+            </div>
+          </template>
+          <TodoItem
+            v-for="(item, index) of tempWaitingItems"
+            :key="index"
+            :item="item"
+          />
+          <div
+            v-if="isShowMore"
+            class="text-center"
+          >
+            <el-link @click="toggleMore">{{ showWatingMode ? '收起更多' : '显示更多' }}
+              <i
+                class="el-icon-view"
+                :class="[showWatingMode ? 'el-icon-caret-top': 'el-icon-caret-bottom']"
+              >
+              </i>
+            </el-link>
+          </div>
+        </el-card>
+      </div>
     </div>
   </div>
 </template>
@@ -81,18 +132,25 @@
 <script>
 import ProjectItem from './components/ProjectItem'
 import TrendsItem from './components/TrendsItem'
+import TodoItem from './components/TodoItem'
 import HTML5_PATH from '@/assets/img_html5.jpeg'
 import CSS_PATH from '@/assets/img_css.jpeg'
 import JAVASCRIPT_PATH from '@/assets/img_javascript.jpeg'
 import REACT_PATH from '@/assets/img_react.jpeg'
 import VUE_PATH from '@/assets/img_vue.jpeg'
 import ANGULAR_PATH from '@/assets/img_angular.jpeg'
+import AVATAR_01 from '@/assets/img_avatar_01.jpeg'
+import AVATAR_02 from '@/assets/img_avatar_02.jpeg'
+import AVATAR_DEFAULT from '@/assets/img_avatar_default.png'
+import { mapGetters } from 'vuex'
+const COLORS = ['#67C23A', '#E6A23C', '#F56C6C', '#409EFF']
 const date = new Date()
 export default {
   name: 'WorkPlace',
   components: {
     ProjectItem,
-    TrendsItem
+    TrendsItem,
+    TodoItem
   },
   data() {
     return {
@@ -126,36 +184,111 @@ export default {
       ],
       trendsItems: [
         {
-          avatar:
-            'https://gimg2.baidu.com/image_search/src=http%3A%2F%2F6.pic.paopaoche.net%2Fup%2F2016-4%2F2016411164044108.jpg&refer=http%3A%2F%2F6.pic.paopaoche.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1619963947&t=37d66f12a45b731771754349ac2b2056',
+          avatar: AVATAR_01,
           title:
             '<span><span class="margin-right text-blue">孙悟空</span>发表了一条动态<span class="margin-left text-blue">《看我七十二变》</span></span>'
         },
         {
-          avatar:
-            'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.duoziwang.com%2F2018%2F13%2F03181154676032.jpg&refer=http%3A%2F%2Fimg.duoziwang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1619963922&t=69a793d41e2b5c8f07dae871827ced49',
+          avatar: AVATAR_02,
           title:
             '<span><span class="margin-right text-blue">唐僧</span>赞了<span class="margin-left-sm text-blue">八戒</span><span class="margin-left text-blue">~今天晚上的猪头肉真香~</span></span>'
         },
         {
-          avatar:
-            'https://gimg2.baidu.com/image_search/src=http%3A%2F%2F6.pic.paopaoche.net%2Fup%2F2016-4%2F2016411164044108.jpg&refer=http%3A%2F%2F6.pic.paopaoche.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1619963947&t=37d66f12a45b731771754349ac2b2056',
+          avatar: AVATAR_01,
           title:
             '<span><span class="margin-right text-blue">孙悟空</span>发表了一条动态<span class="margin-left text-blue">《看我七十二变》</span></span>'
         },
         {
-          avatar:
-            'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.duoziwang.com%2F2018%2F13%2F03181154676032.jpg&refer=http%3A%2F%2Fimg.duoziwang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1619963922&t=69a793d41e2b5c8f07dae871827ced49',
+          avatar: AVATAR_02,
           title:
             '<span><span class="margin-right text-blue">唐僧</span>赞了<span class="margin-left-sm text-blue">八戒</span><span class="margin-left text-blue">~今天晚上的猪头肉真香~</span></span>'
         },
         {
-          avatar:
-            'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+          avatar: AVATAR_DEFAULT,
           title:
             '<span><span class="margin-right text-blue">我</span>提交了请假申请'
         }
-      ]
+      ],
+      waitingItmes: [
+        {
+          content: '早上，中午，晚上上下班别忘记打卡',
+          time: '04-05',
+          bgColor: COLORS[Math.floor(Math.random() * COLORS.length)]
+        },
+        {
+          content: '给经理打印文件',
+          time: '04-04',
+          bgColor: COLORS[Math.floor(Math.random() * COLORS.length)]
+        },
+        {
+          content: '下班断电',
+          time: '04-03',
+          bgColor: COLORS[Math.floor(Math.random() * COLORS.length)]
+        },
+        {
+          content: '等到周末的时候和同事一起去逛街，买新衣服，买新手机，买包包，各种买买买',
+          time: '04-02',
+          bgColor: COLORS[Math.floor(Math.random() * COLORS.length)]
+        },
+        {
+          content: '新同事入职培训工作',
+          time: '04-01',
+          bgColor: COLORS[Math.floor(Math.random() * COLORS.length)]
+        },
+        {
+          content: '给领导安排机票，酒店住宿等问题',
+          time: '03-31',
+          bgColor: COLORS[Math.floor(Math.random() * COLORS.length)]
+        }
+      ],
+      fastActions: [
+        {
+          title: '表格操作',
+          path: '/'
+        },
+        {
+          title: '表格操作',
+          path: '/'
+        },
+        {
+          title: '表格操作',
+          path: '/'
+        },
+        {
+          title: '表格操作',
+          path: '/'
+        },
+        {
+          title: '表格操作',
+          path: '/'
+        }
+      ],
+      tempWaitingItems: null,
+      showWatingMode: false
+    }
+  },
+  computed: {
+    ...mapGetters({
+      avatar: 'user/getAvatar'
+    }),
+    isShowMore() {
+      return this.waitingItmes.length > 4
+    }
+  },
+  mounted() {
+    this.tempWaitingItems = this.waitingItmes.length > 4 ? this.waitingItmes.slice(0, 4) : this.waitingItmes
+  },
+  methods: {
+    toggleMore() {
+      this.showWatingMode = !this.showWatingMode
+      if (this.showWatingMode) {
+        this.tempWaitingItems = this.waitingItmes
+      } else {
+        this.tempWaitingItems = this.waitingItmes.slice(0, 4)
+      }
+    },
+    fastActionClick({ path = '/' }) {
+      this.$router.push({ path })
     }
   }
 }
@@ -181,12 +314,15 @@ export default {
   top: 20%;
   right: 0;
   height: 60%;
-  content: '';
+  content: "";
   display: block;
   width: 1px;
   background-color: #e0e0e0;
 }
-div:last-child::after {
+div.item-action:last-child::after {
   width: 0;
+}
+.el-link + .el-link {
+  margin-bottom: 10px;
 }
 </style>

@@ -68,14 +68,24 @@ export default {
     background-color: #fff;
     transition: margin-left 0.3s;
   }
-  .hidden-app-main {
-    margin-left: 54px;
-  }
   .show-side-bar {
     width: $app-left-menu-width;
   }
-  .show-app-main {
-    margin-left: $app-left-menu-width;
+  @media screen and (max-width: 480px) {
+    .hidden-app-main {
+      margin-left: 0;
+    }
+    .show-app-main {
+      margin-left: 0;
+    }
+  }
+  @media screen and (min-width: 980px) {
+    .hidden-app-main {
+      margin-left: 54px;
+    }
+    .show-app-main {
+      margin-left: $app-left-menu-width;
+    }
   }
 }
 </style>

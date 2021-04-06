@@ -23,6 +23,7 @@
         </template>
       </el-menu>
     </el-scrollbar>
+    <div class="shadow"></div>
   </div>
 </template>
 
@@ -57,11 +58,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/styles/variables.scss";
 .side-bar-container {
   height: 100%;
   box-sizing: border-box;
+  position: relative;
 }
 .title {
   margin-left: 10px;
+}
+@media screen and (max-width: 480px) {
+  .shadow {
+    display: block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: $app-left-menu-width;
+    right: 0;
+    background-color: black;
+    opacity: 0.4;
+  }
+}
+@media screen and (min-width: 980px) {
+  .shadow {
+    display: none;
+  }
 }
 </style>
