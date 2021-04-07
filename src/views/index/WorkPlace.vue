@@ -5,15 +5,17 @@
       shadow="hover"
     >
       <div class="text-bold text-xl text-black">工作台</div>
-      <div class="flex margin-top">
+      <div
+        v-if="!isMobileScreen"
+        class="flex margin-top"
+      >
         <div class="avatar-wrapper">
           <img :src="avatar" />
         </div>
-        <div class="flex flex-direction justify-around margin-left">
+        <div class="flex-sub flex flex-direction justify-around margin-left">
           <div class="text-black text-xl">早上好，Andy，青春只有一次，别让自己过得不精彩</div>
           <div class="text-grey text-sm"><i class="el-icon-heavy-rain"></i> 今日有小雨，出门别忘记带伞哦~</div>
         </div>
-        <div class="flex-sub"></div>
         <div class="flex flex-direction justify-around align-end item-action">
           <div class="text-gray">项目数</div>
           <div class="text-xl">12</div>
@@ -27,8 +29,36 @@
           <div class="text-xl">{{ currentDate }}</div>
         </div>
       </div>
+      <div v-else>
+        <div class="flex">
+          <div class="avatar-wrapper margin-top">
+            <img :src="avatar" />
+          </div>
+          <div class="flex-sub flex flex-direction justify-around margin-left">
+            <div class="text-black text-xl">早上好，Andy，青春只有一次，别让自己过得不精彩</div>
+            <div class="text-grey text-sm"><i class="el-icon-heavy-rain"></i> 今日有小雨，出门别忘记带伞哦~</div>
+          </div>
+        </div>
+        <div class="flex margin-top">
+          <div class="flex-sub flex flex-direction align-center">
+            <div class="text-gray">项目数</div>
+            <div class="text-xl">12</div>
+          </div>
+          <div class="flex-sub flex flex-direction align-center">
+            <div class="text-gray">待办项</div>
+            <div class="text-xl">3/20</div>
+          </div>
+          <div class="flex-sub flex flex-direction align-center">
+            <div class="text-gray">当前日期</div>
+            <div class="text-xl">{{ currentDate }}</div>
+          </div>
+        </div>
+      </div>
     </el-card>
-    <div class="flex margin-top-xs">
+    <div
+      v-if="!isMobileScreen"
+      class="flex margin-top-xs"
+    >
       <div style="flex: 3;">
         <el-card :body-style="{padding: '5px'}">
           <template #header>
@@ -125,6 +155,113 @@
           </div>
         </el-card>
       </div>
+    </div>
+    <div
+      v-else
+      class="margin-top-xs"
+    >
+      <el-card
+        shadow="never"
+        :body-style="{padding: '5px'}"
+      >
+        <template #header>
+          <div class=" margin-tb-10">
+            <span class="text-black text-bold text-sm">
+              <i class="el-icon-menu text-blue"></i>
+              我的课程
+            </span>
+          </div>
+        </template>
+        <el-row>
+          <el-col
+            v-for="(item, index) of dataItems"
+            :key="index"
+            :span="8"
+          >
+            <ProjectItem :item="item" />
+          </el-col>
+        </el-row>
+      </el-card>
+      <el-card
+        :body-style="{padding: '5px'}"
+        shadow="never"
+        class="margin-top-xs"
+      >
+        <template #header>
+          <div class=" margin-tb-10">
+            <span class="text-black text-bold text-sm">
+              <i class="el-icon-s-opportunity text-blue"></i>
+              动态信息
+            </span>
+          </div>
+        </template>
+        <el-row
+          v-for="(item, index) of trendsItems"
+          :key="index"
+        >
+          <TrendsItem :item="item">
+            <template #title="{title}">
+              <div v-html="title"></div>
+            </template>
+          </TrendsItem>
+        </el-row>
+      </el-card>
+      <el-card
+        shadow="never"
+        class="margin-top-xs"
+      >
+        <template #header>
+          <div class="flex justify-between margin-tb-10">
+            <span class="text-black text-bold text-sm">
+              <i class="el-icon-s-order text-blue"></i>
+              快捷操作
+            </span>
+          </div>
+        </template>
+        <el-row>
+          <el-col
+            v-for="(item, index) of fastActions"
+            :key="index"
+            :span="6"
+          >
+            <el-link
+              type="primary"
+              class="margin-bottom"
+              @click="fastActionClick(item)"
+            >{{ item.title }}</el-link>
+          </el-col>
+        </el-row>
+      </el-card>
+      <el-card
+        shadow="never"
+        class="margin-top-xs"
+      >
+        <template #header>
+          <div class="flex justify-between margin-tb-10">
+            <span class="text-black text-bold text-sm">
+              <i class="el-icon-s-order text-blue"></i>
+              待办事项
+            </span>
+          </div>
+        </template>
+        <TodoItem
+          v-for="(item, index) of tempWaitingItems"
+          :key="index"
+          :item="item"
+        />
+        <div
+          v-if="isShowMore"
+          class="text-center"
+        >
+          <el-link @click="toggleMore">{{ showWatingMode ? '收起更多' : '显示更多' }}
+            <i
+              class="el-icon-view"
+              :class="[showWatingMode ? 'el-icon-caret-top': 'el-icon-caret-bottom']"
+            >
+            </i>
+          </el-link>
+        </div>
+      </el-card>
     </div>
   </div>
 </template>
@@ -269,7 +406,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      avatar: 'user/getAvatar'
+      avatar: 'user/getAvatar',
+      isMobileScreen: 'app/isMobileScreen'
     }),
     isShowMore() {
       return this.waitingItmes.length > 4

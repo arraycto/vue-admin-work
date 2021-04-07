@@ -1,5 +1,8 @@
 <template>
-  <el-card :body-style="{padding: '15px'}">
+  <el-card
+    :body-style="{padding: '15px'}"
+    shadow="never"
+  >
     <div
       slot="header"
       class="flex align-center justify-between"

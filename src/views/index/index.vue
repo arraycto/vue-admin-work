@@ -7,6 +7,7 @@
         :xs="24"
         :sm="12"
         :md="6"
+        class="item-wrapper"
       >
         <DataItem :data-model="item">
           <template
@@ -62,19 +63,27 @@
         </DataItem>
       </el-col>
     </el-row>
-    <el-row :gutter="10">
+    <el-row
+      :gutter="10"
+      class="margin-top"
+    >
       <el-col
         :xs="24"
         :sm="6"
       >
-        <div
-          class="flex flex-direction"
-          style="height: 100px"
-        >
-          <div
+        <div class="flex flex-direction">
+          <el-card
             class="flex-sub"
-            style="background-color: red"
-          ></div>
+            :body-style="{padding: 0}"
+            shadow="never"
+          >
+            <template #header>
+              <div class="text-bold text-gray">
+                销售额走势图
+              </div>
+            </template>
+            <SalesChart />
+          </el-card>
           <div
             class="flex-sub"
             style="background-color: green"
@@ -95,10 +104,12 @@
           class="flex flex-direction"
           style="height: 100px"
         >
-          <div
+          <el-card
             class="flex-sub"
-            style="background-color: red"
-          ></div>
+            :body-style="{padding: 0}"
+          >
+            <SalesChart />
+          </el-card>
           <div
             class="flex-sub"
             style="background-color: green"
@@ -113,9 +124,10 @@
 import DataItem from './components/DataItem'
 import * as eCharts from 'echarts'
 import { mapGetters } from 'vuex'
+import SalesChart from './components/chart/SalesChart'
 export default {
   name: 'Index',
-  components: { DataItem },
+  components: { DataItem, SalesChart },
   data() {
     return {
       dataList: [
@@ -236,7 +248,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-row + .el-row {
-  margin-top: 10px;
+@media screen and (max-width: 980px) {
+  .item-wrapper {
+    margin-bottom: 5px;
+  }
+}
+.chart-item {
+  background-color: #fff;
 }
 </style>

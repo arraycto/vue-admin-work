@@ -227,25 +227,33 @@ export default {
       font-size: 1.3rem;
     }
   }
-  .avatar-wrapper {
-    width: 2.2rem;
-    height: 2.2rem;
-    margin-left: 0.4rem;
-    .toolbar-avatar {
-      border-radius: 50%;
-      width: 100%;
-      height: 100%;
+  @media screen and (max-width: 480px) {
+    .nick-wrapper,
+    .avatar-wrapper {
+      display: none;
     }
   }
-  .nick-wrapper {
-    margin-left: 0.4rem;
-    color: #333333;
-    .arrow {
-      transform: rotate(0deg);
-      transition: transform 0.3s;
+  @media screen and (min-width: 480px) {
+    .avatar-wrapper {
+      width: 2.2rem;
+      height: 2.2rem;
+      margin-left: 0.4rem;
+      .toolbar-avatar {
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+      }
     }
-    .arrow:hover {
-      transform: rotate(180deg);
+    .nick-wrapper {
+      margin-left: 0.4rem;
+      color: #333333;
+      .arrow {
+        transform: rotate(0deg);
+        transition: transform 0.3s;
+      }
+      .arrow:hover {
+        transform: rotate(180deg);
+      }
     }
   }
 }
