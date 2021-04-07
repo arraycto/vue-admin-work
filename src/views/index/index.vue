@@ -72,22 +72,8 @@
         :sm="6"
       >
         <div class="flex flex-direction">
-          <el-card
-            class="flex-sub"
-            :body-style="{padding: 0}"
-            shadow="never"
-          >
-            <template #header>
-              <div class="text-bold text-gray">
-                销售额走势图
-              </div>
-            </template>
-            <SalesChart />
-          </el-card>
-          <div
-            class="flex-sub"
-            style="background-color: green"
-          ></div>
+          <SalesChart />
+          <StudentChart class="margin-top-xs" />
         </div>
       </el-col>
       <el-col
@@ -100,20 +86,9 @@
         :xs="24"
         :sm="6"
       >
-        <div
-          class="flex flex-direction"
-          style="height: 100px"
-        >
-          <el-card
-            class="flex-sub"
-            :body-style="{padding: 0}"
-          >
-            <SalesChart />
-          </el-card>
-          <div
-            class="flex-sub"
-            style="background-color: green"
-          ></div>
+        <div class="flex flex-direction">
+          <SalesChart />
+          <StudentChart class="margin-top-xs" />
         </div>
       </el-col>
     </el-row>
@@ -125,9 +100,10 @@ import DataItem from './components/DataItem'
 import * as eCharts from 'echarts'
 import { mapGetters } from 'vuex'
 import SalesChart from './components/chart/SalesChart'
+import StudentChart from './components/chart/StudentChart'
 export default {
   name: 'Index',
-  components: { DataItem, SalesChart },
+  components: { DataItem, SalesChart, StudentChart },
   data() {
     return {
       dataList: [

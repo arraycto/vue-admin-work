@@ -6,7 +6,7 @@
   >
     <template #header>
       <div class="text-bold text-black">
-        一周销售额走势图（单位：万）
+        半年招生对比图（单位：人）
       </div>
     </template>
     <div
@@ -44,36 +44,36 @@ export default {
         tooltip: {
           trigger: 'axis'
         },
-        xAxis: {
-          type: 'category',
-          data: ['周一', '周二', '周三', '周四', '周五', '周六', '周天'],
-          boundaryGap: false,
-          splitLine: { show: false }
-        },
         yAxis: {
+          type: 'category',
+          data: ['一月', '二月', '三月', '四月', '五月', '六月'],
+          boundaryGap: true,
+          axisTick: {
+            show: false
+          }
+        },
+        xAxis: {
           type: 'value',
-          boundaryGap: false,
-          splitLine: { show: false }
+          boundaryGap: true
         },
         series: [
           {
-            data: [150, 180, 224, 218, 200, 180, 150],
-            type: 'line',
+            data: [480, 289, 711, 618, 393, 571, 470],
+            type: 'bar',
             smooth: true,
             showSymbol: false,
-            lineStyle: {
-              width: 0
-            },
-            areaStyle: {
+            barWidth: 'auto',
+            itemStyle: {
+              borderRadius: [0, 15, 15, 0],
               opacity: 0.8,
-              color: new eCharts.graphic.LinearGradient(0, 0, 0, 1, [
+              color: new eCharts.graphic.LinearGradient(1, 0, 0, 1, [
                 {
                   offset: 0,
-                  color: 'rgba(55, 162, 255)'
+                  color: 'rgba(255, 0, 135)'
                 },
                 {
                   offset: 1,
-                  color: 'rgba(116, 21, 219)'
+                  color: 'rgba(135, 0, 157)'
                 }
               ])
             }
