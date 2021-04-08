@@ -21,6 +21,7 @@
 <script>
 import * as eCharts from 'echarts'
 import chinaData from '@/assets/data/china.json'
+import { convertData } from '@/assets/data/map.js'
 export default {
   name: 'SchoolChart',
   data() {
@@ -33,30 +34,76 @@ export default {
   },
   methods: {
     init() {
-      this.chartInstance = eCharts.init(this.$refs.schoolChart)
       eCharts.registerMap('china', chinaData)
+      this.chartInstance = eCharts.init(this.$refs.schoolChart)
+      const scatterData = convertData()
       const option = {
+        tooltip: {
+          trigger: 'item'
+        },
+        geo: {
+          type: 'map',
+          map: 'china',
+          itemStyle: {
+            areaColor: '#0083ce',
+            borderColor: '#0066ba',
+            emphasis: {
+              borderWidth: 0,
+              borderColor: '#0066ba',
+              areaColor: '#F06C00',
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          },
+          zoom: 1.2
+        },
+        legend: {
+          right: '5%',
+          bottom: '5%',
+          orient: 'vetical'
+        },
         series: [
           {
-            type: 'map',
-            map: 'china',
+            type: 'scatter',
+            name: '合作校区',
             coordinateSystem: 'geo',
+            data: scatterData
+              .sort((a, b) => {
+                return b.value[2] - a.value[2]
+              })
+              .slice(6),
+            hoverAnimation: true,
+            encode: {
+              value: 2
+            },
             itemStyle: {
-              areaColor: '#0083ce',
-              borderColor: '#0066ba',
-              emphasis: {
-                borderWidth: 0,
-                borderColor: '#0066ba',
-                areaColor: '#F06C00',
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
+              color: '#1bff00'
+            }
+          },
+          {
+            type: 'effectScatter',
+            name: '前六名合作校区',
+            coordinateSystem: 'geo',
+            data: scatterData
+              .sort((a, b) => {
+                return b.value[2] - a.value[2]
+              })
+              .slice(0, 6),
+            symbolSize: function (val) {
+              return val[2] / 10
+            },
+            itemStyle: {
+              color: '#e43737'
+            },
+            encode: {
+              value: 2
+            },
+            label: {
+              formatter: '{b}',
+              position: 'right',
+              show: true
             }
           }
-        ],
-        data: [{
-          name: '北京',
-          value: 10
-        }]
+        ]
       }
       this.chartInstance.setOption(option)
     }
