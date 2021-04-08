@@ -69,7 +69,8 @@
     >
       <el-col
         :xs="24"
-        :sm="6"
+        :sm="12"
+        :md="6"
       >
         <div class="flex flex-direction">
           <SalesChart />
@@ -78,17 +79,21 @@
       </el-col>
       <el-col
         :xs="24"
+        :sm="24"
         :md="12"
       >
-        <div style="background-color: blue; height: 100px"></div>
+        <div>
+          <SchoolChart />
+        </div>
       </el-col>
       <el-col
         :xs="24"
-        :sm="6"
+        :sm="12"
+        :md="6"
       >
         <div class="flex flex-direction">
-          <SalesChart />
-          <StudentChart class="margin-top-xs" />
+          <EnrollmentChannelsChart />
+          <DepartmentChart class="margin-top-xs" />
         </div>
       </el-col>
     </el-row>
@@ -101,9 +106,12 @@ import * as eCharts from 'echarts'
 import { mapGetters } from 'vuex'
 import SalesChart from './components/chart/SalesChart'
 import StudentChart from './components/chart/StudentChart'
+import EnrollmentChannelsChart from './components/chart/EnrollmentChannelsChart'
+import DepartmentChart from './components/chart/DepartmentChart'
+import SchoolChart from './components/chart/SchoolChart'
 export default {
   name: 'Index',
-  components: { DataItem, SalesChart, StudentChart },
+  components: { DataItem, SchoolChart, SalesChart, StudentChart, EnrollmentChannelsChart, DepartmentChart },
   data() {
     return {
       dataList: [

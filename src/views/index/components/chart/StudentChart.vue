@@ -10,7 +10,7 @@
       </div>
     </template>
     <div
-      ref="salesChart"
+      ref="studentChart"
       class="chart-item"
     >
     </div>
@@ -21,7 +21,7 @@
 <script>
 import * as eCharts from 'echarts'
 export default {
-  name: 'SalesChart',
+  name: 'StudentChart',
   data() {
     return {
       chartInstance: null
@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     init() {
-      this.chartInstance = eCharts.init(this.$refs.salesChart)
+      this.chartInstance = eCharts.init(this.$refs.studentChart)
       const option = {
         grid: {
           left: '2%',
@@ -69,11 +69,11 @@ export default {
               color: new eCharts.graphic.LinearGradient(1, 0, 0, 1, [
                 {
                   offset: 0,
-                  color: 'rgba(255, 0, 135)'
+                  color: 'rgba(12, 124, 182)'
                 },
                 {
                   offset: 1,
-                  color: 'rgba(135, 0, 157)'
+                  color: 'rgba(244, 187, 236)'
                 }
               ])
             }
