@@ -22,15 +22,25 @@ Vue.use(Element)
 
 function initDevice() {
   const width = document.body.clientWidth
-  if (width < 980) {
+  if (width <= 768) {
     store.dispatch('app/setDevice', 'mobile')
+    store.dispatch('app/closeCollapseSideBar')
+  } else if (width < 992 && width > 768) {
+    store.dispatch('app/setDevice', 'pad')
+    store.dispatch('app/closeCollapseSideBar')
+  } else if (width < 1200 && width >= 992) {
+    store.dispatch('app/setDevice', 'desktop')
     store.dispatch('app/closeCollapseSideBar')
   } else {
     store.dispatch('app/setDevice', 'desktop')
     store.dispatch('app/openCollapseSideBar')
   }
 }
+// 初始化设备信息
 initDevice()
+
+window.addEventListener('resize', initDevice)
+
 // 注册成为全局的组件
 Vue.component('TableHeader', TableHeader)
 Vue.component('TableFooter', TableFooter)

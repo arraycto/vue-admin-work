@@ -32,7 +32,6 @@ import NavBar from './components/NavBar'
 import TagView from './components/TagView'
 import AppMain from './components/AppMain'
 import { mapGetters } from 'vuex'
-import ResizeMixin from '@/mixins/ResizeMixin'
 export default {
   name: 'Layout',
   components: {
@@ -41,7 +40,6 @@ export default {
     TagView,
     AppMain
   },
-  mixins: [ResizeMixin],
   data() {
     return {
       hiddenSideBarStyle: {
@@ -75,7 +73,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/variables.scss";
+@import '~@/styles/variables.scss';
 .app-container {
   box-sizing: border-box;
   position: relative;
@@ -102,7 +100,7 @@ export default {
   .show-side-bar {
     width: $app-left-menu-width;
   }
-  @media screen and (max-width: 480px) {
+  @media screen and (max-width: 768px) {
     .hiden-side-bar {
       width: 0 !important;
     }
@@ -130,7 +128,7 @@ export default {
       transition: all 0.3s ease-in;
     }
   }
-  @media screen and (min-width: 480px) and (max-width: 980px) {
+  @media screen and (min-width: 768px) and (max-width: 992px) {
     .hidden-app-main {
       margin-left: 54px;
     }
@@ -141,7 +139,7 @@ export default {
       margin-left: $app-left-menu-width;
     }
   }
-  @media screen and (min-width: 980px) {
+  @media screen and (min-width: 992px) {
     .hidden-app-main {
       margin-left: 54px;
     }

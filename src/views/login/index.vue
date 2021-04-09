@@ -4,7 +4,7 @@
       ref="loginWrapper"
       class="login-bg-wrapper"
     >
-      <img :src="ImageBg1" />
+      <img :src="$isMobile ? ImageMobileBg1 : ImageBg1" />
     </div>
     <div class="flex form-wrapper">
       <div class="left"></div>
@@ -48,6 +48,7 @@
 import ImageBg1 from '@/assets/img_login_bg_01.jpg'
 import ImageBg2 from '@/assets/img_login_bg_02.jpg'
 import ImageBg3 from '@/assets/img_login_bg_03.jpg'
+import ImageMobileBg1 from '@/assets/img_login_mobile_bg_01.jpg'
 export default {
   name: 'Login',
   data() {
@@ -56,7 +57,8 @@ export default {
       password: '',
       ImageBg1,
       ImageBg2,
-      ImageBg3
+      ImageBg3,
+      ImageMobileBg1
     }
   },
   methods: {
@@ -67,11 +69,13 @@ export default {
           username: 'admin',
           password: '123456'
         }
-      }).then(res => {
-        this.$router.push({ path: '/' })
-      }).catch(error => {
-        console.log(error)
       })
+        .then((res) => {
+          this.$router.push({ path: '/' })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 }
@@ -101,7 +105,7 @@ export default {
     left: 0;
     right: 0;
     bottom: 15.8%;
-    @media screen and (max-width: 480px) {
+    @media screen and (max-width: 768px) {
       .left {
         display: none;
       }
@@ -117,6 +121,10 @@ export default {
           font-size: 20px;
           font-weight: bold;
           color: #5497ff;
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 100%;
         }
         .form-container {
           width: 80%;
@@ -139,7 +147,7 @@ export default {
         }
       }
     }
-    @media screen and (min-width: 480px) and (max-width: 998px) {
+    @media screen and (min-width: 768px) and (max-width: 992px) {
       .left {
         display: none;
       }
@@ -177,7 +185,7 @@ export default {
         }
       }
     }
-    @media screen and (min-width: 1220px) {
+    @media screen and (min-width: 992px) {
       .left {
         display: block;
         flex: 1;
@@ -196,10 +204,10 @@ export default {
           margin-bottom: 15%;
         }
         .item-wrapper {
-          width: 55%;
+          width: 45%;
         }
         .login {
-          width: 55%;
+          width: 45%;
         }
       }
     }

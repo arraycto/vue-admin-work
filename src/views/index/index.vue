@@ -119,7 +119,14 @@ import SchoolChart from './components/chart/SchoolChart'
 import ResizeMixin from '@/mixins/ResizeMixin'
 export default {
   name: 'Index',
-  components: { DataItem, SchoolChart, SalesChart, StudentChart, EnrollmentChannelsChart, DepartmentChart },
+  components: {
+    DataItem,
+    SchoolChart,
+    SalesChart,
+    StudentChart,
+    EnrollmentChannelsChart,
+    DepartmentChart
+  },
   mixins: [ResizeMixin],
   data() {
     return {
@@ -173,7 +180,7 @@ export default {
   watch: {
     collapse(newVal) {
       setTimeout(() => {
-        this.chart && this.chart.resize()
+        this.chart.resize()
         this.onResize()
       }, 500)
     }
@@ -238,11 +245,11 @@ export default {
       this.chart.setOption(option)
     },
     onResize(width) {
-      this.$refs.salesChart && this.$refs.salesChart.updateChart()
-      this.$refs.departmentChart && this.$refs.departmentChart.updateChart()
-      this.$refs.enrollmentChannelsChart && this.$refs.enrollmentChannelsChart.updateChart()
-      this.$refs.schoolChart && this.$refs.schoolChart.updateChart()
-      this.$refs.studentChart && this.$refs.studentChart.updateChart()
+      this.$refs.salesChart.updateChart()
+      this.$refs.departmentChart.updateChart()
+      this.$refs.enrollmentChannelsChart.updateChart()
+      this.$refs.schoolChart.updateChart()
+      this.$refs.studentChart.updateChart()
     }
   }
 }
