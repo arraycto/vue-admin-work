@@ -85,6 +85,9 @@ export default {
         }]
       }
       this.chartInstance.setOption(option)
+    },
+    updateChart() {
+      this.chartInstance.resize()
     }
   }
 }

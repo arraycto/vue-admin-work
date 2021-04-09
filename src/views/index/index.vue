@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <el-row :gutter="10">
+    <el-row :gutter="5">
       <el-col
         v-for="(item, index) of dataList"
         :key="index"
@@ -64,36 +64,43 @@
       </el-col>
     </el-row>
     <el-row
-      :gutter="10"
-      class="margin-top"
+      :gutter="5"
+      class="margin-top-xs"
     >
       <el-col
         :xs="24"
-        :sm="12"
+        :sm="24"
         :md="6"
       >
         <div class="flex flex-direction">
-          <SalesChart />
-          <StudentChart class="margin-top-xs" />
+          <SalesChart ref="salesChart" />
+          <StudentChart
+            ref="studentChart"
+            class="margin-top-xs"
+          />
         </div>
       </el-col>
       <el-col
         :xs="24"
         :sm="24"
         :md="12"
+        class="map-margin-tb"
       >
         <div>
-          <SchoolChart />
+          <SchoolChart ref="schoolChart" />
         </div>
       </el-col>
       <el-col
         :xs="24"
-        :sm="12"
+        :sm="24"
         :md="6"
       >
         <div class="flex flex-direction">
-          <EnrollmentChannelsChart />
-          <DepartmentChart class="margin-top-xs" />
+          <EnrollmentChannelsChart ref="enrollmentChannelsChart" />
+          <DepartmentChart
+            ref="departmentChart"
+            class="margin-top-xs"
+          />
         </div>
       </el-col>
     </el-row>
@@ -109,9 +116,11 @@ import StudentChart from './components/chart/StudentChart'
 import EnrollmentChannelsChart from './components/chart/EnrollmentChannelsChart'
 import DepartmentChart from './components/chart/DepartmentChart'
 import SchoolChart from './components/chart/SchoolChart'
+import ResizeMixin from '@/mixins/ResizeMixin'
 export default {
   name: 'Index',
   components: { DataItem, SchoolChart, SalesChart, StudentChart, EnrollmentChannelsChart, DepartmentChart },
+  mixins: [ResizeMixin],
   data() {
     return {
       dataList: [
@@ -164,8 +173,9 @@ export default {
   watch: {
     collapse(newVal) {
       setTimeout(() => {
-        this.chart.resize()
-      }, 200)
+        this.chart && this.chart.resize()
+        this.onResize()
+      }, 500)
     }
   },
   mounted() {
@@ -226,6 +236,13 @@ export default {
         ]
       }
       this.chart.setOption(option)
+    },
+    onResize(width) {
+      this.$refs.salesChart && this.$refs.salesChart.updateChart()
+      this.$refs.departmentChart && this.$refs.departmentChart.updateChart()
+      this.$refs.enrollmentChannelsChart && this.$refs.enrollmentChannelsChart.updateChart()
+      this.$refs.schoolChart && this.$refs.schoolChart.updateChart()
+      this.$refs.studentChart && this.$refs.studentChart.updateChart()
     }
   }
 }
@@ -235,6 +252,9 @@ export default {
 @media screen and (max-width: 980px) {
   .item-wrapper {
     margin-bottom: 5px;
+  }
+  .map-margin-tb {
+    margin: 5px 0;
   }
 }
 .chart-item {

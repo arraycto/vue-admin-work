@@ -8,6 +8,7 @@ export default {
   methods: {
     handleResize() {
       const width = document.body.clientWidth
+      this.onResize && this.onResize(width)
       if (width < 980) {
         this.$store.dispatch('app/setDevice', 'mobile')
         this.$store.dispatch('app/closeCollapseSideBar')

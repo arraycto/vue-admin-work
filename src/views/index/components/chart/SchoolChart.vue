@@ -57,7 +57,7 @@ export default {
           zoom: 1.2
         },
         legend: {
-          right: '5%',
+          left: '5%',
           bottom: '5%',
           orient: 'vetical'
         },
@@ -92,7 +92,7 @@ export default {
               return val[2] / 10
             },
             itemStyle: {
-              color: '#e43737'
+              color: '#0ce88e'
             },
             encode: {
               value: 2
@@ -106,6 +106,9 @@ export default {
         ]
       }
       this.chartInstance.setOption(option)
+    },
+    updateChart() {
+      this.chartInstance.resize()
     }
   }
 }

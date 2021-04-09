@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import store from '@/store'
 import * as urlPath from '@/api/url'
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -19,6 +20,17 @@ echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRe
 
 Vue.use(Element)
 
+function initDevice() {
+  const width = document.body.clientWidth
+  if (width < 980) {
+    store.dispatch('app/setDevice', 'mobile')
+    store.dispatch('app/closeCollapseSideBar')
+  } else {
+    store.dispatch('app/setDevice', 'desktop')
+    store.dispatch('app/openCollapseSideBar')
+  }
+}
+initDevice()
 // 注册成为全局的组件
 Vue.component('TableHeader', TableHeader)
 Vue.component('TableFooter', TableFooter)
@@ -30,6 +42,7 @@ Vue.prototype.$echarts = echarts
 Vue.prototype.$urlPath = urlPath
 Vue.prototype.$isMobile = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
 Vue.prototype.$isAndroid = navigator.userAgent.indexOf('Android') > -1 || navigator.userAgent.indexOf('Adr') > -1
+
 Vue.prototype.$successMsg = function (message = '') {
   this.$message({
     message,

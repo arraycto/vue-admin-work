@@ -13,6 +13,7 @@
         :text-color="variables[`theme${themeId}_menuColor`]"
         :unique-opened="false"
         :collapse-transition="false"
+        @select="onPathSelect"
       >
         <template v-for="item of filterRoutes">
           <SideBarItem
@@ -51,6 +52,13 @@ export default {
     },
     routePath() {
       return this.$route.path
+    }
+  },
+  methods: {
+    onPathSelect() {
+      if (this.$isMobile) {
+        this.$store.dispatch('app/closeCollapseSideBar')
+      }
     }
   }
 }
