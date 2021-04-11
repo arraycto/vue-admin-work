@@ -30,7 +30,7 @@ function initDevice() {
     store.dispatch('app/closeCollapseSideBar')
   } else if (width < 1200 && width >= 992) {
     store.dispatch('app/setDevice', 'desktop')
-    store.dispatch('app/closeCollapseSideBar')
+    store.dispatch('app/openCollapseSideBar')
   } else {
     store.dispatch('app/setDevice', 'desktop')
     store.dispatch('app/openCollapseSideBar')
