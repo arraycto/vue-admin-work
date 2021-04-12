@@ -66,6 +66,11 @@ export const routes = [
         }
       }
     ]
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/exception/404'),
+    hidden: true
   }
 ]
 

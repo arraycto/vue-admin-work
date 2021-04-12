@@ -67,7 +67,7 @@ export const adminRoutes = [
   },
   {
     menuUrl: '/pages',
-    menuName: '页面详情',
+    menuName: '结果页面',
     children: [
       {
         menuUrl: '/pages/success',
@@ -76,17 +76,23 @@ export const adminRoutes = [
       {
         menuUrl: '/pages/fail',
         menuName: '失败页面'
-      },
+      }
+    ]
+  },
+  {
+    menuUrl: '/exception',
+    menuName: '异常页面',
+    children: [
       {
-        menuUrl: '/pages/404',
+        menuUrl: '/exception/404',
         menuName: '404'
       },
       {
-        menuUrl: '/pages/403',
+        menuUrl: '/exception/403',
         menuName: '403'
       },
       {
-        menuUrl: '/pages/500',
+        menuUrl: '/exception/500',
         menuName: '500'
       }
     ]

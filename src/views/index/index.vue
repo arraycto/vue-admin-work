@@ -104,6 +104,11 @@
         </div>
       </el-col>
     </el-row>
+    <el-row class="margin-top-xs">
+      <el-col :span="24">
+        <FullYearSalesChart ref="fullYearSalesChart" />
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -116,6 +121,7 @@ import StudentChart from './components/chart/StudentChart'
 import EnrollmentChannelsChart from './components/chart/EnrollmentChannelsChart'
 import DepartmentChart from './components/chart/DepartmentChart'
 import SchoolChart from './components/chart/SchoolChart'
+import FullYearSalesChart from './components/chart/FullYearSalesChart'
 import ResizeMixin from '@/mixins/ResizeMixin'
 export default {
   name: 'Index',
@@ -125,7 +131,8 @@ export default {
     SalesChart,
     StudentChart,
     EnrollmentChannelsChart,
-    DepartmentChart
+    DepartmentChart,
+    FullYearSalesChart
   },
   mixins: [ResizeMixin],
   data() {
@@ -250,6 +257,7 @@ export default {
       this.$refs.enrollmentChannelsChart.updateChart()
       this.$refs.schoolChart.updateChart()
       this.$refs.studentChart.updateChart()
+      this.$refs.fullYearSalesChart.updateChart()
     }
   }
 }

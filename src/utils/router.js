@@ -76,7 +76,7 @@ router.beforeEach((to, from, next) => {
       getRoutes().then(async routes => {
         asyncRoutes.push(...routes)
         await store.dispatch('user/saveRoutes', asyncRoutes)
-        router.addRoutes(routes)
+        router.addRoutes(asyncRoutes)
         next({ ...to, replace: true })
       })
     } else {

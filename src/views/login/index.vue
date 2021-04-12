@@ -204,10 +204,10 @@ export default {
           margin-bottom: 15%;
         }
         .item-wrapper {
-          width: 45%;
+          width: 48%;
         }
         .login {
-          width: 45%;
+          width: 48%;
         }
       }
     }
