@@ -18,6 +18,7 @@
               v-model="username"
               placeholder="请输入用户名/手机号"
               prefix-icon="el-icon-user"
+              clearable
             />
           </div>
           <div class="item-wrapper margin-top-lg">
@@ -25,6 +26,7 @@
               v-model="password"
               placeholder="请输入密码"
               type="password"
+              clearable
               prefix-icon="el-icon-lock"
             />
           </div>
@@ -49,29 +51,53 @@ import ImageBg1 from '@/assets/img_login_bg_01.jpg'
 import ImageBg2 from '@/assets/img_login_bg_02.jpg'
 import ImageBg3 from '@/assets/img_login_bg_03.jpg'
 import ImageMobileBg1 from '@/assets/img_login_mobile_bg_01.jpg'
+import Cookies from 'js-cookie'
 export default {
   name: 'Login',
   data() {
     return {
-      username: '',
-      password: '',
+      username: 'admin',
+      password: '123456',
       ImageBg1,
       ImageBg2,
       ImageBg3,
-      ImageMobileBg1
+      ImageMobileBg1,
+      redirect: ''
+    }
+  },
+  watch: {
+    $route: {
+      handler: function (route) {
+        const query = route.query
+        if (query) {
+          this.redirect = query.redirect
+        }
+      },
+      immediate: true
     }
   },
   methods: {
     login() {
+      if (!this.username) {
+        this.$errorMsg('请输入用户名')
+        return
+      }
+      if (!this.password) {
+        this.$errorMsg('请输入密码')
+        return
+      }
       this.$post({
         url: this.$urlPath.login,
         data: {
-          username: 'admin',
-          password: '123456'
+          username: this.username,
+          password: this.password
         }
       })
         .then((res) => {
-          this.$router.push({ path: '/' })
+          Cookies.set('admin-token', '1212', {
+            expires: 1
+          })
+          this.$router.push({ path: this.redirect || '/index/main' })
         })
         .catch((error) => {
           console.log(error)

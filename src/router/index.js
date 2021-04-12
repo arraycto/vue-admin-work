@@ -52,7 +52,7 @@ export const routes = [
     },
     children: [
       {
-        path: '',
+        path: 'main',
         component: () => import('@/views/index'),
         meta: {
           title: '主控页'

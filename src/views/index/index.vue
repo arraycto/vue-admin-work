@@ -104,7 +104,10 @@
         </div>
       </el-col>
     </el-row>
-    <el-row class="margin-top-xs">
+    <el-row
+      :gutter="5"
+      class="margin-top-xs"
+    >
       <el-col :span="24">
         <FullYearSalesChart ref="fullYearSalesChart" />
       </el-col>
@@ -264,7 +267,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@media screen and (max-width: 980px) {
+@media screen and (max-width: 992px) {
   .item-wrapper {
     margin-bottom: 5px;
   }

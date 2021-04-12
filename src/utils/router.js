@@ -7,6 +7,8 @@ import Layout from '@/layout'
 import { pathToFileName } from './AsyncRouteMap'
 import { baseAddress, getMenuList } from '@/api/url'
 
+import Cookies from 'js-cookie'
+
 NProgress.configure({ showSpinner: false })
 
 function getRoutes() {
@@ -64,23 +66,33 @@ function generatorRoutes(res) {
   return tempRoutes
 }
 
+function isTokenExpired() {
+  const token = Cookies.get('admin-token')
+  return !!token
+}
+
 router.beforeEach((to, from, next) => {
   NProgress.start()
   if (to.name === 'login') {
     next()
     NProgress.done()
   } else {
-    const isEmptyRoute = store.getters['user/isEmptyRoutes']
-    if (isEmptyRoute) {
-      // 加载路由
-      getRoutes().then(async routes => {
-        asyncRoutes.push(...routes)
-        await store.dispatch('user/saveRoutes', asyncRoutes)
-        router.addRoutes(asyncRoutes)
-        next({ ...to, replace: true })
-      })
+    if (!isTokenExpired()) {
+      next(`/login?redirect=${to.path}`)
+      NProgress.done()
     } else {
-      next()
+      const isEmptyRoute = store.getters['user/isEmptyRoutes']
+      if (isEmptyRoute) {
+        // 加载路由
+        getRoutes().then(async routes => {
+          asyncRoutes.push(...routes)
+          await store.dispatch('user/saveRoutes', asyncRoutes)
+          router.addRoutes(asyncRoutes)
+          next({ ...to, replace: true })
+        })
+      } else {
+        next()
+      }
     }
   }
 })

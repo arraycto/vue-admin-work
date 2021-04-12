@@ -18,7 +18,20 @@
 </template>
 <script>
 import * as eCharts from 'echarts'
-const months = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+const months = [
+  '一月',
+  '二月',
+  '三月',
+  '四月',
+  '五月',
+  '六月',
+  '七月',
+  '八月',
+  '九月',
+  '十月',
+  '十一月',
+  '十二月'
+]
 export default {
   name: 'FullYearSalesChart',
   data() {
@@ -36,8 +49,8 @@ export default {
         color: ['rgba(110, 199, 205)', 'rgba(211, 58, 192)'],
         grid: {
           top: '10%',
-          left: '3%',
-          right: '3%',
+          left: '1%',
+          right: '1%',
           bottom: '5%',
           containLabel: true
         },

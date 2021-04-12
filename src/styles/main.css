@@ -42,7 +42,7 @@
   margin: 0 10px;
 }
 
-html{
+html {
   height: 100%;
 }
 
@@ -54,7 +54,7 @@ body {
   font-family: Helvetica Neue, Helvetica, sans-serif;
 }
 
-#app{
+#app {
   height: 100%;
 }
 
@@ -73,6 +73,7 @@ body .el-table__fixed::before {
   background-color: #fff;
   /* margin: 5px; */
   padding: 5px;
+  overflow-x: hidden;
   overflow-y: scroll;
 }
 
