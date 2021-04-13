@@ -94,7 +94,6 @@ export default {
     position: relative;
     box-sizing: border-box;
     margin-left: $app-left-menu-width;
-    background-color: #fff;
     transition: margin-left 0.3s;
   }
   .show-side-bar {

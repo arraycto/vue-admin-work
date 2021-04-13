@@ -1,0 +1,100 @@
+@import "../variables.scss";
+
+.theme-dark {
+  $activeColor: #f41766;
+
+  // logo class
+  .logo-container {
+    background-color: $theme_dark_menuDarkBg;
+  }
+
+  .logo-border-bottom {
+    border-bottom: 1px solid $theme_dark_menuBg;
+  }
+  // logo class
+
+  .side-bar-theme {
+    background-color: $theme_dark_menuBg;
+  }
+  .el-menu .is-opened .el-menu-item {
+    background-color: $theme_dark_menuDarkBg !important;
+  }
+
+  .el-menu .el-submenu__title:hover {
+    background-color: $theme_dark_menuHoverBg !important;
+  }
+
+  .el-menu .el-submenu__title i {
+    color: $theme_dark_menuColor;
+  }
+
+  .el-menu .el-menu-item:hover {
+    background-color: $theme_dark_menuHoverBg !important;
+  }
+
+  .el-menu .el-submenu .el-submenu .el-submenu__title {
+    background-color: $theme_dark_menuDarkBg !important;
+  }
+
+  .el-menu-item.is-active {
+    color: $activeColor;
+  }
+  .el-tag--plain {
+    border-color: $activeColor;
+    color: $activeColor;
+  }
+  .el-tag--dark {
+    background-color: $activeColor;
+    border-color: $activeColor;
+  }
+  .el-tag--dark .el-tag__close {
+    color: #ffffff;
+  }
+  .el-tag--plain .el-tag__close {
+    color: $activeColor;
+  }
+  .el-tag--dark .el-tag__close:hover,
+  .el-tag--plain .el-tag__close:hover {
+    background-color: $activeColor;
+    color: #ffffff;
+  }
+
+  .el-menu .el-submenu .el-submenu .el-submenu__title:hover {
+    background-color: $theme_dark_menuHoverBg !important;
+  }
+
+  .show-side-bar {
+    box-shadow: 2px 0 8px $theme_dark_menuDarkBg;
+  }
+
+  .icon-class:hover {
+    cursor: pointer;
+    color: $activeColor;
+  }
+
+  // nav bar theme
+  .nav-bar-theme {
+    background-color: $theme_dark_menuDarkBg;
+    color: red !important;
+  }
+
+  .icon-class,
+  .hamburger,
+  .breadcrumb-title,
+  .el-dropdown-link {
+    color: #ffffff;
+  }
+
+  // tag view theme
+  .tag-view-theme {
+    background-color: $theme_dark_menuBg;
+    top: 49px;
+    padding: 6px 10px;
+    border-bottom: none;
+  }
+
+  // app main theme
+  .app-main-theme {
+    background-color: $theme_dark_menuDarkBg;
+  }
+}

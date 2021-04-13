@@ -1,5 +1,5 @@
 <template>
-  <div class="app-main">
+  <div class="app-main app-main-theme">
     <transition
       name="fade-transform"
       mode="out-in"
@@ -28,7 +28,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/variables.scss";
+@import '~@/styles/variables.scss';
 $top: $navBarHeight + 35;
 .app-main {
   position: absolute;
@@ -38,7 +38,7 @@ $top: $navBarHeight + 35;
   overflow-y: hidden;
   height: calc(100vh - #{$top});
   width: 100%;
-  background-color: #f5f7f9;
+  // background-color: #f5f7f9;
   padding: 5px;
   overflow-x: hidden;
 }

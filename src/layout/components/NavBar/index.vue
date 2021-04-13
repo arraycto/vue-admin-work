@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-bar-container">
+  <div class="nav-bar-container nav-bar-theme">
     <Hamburger :is-open="collapse" />
     <el-breadcrumb
       class="breadcrumb"
@@ -188,7 +188,7 @@ export default {
           this.$successMsg('模拟退出成功')
         })
       } else if (type === 'resetPassword') {
-        this.$refs.resetPasswordDialog.show().then(_ => {
+        this.$refs.resetPasswordDialog.show().then((_) => {
           this.$successMsg('模拟密码修改成功')
         })
       }
@@ -198,13 +198,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/variables.scss";
+@import '~@/styles/variables.scss';
 .nav-bar-container {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  background-color: #fff;
   display: flex;
   padding: 10px;
   height: $navBarHeight;
@@ -216,7 +215,6 @@ export default {
     margin-left: 10px;
     .breadcrumb-title {
       font-size: 14px;
-      color: #666666;
     }
   }
   .icon-wrapper {
@@ -227,13 +225,13 @@ export default {
       font-size: 1.3rem;
     }
   }
-  @media screen and (max-width: 480px) {
+  @media screen and (max-width: 768px) {
     .nick-wrapper,
     .avatar-wrapper {
       display: none;
     }
   }
-  @media screen and (min-width: 480px) {
+  @media screen and (min-width: 768px) {
     .avatar-wrapper {
       width: 2.2rem;
       height: 2.2rem;

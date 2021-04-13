@@ -4,7 +4,7 @@
       <MarkdownEditor
         ref="markdownEditor"
         v-model="editorText"
-        :height="300"
+        :height="400"
         placeholder="Insert here…"
       />
     </div>
@@ -24,6 +24,7 @@
       >预览HTML</el-button>
     </div>
     <div
+      v-if="priviewContent"
       class="bg-white padding-xs margin-top"
       v-html="priviewContent"
     ></div>
@@ -50,7 +51,9 @@ export default {
       this.$refs.markdownEditor.addText('\n### 新增内容')
     },
     addImage() {
-      this.$refs.markdownEditor.addImage('\n![](https://file.iviewui.com/dist/2ecd3b0452aa197097d5131afacab7b8.png)')
+      this.$refs.markdownEditor.addImage(
+        '\n![](https://file.iviewui.com/dist/2ecd3b0452aa197097d5131afacab7b8.png)'
+      )
     },
     getHTML() {
       this.priviewContent = SimpleMDE.prototype.markdown(this.editorText)

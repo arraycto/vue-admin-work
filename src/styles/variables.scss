@@ -6,42 +6,42 @@ $navBarHeight: 49px;
 // sidebar
 $app-left-menu-width: 250px;
 
-$theme1_menuBg: #21264a;
-$theme1_menuDarkBg: #1f2d3d;
-$theme1_menuHoverBg: #080c11;
-$theme1_menuColor: #ffffff;
-$theme1_activeColor: #ffffff;
+$theme_dark_menuBg: #21264a;
+$theme_dark_menuDarkBg: #1f2d3d;
+$theme_dark_menuHoverBg: #080c11;
+$theme_dark_menuColor: #ffffff;
+$theme_dark_activeColor: #ffffff;
 
-$theme2_menuBg: #409EFF;
-$theme2_menuDarkBg: #047FFF;
-$theme2_menuHoverBg: #047FFF;
-$theme2_menuColor: #ffffff;
-$theme2_activeColor: #ffffff;
+$theme_blue_menuBg: #409eff;
+$theme_blue_menuDarkBg: #047fff;
+$theme_blue_menuHoverBg: #047fff;
+$theme_blue_menuColor: #ffffff;
+$theme_blue_activeColor: #ffffff;
 
-$theme3_menuBg: #ffffff;
-$theme3_menuDarkBg: #ffffff;
-$theme3_menuHoverBg: #ffffff;
-$theme3_menuColor: #515a6e;
-$theme3_activeColor: #047FFF;
+$theme_light_menuBg: #ffffff;
+$theme_light_menuDarkBg: #ffffff;
+$theme_light_menuHoverBg: #ffffff;
+$theme_light_menuColor: #515a6e;
+$theme_light_activeColor: #047fff;
 
 $mainPadding: 2px;
 
 :export {
-  theme1_menuBg: $theme1_menuBg;
-  theme1_menuDarkBg: $theme1_menuDarkBg;
-  theme1_menuHoverBg: $theme1_menuHoverBg;
-  theme1_menuColor: $theme1_menuColor;
-  theme1_activeColor: $theme1_activeColor;
+  theme_dark_menuBg: $theme_dark_menuBg;
+  theme_dark_menuDarkBg: $theme_dark_menuDarkBg;
+  theme_dark_menuHoverBg: $theme_dark_menuHoverBg;
+  theme_dark_menuColor: $theme_dark_menuColor;
+  theme_dark_activeColor: $theme_dark_activeColor;
 
-  theme2_menuBg: $theme2_menuBg;
-  theme2_menuDarkBg: $theme2_menuDarkBg;
-  theme2_menuHoverBg: $theme2_menuHoverBg;
-  theme2_menuColor: $theme2_menuColor;
-  theme2_activeColor: $theme2_activeColor;
+  theme_blue_menuBg: $theme_blue_menuBg;
+  theme_blue_menuDarkBg: $theme_blue_menuDarkBg;
+  theme_blue_menuHoverBg: $theme_blue_menuHoverBg;
+  theme_blue_menuColor: $theme_blue_menuColor;
+  theme_blue_activeColor: $theme_blue_activeColor;
 
-  theme3_menuBg: $theme3_menuBg;
-  theme3_menuDarkBg: $theme3_menuDarkBg;
-  theme3_menuHoverBg: $theme3_menuHoverBg;
-  theme3_menuColor: $theme3_menuColor;
-  theme3_activeColor: $theme3_activeColor;
+  theme_light_menuBg: $theme_light_menuBg;
+  theme_light_menuDarkBg: $theme_light_menuDarkBg;
+  theme_light_menuHoverBg: $theme_light_menuHoverBg;
+  theme_light_menuColor: $theme_light_menuColor;
+  theme_light_activeColor: $theme_light_activeColor;
 }

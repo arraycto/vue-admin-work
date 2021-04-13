@@ -1,7 +1,7 @@
 <template>
   <div
     ref="tagScollerContainer"
-    class="tag-view-container"
+    class="tag-view-container tag-view-theme"
   >
     <el-scrollbar
       ref="scrollBar"
@@ -50,13 +50,13 @@ export default {
   methods: {
     initRoute() {
       const affixRoutes = this.filterAffixRoute(this.allRoutes, '/')
-      affixRoutes.forEach(it => {
+      affixRoutes.forEach((it) => {
         this.$store.dispatch('CacheRoute/addRoute', it)
       })
     },
     filterAffixRoute(tempRoute, basePath) {
       const tmp = []
-      tempRoute.forEach(it => {
+      tempRoute.forEach((it) => {
         if (!it.hidden && it.meta && it.meta.affix) {
           const tempPath = path.resolve(basePath, it.path)
           tmp.push({
@@ -80,7 +80,7 @@ export default {
     },
     addRoute() {
       this.$store.dispatch('CacheRoute/addRoute', this.$route)
-      this.$nextTick(_ => {
+      this.$nextTick((_) => {
         this.$refs.scrollBar.$refs.wrap.scrollTo({
           behavior: 'smooth',
           left: this.$refs[this.$route.path][0].$el.offsetLeft
@@ -89,12 +89,14 @@ export default {
     },
     removeRoute(tempRoute) {
       this.$store.dispatch('CacheRoute/removeRoute', tempRoute)
-      this.$nextTick(_ => {
-        const tmp = this.visitedRoutes.find(it => {
+      this.$nextTick((_) => {
+        const tmp = this.visitedRoutes.find((it) => {
           return it.path === this.$route.path
         })
         if (!tmp) {
-          this.$router.push({ path: this.visitedRoutes[this.visitedRoutes.length - 1].path })
+          this.$router.push({
+            path: this.visitedRoutes[this.visitedRoutes.length - 1].path
+          })
         }
       })
     },
@@ -109,14 +111,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/variables.scss";
+@import '~@/styles/variables.scss';
 .tag-view-container {
   position: absolute;
   top: $navBarHeight + 1;
   left: 0;
   right: 0;
   padding: 5px 10px;
-  background-color: #fff;
   border-bottom: #f5f5f5 solid 1px;
   box-shadow: 0 10px 10px -10px #d0d0d0;
   white-space: nowrap;
