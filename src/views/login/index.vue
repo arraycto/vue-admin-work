@@ -52,6 +52,7 @@ import ImageBg2 from '@/assets/img_login_bg_02.jpg'
 import ImageBg3 from '@/assets/img_login_bg_03.jpg'
 import ImageMobileBg1 from '@/assets/img_login_mobile_bg_01.jpg'
 import Cookies from 'js-cookie'
+import { randomString } from '@/utils/utils'
 export default {
   name: 'Login',
   data() {
@@ -94,7 +95,7 @@ export default {
         }
       })
         .then((res) => {
-          Cookies.set('admin-token', '1212', {
+          Cookies.set('admin-token', randomString(100), {
             expires: 1
           })
           this.$router.push({ path: this.redirect || '/index/main' })

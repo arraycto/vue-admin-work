@@ -30,9 +30,18 @@ export default {
   mounted() {
     this.init()
   },
+  destroyed() {
+    eCharts.dispose(this.chartInstance)
+  },
   methods: {
     init() {
-      this.chartInstance = eCharts.init(this.$refs.salesChart)
+      if (!this.$refs.salesChart) {
+        return
+      }
+      this.chartInstance = eCharts.getInstanceByDom(this.$refs.salesChart)
+      if (!this.chartInstance) {
+        this.chartInstance = eCharts.init(this.$refs.salesChart)
+      }
       const option = {
         grid: {
           left: '2%',

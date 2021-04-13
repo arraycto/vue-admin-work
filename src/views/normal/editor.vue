@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="level-container">
     <router-view />
   </div>
 </template>
@@ -9,3 +9,11 @@ export default {
   name: 'Editor'
 }
 </script>
+
+<style lang="scss" scoped>
+.level-container {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+</style>

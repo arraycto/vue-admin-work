@@ -1,22 +1,39 @@
 <template>
   <div class="main-container">
-    <MarkdownEditor
-      ref="markdownEditor"
-      :initial-value="editorText"
-      :options="editorOptions"
-      height="550px"
-      initial-edit-type="markdown"
-      preview-style="vertical"
-    />
-    <el-button @click="getHTML">getHTML</el-button>
+    <div class="editor-container">
+      <MarkdownEditor
+        ref="markdownEditor"
+        v-model="editorText"
+        :height="300"
+        placeholder="Insert here…"
+      />
+    </div>
+    <div class="margin-top-lg">
+      <el-button
+        size="small"
+        @click="addText"
+      >增加文本</el-button>
+      <el-button
+        size="small"
+        @click="addImage"
+      >增加图片</el-button>
+      <el-button
+        size="small"
+        type="primary"
+        @click="getHTML"
+      >预览HTML</el-button>
+    </div>
+    <div
+      class="bg-white padding-xs margin-top"
+      v-html="priviewContent"
+    ></div>
   </div>
 </template>
 
 <script>
-import 'codemirror/lib/codemirror.css'
-import '@toast-ui/editor/dist/toastui-editor.css'
+import MarkdownEditor from '@/components/common/MarkdownEditor'
+import SimpleMDE from 'simplemde'
 
-import { Editor as MarkdownEditor } from '@toast-ui/vue-editor'
 export default {
   name: 'Markdown',
   components: {
@@ -24,21 +41,26 @@ export default {
   },
   data() {
     return {
-      editorText: '# This is markdown editor.\n Hello World.',
-      editorOptions: {
-        usageStatistics: false,
-        hideModeSwitch: false
-      }
+      editorText: '',
+      priviewContent: ''
     }
   },
   methods: {
+    addText() {
+      this.$refs.markdownEditor.addText('\n### 新增内容')
+    },
+    addImage() {
+      this.$refs.markdownEditor.addImage('\n![](https://file.iviewui.com/dist/2ecd3b0452aa197097d5131afacab7b8.png)')
+    },
     getHTML() {
-      const html = this.$refs.markdownEditor.invoke('getHtml')
-      console.log(html)
+      this.priviewContent = SimpleMDE.prototype.markdown(this.editorText)
     }
   }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.editor-container {
+  position: relative;
+}
 </style>

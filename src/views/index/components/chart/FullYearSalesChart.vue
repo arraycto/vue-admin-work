@@ -49,8 +49,8 @@ export default {
         color: ['rgba(110, 199, 205)', 'rgba(211, 58, 192)'],
         grid: {
           top: '10%',
-          left: '1%',
-          right: '1%',
+          left: '2%',
+          right: '2%',
           bottom: '5%',
           containLabel: true
         },

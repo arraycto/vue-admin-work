@@ -37,7 +37,7 @@ export const routes = [
   {
     path: '/',
     name: 'root',
-    redirect: '/index',
+    redirect: '/index/main',
     hidden: true
   },
   {
@@ -47,15 +47,15 @@ export const routes = [
     hidden: false,
     meta: {
       title: 'Dashboard',
-      icon: 'index',
-      affix: true
+      icon: 'index'
     },
     children: [
       {
         path: 'main',
         component: () => import('@/views/index'),
         meta: {
-          title: '主控页'
+          title: '主控台',
+          affix: true
         }
       },
       {
