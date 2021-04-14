@@ -4,7 +4,7 @@
   $activeColor: #047fff;
 
   .logo-border-bottom {
-    border-bottom: 1px solid $theme_light_menuBg;
+    border-bottom: 1px solid #f5f5f5;
   }
 
   .logo-container {
@@ -86,6 +86,10 @@
 
   // nav bar theme
   .nav-bar-theme {
+    background-color: $theme_light_menuBg;
+  }
+
+  .tag-view-theme {
     background-color: $theme_light_menuBg;
   }
 }

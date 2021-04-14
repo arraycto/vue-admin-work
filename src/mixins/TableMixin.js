@@ -1,3 +1,4 @@
+
 const pageEvents = {
   setTotalSize(size) {
     this.pageModel.totalSize = size
@@ -48,13 +49,15 @@ export default {
     return {
       dataList: [],
       tableConfig: {
-        stripe: false,
-        border: false,
+        stripe: this.$store.getters['app/getTheme'] !== 'dark',
+        border: this.$store.getters['app/getTheme'] !== 'dark',
         size: 'small',
-        // headerCellStyle: {
-        //   backgroundColor: 'rgb(236, 245, 255)',
-        //   color: '#333333'
-        // },
+        headerCellStyle: this.$store.getters['app/getTheme'] === 'dark' ? {
+          color: '#ffffff'
+        } : {
+          backgroundColor: 'rgb(236, 245, 255)',
+          color: '#333333'
+        },
         height: '100%'
       },
       tableLoading: false,

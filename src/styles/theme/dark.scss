@@ -2,7 +2,6 @@
 
 .theme-dark {
   $activeColor: #f8ddb2;
-  $--color-primary: teal;
 
   // logo class
   .logo-container {
@@ -78,7 +77,6 @@
   // nav bar theme
   .nav-bar-theme {
     background-color: $theme_dark_menuDarkBg;
-    color: red !important;
   }
 
   .icon-class,
@@ -119,7 +117,7 @@
     thead{
       color: #ffffff;
     }
-    tr:hover{
+    .hover-row {
       background-color: $theme_dark_menuBg !important;
     }
     th, tr {
@@ -127,6 +125,16 @@
     }
     th.is-leaf, td {
       border-bottom: 1px solid #828282;
+    }
+  }
+  .el-table::before{
+    display: block;
+  }
+
+  .el-pagination{
+    .el-input__inner{
+      border: 1px solid $activeColor;
+      background-color: $theme_dark_menuDarkBg !important;
     }
   }
 }
