@@ -5,7 +5,7 @@
     shadow="never"
   >
     <template #header>
-      <div class="text-bold text-black">
+      <div class="text-bold">
         公司各部门人员数量
       </div>
     </template>
@@ -19,20 +19,18 @@
 </template>
 
 <script>
-import * as eCharts from 'echarts'
+import itemChartMixins from './mixins/item-chart-mixins'
 export default {
   name: 'DepartmentChart',
-  data() {
-    return {
-      chartInstance: null
-    }
-  },
+  mixins: [itemChartMixins],
   mounted() {
     this.init()
   },
+  beforeDestroy() {
+    this.$echarts.dispose(this.getInstance(this.$refs.departmentChart))
+  },
   methods: {
     init() {
-      this.chartInstance = eCharts.init(this.$refs.departmentChart)
       const option = {
         tooltip: {
           trigger: 'item'
@@ -69,7 +67,7 @@ export default {
               },
               areaStyle: {
                 opacity: 0.8,
-                color: new eCharts.graphic.LinearGradient(0, 0, 0, 1, [
+                color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
                   {
                     offset: 0,
                     color: 'rgba(234, 214, 238, 1)'
@@ -84,10 +82,10 @@ export default {
           ]
         }]
       }
-      this.chartInstance.setOption(option)
+      this.getInstance(this.$refs.departmentChart).setOption(option)
     },
     updateChart() {
-      this.chartInstance.resize()
+      this.getInstance(this.$refs.departmentChart).resize()
     }
   }
 }

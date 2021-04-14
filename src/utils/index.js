@@ -11,12 +11,7 @@ import TableFooter from '@/components/table/TableFooter'
 import TableBody from '@/components/table/TableBody'
 import Dialog from '@/components/common/Dialog'
 
-import * as echarts from 'echarts/core'
-import { BarChart } from 'echarts/charts'
-import { TitleComponent, TooltipComponent, GridComponent } from 'echarts/components'
-import { CanvasRenderer } from 'echarts/renderers'
-
-echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer])
+import * as eCharts from 'echarts'
 
 Vue.use(Element)
 
@@ -48,7 +43,7 @@ Vue.component('TableBody', TableBody)
 
 Vue.component('Dialog', Dialog)
 
-Vue.prototype.$echarts = echarts
+Vue.prototype.$echarts = eCharts
 Vue.prototype.$urlPath = urlPath
 Vue.prototype.$isMobile = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
 Vue.prototype.$isAndroid = navigator.userAgent.indexOf('Android') > -1 || navigator.userAgent.indexOf('Adr') > -1

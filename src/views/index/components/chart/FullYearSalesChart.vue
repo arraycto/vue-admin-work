@@ -5,7 +5,7 @@
     shadow="never"
   >
     <template #header>
-      <div class="text-bold text-black">
+      <div class="text-bold">
         全年销售额分析图
       </div>
     </template>
@@ -17,7 +17,7 @@
   </el-card>
 </template>
 <script>
-import * as eCharts from 'echarts'
+import itemChartMixins from './mixins/item-chart-mixins'
 const months = [
   '一月',
   '二月',
@@ -34,17 +34,15 @@ const months = [
 ]
 export default {
   name: 'FullYearSalesChart',
-  data() {
-    return {
-      chartInstance: null
-    }
-  },
+  mixins: [itemChartMixins],
   mounted() {
     this.init()
   },
+  beforeDestroy() {
+    this.$echarts.dispose(this.getInstance(this.$refs.fullYearSalesChart))
+  },
   methods: {
     init() {
-      this.chartInstance = eCharts.init(this.$refs.fullYearSalesChart)
       const option = {
         color: ['rgba(110, 199, 205)', 'rgba(211, 58, 192)'],
         grid: {
@@ -91,7 +89,7 @@ export default {
             },
             areaStyle: {
               opacity: 0.8,
-              color: new eCharts.graphic.LinearGradient(0, 0, 0, 1, [
+              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
                 {
                   offset: 0,
                   color: 'rgba(234, 228, 201)'
@@ -124,7 +122,7 @@ export default {
             },
             areaStyle: {
               opacity: 0.8,
-              color: new eCharts.graphic.LinearGradient(0, 0, 0, 1, [
+              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
                 {
                   offset: 0,
                   color: 'rgba(240, 188, 136)'
@@ -138,10 +136,10 @@ export default {
           }
         ]
       }
-      this.chartInstance.setOption(option)
+      this.getInstance(this.$refs.fullYearSalesChart).setOption(option)
     },
     updateChart() {
-      this.chartInstance.resize()
+      this.getInstance(this.$refs.fullYearSalesChart).resize()
     }
   }
 }

@@ -5,7 +5,7 @@
     shadow="never"
   >
     <template #header>
-      <div class="text-bold text-black">
+      <div class="text-bold">
         全国合作校区分布图
       </div>
     </template>
@@ -19,23 +19,21 @@
 </template>
 
 <script>
-import * as eCharts from 'echarts'
 import chinaData from '@/assets/data/china.json'
 import { convertData } from '@/assets/data/map.js'
+import itemChartMixins from './mixins/item-chart-mixins'
 export default {
   name: 'SchoolChart',
-  data() {
-    return {
-      chartInstance: null
-    }
-  },
+  mixins: [itemChartMixins],
   mounted() {
     this.init()
   },
+  beforeDestroy() {
+    this.$echarts.dispose(this.getInstance(this.$refs.schoolChart))
+  },
   methods: {
     init() {
-      eCharts.registerMap('china', chinaData)
-      this.chartInstance = eCharts.init(this.$refs.schoolChart)
+      this.$echarts.registerMap('china', chinaData)
       const scatterData = convertData()
       const option = {
         tooltip: {
@@ -82,6 +80,7 @@ export default {
           {
             type: 'effectScatter',
             name: '前六名合作校区',
+            showEffectOn: 'emphasis',
             coordinateSystem: 'geo',
             data: scatterData
               .sort((a, b) => {
@@ -105,10 +104,10 @@ export default {
           }
         ]
       }
-      this.chartInstance.setOption(option)
+      this.getInstance(this.$refs.schoolChart).setOption(option)
     },
     updateChart() {
-      this.chartInstance.resize()
+      this.getInstance(this.$refs.schoolChart).resize()
     }
   }
 }

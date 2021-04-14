@@ -48,13 +48,13 @@ export default {
     return {
       dataList: [],
       tableConfig: {
-        stripe: true,
-        border: true,
+        stripe: false,
+        border: false,
         size: 'small',
-        headerCellStyle: {
-          backgroundColor: 'rgb(236, 245, 255)',
-          color: '#333333'
-        },
+        // headerCellStyle: {
+        //   backgroundColor: 'rgb(236, 245, 255)',
+        //   color: '#333333'
+        // },
         height: '100%'
       },
       tableLoading: false,

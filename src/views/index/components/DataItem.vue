@@ -7,14 +7,14 @@
       slot="header"
       class="flex align-center justify-between"
     >
-      <span class="text-black text-bold text-sm">{{ dataModel.title }}</span>
+      <span class="text-bold text-sm">{{ dataModel.title }}</span>
     </div>
     <div
       style="height: 130px"
       class="flex flex-direction justify-between"
     >
       <div class="flex flex-direction justify-center">
-        <span class="text-xxl text-black">{{ dataModel.data }}</span>
+        <span class="text-xxl">{{ dataModel.data }}</span>
       </div>
       <div class="flex-sub flex flex-direction justify-center">
         <slot

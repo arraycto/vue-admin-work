@@ -5,7 +5,7 @@
     shadow="never"
   >
     <template #header>
-      <div class="text-bold text-black">
+      <div class="text-bold">
         一周销售额走势图（单位：万）
       </div>
     </template>
@@ -19,28 +19,20 @@
 </template>
 
 <script>
-import * as eCharts from 'echarts'
+import ItemChartMixins from './mixins/item-chart-mixins'
 export default {
   name: 'SalesChart',
-  data() {
-    return {
-      chartInstance: null
-    }
-  },
+  mixins: [ItemChartMixins],
   mounted() {
     this.init()
   },
-  destroyed() {
-    eCharts.dispose(this.chartInstance)
+  beforeDestroy() {
+    this.$echarts.dispose(this.getInstance(this.$refs.salesChart))
   },
   methods: {
     init() {
       if (!this.$refs.salesChart) {
         return
-      }
-      this.chartInstance = eCharts.getInstanceByDom(this.$refs.salesChart)
-      if (!this.chartInstance) {
-        this.chartInstance = eCharts.init(this.$refs.salesChart)
       }
       const option = {
         grid: {
@@ -75,7 +67,7 @@ export default {
             },
             areaStyle: {
               opacity: 0.8,
-              color: new eCharts.graphic.LinearGradient(0, 0, 0, 1, [
+              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
                 {
                   offset: 0,
                   color: 'rgba(55, 162, 255)'
@@ -89,10 +81,10 @@ export default {
           }
         ]
       }
-      this.chartInstance.setOption(option)
+      this.getInstance(this.$refs.salesChart).setOption(option)
     },
     updateChart() {
-      this.chartInstance.resize()
+      this.getInstance(this.$refs.salesChart).resize()
     }
   }
 }

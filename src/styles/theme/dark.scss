@@ -1,7 +1,8 @@
 @import "../variables.scss";
 
 .theme-dark {
-  $activeColor: #f41766;
+  $activeColor: #f8ddb2;
+  $--color-primary: teal;
 
   // logo class
   .logo-container {
@@ -36,31 +37,33 @@
     background-color: $theme_dark_menuDarkBg !important;
   }
 
+  .el-menu .el-submenu .el-submenu .el-submenu__title:hover {
+    background-color: $theme_dark_menuHoverBg !important;
+  }
+
   .el-menu-item.is-active {
     color: $activeColor;
   }
   .el-tag--plain {
     border-color: $activeColor;
     color: $activeColor;
+    background-color: $theme_dark_menuDarkBg;
   }
   .el-tag--dark {
     background-color: $activeColor;
     border-color: $activeColor;
+    color: $theme_dark_menuDarkBg;
   }
   .el-tag--dark .el-tag__close {
-    color: #ffffff;
+    color: $theme_dark_menuDarkBg;
   }
   .el-tag--plain .el-tag__close {
     color: $activeColor;
   }
   .el-tag--dark .el-tag__close:hover,
   .el-tag--plain .el-tag__close:hover {
-    background-color: $activeColor;
+    background-color: $theme_dark_menuDarkBg;
     color: #ffffff;
-  }
-
-  .el-menu .el-submenu .el-submenu .el-submenu__title:hover {
-    background-color: $theme_dark_menuHoverBg !important;
   }
 
   .show-side-bar {
@@ -96,5 +99,34 @@
   // app main theme
   .app-main-theme {
     background-color: $theme_dark_menuDarkBg;
+  }
+
+  .el-card{
+    background-color: $theme_dark_menuDarkBg;
+    border: 1px solid $activeColor;
+    color: #fff;
+    .el-card__header{
+      border-bottom: none;
+    }
+    .el-link.el-link--default{
+      color: $activeColor;
+    }
+  }
+
+  .el-table{
+    background-color: $theme_dark_menuDarkBg;
+    color: #9e9e9e;
+    thead{
+      color: #ffffff;
+    }
+    tr:hover{
+      background-color: $theme_dark_menuBg !important;
+    }
+    th, tr {
+      background-color: $theme_dark_menuDarkBg !important;
+    }
+    th.is-leaf, td {
+      border-bottom: 1px solid #828282;
+    }
   }
 }

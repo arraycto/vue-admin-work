@@ -5,7 +5,7 @@
     shadow="never"
   >
     <template #header>
-      <div class="text-bold text-black">
+      <div class="text-bold">
         半年招生对比图（单位：人）
       </div>
     </template>
@@ -19,20 +19,18 @@
 </template>
 
 <script>
-import * as eCharts from 'echarts'
+import itemChartMixins from './mixins/item-chart-mixins'
 export default {
   name: 'StudentChart',
-  data() {
-    return {
-      chartInstance: null
-    }
-  },
+  mixins: [itemChartMixins],
   mounted() {
     this.init()
   },
+  beforeDestroy() {
+    this.$echarts.dispose(this.getInstance(this.$refs.studentChart))
+  },
   methods: {
     init() {
-      this.chartInstance = eCharts.init(this.$refs.studentChart)
       const option = {
         grid: {
           left: '2%',
@@ -47,14 +45,14 @@ export default {
         yAxis: {
           type: 'category',
           data: ['一月', '二月', '三月', '四月', '五月', '六月'],
-          boundaryGap: true,
+          boundaryGap: 0,
           axisTick: {
             show: false
           }
         },
         xAxis: {
           type: 'value',
-          boundaryGap: true
+          boundaryGap: 0
         },
         series: [
           {
@@ -66,7 +64,7 @@ export default {
             itemStyle: {
               borderRadius: [0, 15, 15, 0],
               opacity: 0.8,
-              color: new eCharts.graphic.LinearGradient(1, 0, 0, 1, [
+              color: new this.$echarts.graphic.LinearGradient(1, 0, 0, 1, [
                 {
                   offset: 0,
                   color: 'rgba(12, 124, 182)'
@@ -80,10 +78,10 @@ export default {
           }
         ]
       }
-      this.chartInstance.setOption(option)
+      this.getInstance(this.$refs.studentChart).setOption(option)
     },
     updateChart() {
-      this.chartInstance.resize()
+      this.getInstance(this.$refs.studentChart).resize()
     }
   }
 }

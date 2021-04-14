@@ -55,10 +55,7 @@
             v-else-if="index === 3"
             #extra
           >
-            <div
-              id="echart"
-              style="height: 100%; width: 100%"
-            ></div>
+            <OrderChart ref="mOrderChart" />
           </template>
         </DataItem>
       </el-col>
@@ -117,8 +114,8 @@
 
 <script>
 import DataItem from './components/DataItem'
-import * as eCharts from 'echarts'
 import { mapGetters } from 'vuex'
+import OrderChart from './components/chart/OrderChart'
 import SalesChart from './components/chart/SalesChart'
 import StudentChart from './components/chart/StudentChart'
 import EnrollmentChannelsChart from './components/chart/EnrollmentChannelsChart'
@@ -130,6 +127,7 @@ export default {
   name: 'Index',
   components: {
     DataItem,
+    OrderChart,
     SchoolChart,
     SalesChart,
     StudentChart,
@@ -190,71 +188,13 @@ export default {
   watch: {
     collapse(newVal) {
       setTimeout(() => {
-        this.chart.resize()
         this.onResize()
       }, 500)
     }
   },
-  mounted() {
-    this.initECharts()
-  },
   methods: {
-    initECharts() {
-      this.chart = eCharts.init(document.getElementById('echart'))
-      const option = {
-        tooltip: {
-          trigger: 'item',
-          axisPointer: {
-            type: 'cross',
-            label: {
-              backgroundColor: '#6a7985'
-            }
-          }
-        },
-        grid: {
-          x: '-5%',
-          y: 0,
-          x2: '-5%',
-          y2: 0
-        },
-        xAxis: {
-          type: 'category',
-          splitLine: { show: false }
-        },
-        yAxis: [
-          {
-            type: 'value',
-            splitLine: { show: false }
-          }
-        ],
-        series: [
-          {
-            data: [82, 93, 90, 74, 82, 60, 50],
-            type: 'line',
-            smooth: true,
-            lineStyle: {
-              width: 0
-            },
-            showSymbol: false,
-            areaStyle: {
-              opacity: 0.8,
-              color: new eCharts.graphic.LinearGradient(0, 0, 0, 1, [
-                {
-                  offset: 0,
-                  color: 'rgba(128, 255, 165)'
-                },
-                {
-                  offset: 1,
-                  color: 'rgba(1, 191, 236)'
-                }
-              ])
-            }
-          }
-        ]
-      }
-      this.chart.setOption(option)
-    },
     onResize(width) {
+      this.$refs.mOrderChart[0].updateChart()
       this.$refs.salesChart.updateChart()
       this.$refs.departmentChart.updateChart()
       this.$refs.enrollmentChannelsChart.updateChart()

@@ -2,6 +2,7 @@
   <div
     id="tableHeaderContainer"
     class="table-header-container"
+    :class="['theme-' + themeId]"
   >
     <el-card
       :body-style="{padding: '0px'}"
@@ -163,6 +164,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'TableHeader',
   props: {
@@ -189,6 +191,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      themeId: 'app/getTheme'
+    }),
     showArrow() {
       return (
         this.canCollapsed && !!this.searchModel && this.searchModel.length !== 0

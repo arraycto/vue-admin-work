@@ -5,7 +5,7 @@
     shadow="never"
   >
     <template #header>
-      <div class="text-bold text-black">
+      <div class="text-bold">
         招生渠道分析图
       </div>
     </template>
@@ -19,20 +19,18 @@
 </template>
 
 <script>
-import * as eCharts from 'echarts'
+import itemChartMixins from './mixins/item-chart-mixins'
 export default {
   name: 'EnrollmentChannelsChart',
-  data() {
-    return {
-      chartInstance: null
-    }
-  },
+  mixins: [itemChartMixins],
   mounted() {
     this.init()
   },
+  beforeDestroy() {
+    this.$echarts.dispose(this.getInstance(this.$refs.channelsChart))
+  },
   methods: {
     init() {
-      this.chartInstance = eCharts.init(this.$refs.channelsChart)
       const option = {
         grid: {
           left: '12%',
@@ -78,10 +76,10 @@ export default {
           }
         ]
       }
-      this.chartInstance.setOption(option)
+      this.getInstance(this.$refs.channelsChart).setOption(option)
     },
     updateChart() {
-      this.chartInstance.resize()
+      this.getInstance(this.$refs.channelsChart).resize()
     }
   }
 }
