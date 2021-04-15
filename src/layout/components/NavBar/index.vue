@@ -21,12 +21,27 @@
         class="icon-class"
       />
     </div>
-    <div class="icon-wrapper">
-      <svg-icon
-        icon-class="message"
-        class="icon-class"
+    <el-popover
+      trigger="click"
+      @after-enter="afterEnter"
+    >
+      <el-badge
+        slot="reference"
+        class="mark"
+        :value="nums === 0 ? '' : nums"
+      >
+        <div class="icon-wrapper">
+          <svg-icon
+            icon-class="message"
+            class="icon-class"
+          />
+        </div>
+      </el-badge>
+      <MessageContent
+        ref="messageContent"
+        @clear-num="clearNum"
       />
-    </div>
+    </el-popover>
     <div
       class="icon-wrapper"
       @click="onScreenFull"
@@ -141,15 +156,19 @@ import Hamburger from '../Hamburger'
 import { mapGetters } from 'vuex'
 import screenfull from 'screenfull'
 import ResetPasswordMixin from '@/mixins/ResetPasswordMixin'
+import MessageContent from '@/views/message/TopMessageContent'
 export default {
   name: 'NavBar',
   components: {
-    Hamburger
+    Hamburger,
+    MessageContent
   },
   mixins: [ResetPasswordMixin],
   data() {
     return {
-      breadcrumbs: []
+      breadcrumbs: [],
+      isShowMessage: false,
+      nums: 3
     }
   },
   computed: {
@@ -168,6 +187,9 @@ export default {
     this.generateBreadcrumb()
   },
   methods: {
+    clearNum(num) {
+      this.nums = Math.max(0, this.nums - num)
+    },
     generateBreadcrumb() {
       this.breadcrumbs = this.$route.matched.filter((it) => {
         return it.meta && it.meta.title
@@ -192,13 +214,19 @@ export default {
           this.$successMsg('模拟密码修改成功')
         })
       }
+    },
+    afterEnter() {
+      this.$refs.messageContent.update()
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '~@/styles/variables.scss';
+@import "~@/styles/variables.scss";
+::v-deep .el-badge__content.is-fixed {
+  right: 80%;
+}
 .nav-bar-container {
   position: absolute;
   top: 0;

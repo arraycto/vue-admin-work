@@ -79,19 +79,19 @@ export default {
           },
           {
             type: 'effectScatter',
-            name: '前六名合作校区',
+            name: '前三名合作校区',
             showEffectOn: 'emphasis',
             coordinateSystem: 'geo',
             data: scatterData
               .sort((a, b) => {
                 return b.value[2] - a.value[2]
               })
-              .slice(0, 6),
+              .slice(0, 3),
             symbolSize: function (val) {
               return val[2] / 10
             },
             itemStyle: {
-              color: '#0ce88e'
+              color: '#ff4949'
             },
             encode: {
               value: 2

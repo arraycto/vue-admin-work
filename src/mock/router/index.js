@@ -5,7 +5,7 @@ import { baseData } from '../base'
 export const adminRoutes = [
   {
     menuUrl: '/authority',
-    menuName: '权限管理',
+    menuName: '系统管理',
     children: [
       {
         menuUrl: '/authority/department',
@@ -26,42 +26,42 @@ export const adminRoutes = [
     ]
   },
   {
-    menuUrl: '/normal',
-    menuName: '常用组件',
+    menuUrl: '/list',
+    menuName: '列表页面',
     children: [
       {
-        menuUrl: '/normal/table',
+        menuUrl: '/list/table',
         menuName: '表格操作'
       },
       {
-        menuUrl: '/normal/table-search',
+        menuUrl: '/list/table-search',
         menuName: '表格搜索'
       },
       {
-        menuUrl: '/normal/from',
+        menuUrl: '/list/grid-list',
+        menuName: '卡片列表'
+      }
+    ]
+  },
+  {
+    menuUrl: '/form',
+    menuName: '表单页面',
+    children: [
+      {
+        menuUrl: '/form/from',
         menuName: '表单操作'
       },
       {
-        menuUrl: '/normal/tip',
+        menuUrl: '/form/AdvanceFrom',
+        menuName: '高级表单'
+      },
+      {
+        menuUrl: '/form/StepForm',
+        menuName: '分步表单'
+      },
+      {
+        menuUrl: '/form/tip',
         menuName: '通知提示'
-      },
-      {
-        menuUrl: '/normal/grid-list',
-        menuName: '卡片列表'
-      },
-      {
-        menuUrl: '/normal/editor',
-        menuName: '编辑器',
-        children: [
-          {
-            menuUrl: '/normal/editor/richtext',
-            menuName: '富文本'
-          },
-          {
-            menuUrl: '/normal/editor/markdown',
-            menuName: 'markdown'
-          }
-        ]
       }
     ]
   },
@@ -94,6 +94,20 @@ export const adminRoutes = [
       {
         menuUrl: '/exception/500',
         menuName: '500'
+      }
+    ]
+  },
+  {
+    menuUrl: '/editor',
+    menuName: '编辑器',
+    children: [
+      {
+        menuUrl: '/editor/richtext',
+        menuName: '富文本'
+      },
+      {
+        menuUrl: '/editor/markdown',
+        menuName: 'markdown'
       }
     ]
   }
