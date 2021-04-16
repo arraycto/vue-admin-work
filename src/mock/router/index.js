@@ -66,15 +66,15 @@ export const adminRoutes = [
     ]
   },
   {
-    menuUrl: '/pages',
+    menuUrl: '/result',
     menuName: '结果页面',
     children: [
       {
-        menuUrl: '/pages/success',
+        menuUrl: '/result/success',
         menuName: '成功页面'
       },
       {
-        menuUrl: '/pages/fail',
+        menuUrl: '/result/fail',
         menuName: '失败页面'
       }
     ]

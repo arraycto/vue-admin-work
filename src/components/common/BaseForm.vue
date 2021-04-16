@@ -11,7 +11,7 @@
         :key="i"
         :label="item.label"
       >
-        <el-col :span="22">
+        <el-col :span="24">
           <el-input
             v-if="item.type === 'input'"
             v-model="item.value"
@@ -32,7 +32,7 @@
             clearable
             style="width: 100%"
             class="form-item"
-            @change="item.onChange(item.value, item.associatedOption || '') || (() => {})"
+            @change="item.onChange ? item.onChange(item.value, item.associatedOption || '') : (() => {})"
           >
             <el-option
               v-for="optionItem in item.selectOptions"
@@ -49,6 +49,7 @@
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             class="form-item"
+            style="width: 100%"
             :size="config.size || 'small'"
           />
           <el-date-picker

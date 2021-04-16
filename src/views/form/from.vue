@@ -1,177 +1,213 @@
 <template>
-  <div class="main-container">
-    <div class="header-wrapper">
-      <el-card
-        :body-style="{padding: 0}"
-        shadow="hover"
-      >
-        <div class="flex justify-between padding-sm">
-          <el-link :underline="false">添加学校</el-link>
-          <el-button
-            size="mini"
-            type="primary"
-          >立即添加</el-button>
-        </div>
-      </el-card>
-    </div>
-    <div class="content-wrapper">
-      <el-card
-        :body-style="{padding: 0}"
-        shadow="hover"
-      >
-        <div class="flex justify-between padding-sm solid-bottom">
-          <span class="title">基本信息</span>
-        </div>
-        <el-form
-          v-model="baseInfoModel"
-          label-width="80px"
-          class="form-wrapper"
-          size="small"
-          label-position="right"
+  <div class="main-contianer">
+    <el-card
+      :body-style="{padding: '15px'}"
+      shadow="hover"
+    >
+      <el-link :underline="false">请填写会议基本信息</el-link>
+    </el-card>
+    <el-card
+      :body-style="{padding: '10px'}"
+      shadow="nerve"
+      class="margin-top-xs"
+    >
+      <div class="form-wrapper padding-top">
+        <BaseForm
+          ref="baseForm"
+          :form-items="formItems"
+          :config="formConfig"
         >
-          <el-col :span="24">
-            <el-form-item label="学校名称">
-              <el-input
-                v-model="baseInfoModel.name"
-                placeholder="请输入学校名称"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="在线状态">
-              <el-radio-group v-model="baseInfoModel.isOnLine">
-                <el-radio :label="0">线下</el-radio>
-                <el-radio :label="1">线上</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="加盟方式">
-              <el-radio-group
-                v-model="baseInfoModel.joinType"
-                size="mini"
-              >
-                <el-radio-button label="普通" />
-                <el-radio-button label="独家" />
-                <el-radio-button label="代理" />
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="学校地址">
-              <el-input
-                v-model="baseInfoModel.address"
-                placeholder="请输入学校地址"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="学校备注">
-              <el-input
-                v-model="baseInfoModel.remark"
-                placeholder="请输入学校备注"
-                type="textarea"
-                :rows="3"
-              />
-            </el-form-item>
-          </el-col>
-        </el-form>
-      </el-card>
-      <el-card
-        :body-style="{padding: 0}"
-        shadow="hover"
-        class="margin-top-xs"
-      >
-        <div class="flex justify-between padding-sm solid-bottom">
-          <span class="title">其它信息</span>
-        </div>
-        <el-form
-          v-model="baseInfoModel"
-          label-width="80px"
-          class="form-wrapper"
-          size="small"
-          label-position="right"
-        >
-          <el-col :span="24">
-            <el-form-item label="管理员">
+          <template #extra>
+            <el-form-item
+              label="与会人员："
+              class="form-item"
+            >
               <el-select
-                v-model="baseInfoModel.manager"
+                v-model="joinMemeber.value"
+                multiple
+                placeholder="请选择与会人员"
                 style="width: 100%"
-                placeholder="请选择一个学校管理员"
               >
                 <el-option
-                  v-for="item of managerList"
-                  :key="item.id"
-                  :value="item.id"
-                  :label="item.name"
+                  v-for="item in joinMemeber.options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
                 />
               </el-select>
             </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="学生数量">
-              <el-input-number
-                v-model="baseInfoModel.studentNum"
-                size="mini"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-form-item label="到期时间">
-              <el-date-picker
-                v-model="baseInfoModel.endTime"
-                type="date"
+            <el-form-item
+              label="备注："
+              class="form-item"
+            >
+              <el-input
+                v-model="remark.value"
+                placeholder="请输入备注信息（选填）"
+                type="textarea"
+                :rows="3"
                 style="width: 100%"
-                placeholder="请选择到期日期"
               />
             </el-form-item>
-          </el-col>
-        </el-form>
-      </el-card>
-      <el-card
-        :body-style="{padding: 0}"
-        shadow="hover"
-        style="margin-top: 5px"
-      >
-        <div class="flex justify-end padding-sm">
-          <el-button
-            size="mini"
-            type="primary"
-          >立即添加</el-button>
-        </div>
-      </el-card>
-    </div>
+            <el-form-item>
+              <div class="text-center">
+                <el-button
+                  type="warning"
+                  size="small"
+                  @click="save"
+                >保存</el-button>
+                <submit-button :on-submit="submit" />
+              </div>
+            </el-form-item>
+          </template>
+        </BaseForm>
+      </div>
+    </el-card>
   </div>
 </template>
 
 <script>
+import BaseForm from '@/components/common/BaseForm'
 export default {
   name: 'Form',
+  components: { BaseForm },
   data() {
     return {
-      managerList: [
+      formConfig: {
+        labelWidth: 100,
+        size: 'default'
+      },
+      formItems: [
         {
-          id: 1,
-          name: '王冬'
+          label: '会议名称：',
+          type: 'input',
+          name: 'name',
+          value: '',
+          maxLength: 50,
+          inputType: 'text',
+          placeholder: '请输入会议名称',
+          validator: ({ value, placeholder }) => {
+            if (!value) {
+              this.$errorMsg(placeholder)
+              return false
+            }
+            return true
+          }
         },
         {
-          id: 2,
-          name: '陈新宇'
+          label: '会议内容：',
+          type: 'input',
+          name: 'content',
+          value: '',
+          maxLength: 10,
+          inputType: 'text',
+          placeholder: '请输入会议内容',
+          validator: ({ value, placeholder }) => {
+            if (!value) {
+              this.$errorMsg(placeholder)
+              return false
+            }
+            return true
+          }
         },
         {
-          id: 3,
-          name: '刘琪'
+          label: '起止时间：',
+          type: 'date-range',
+          name: 'startEndTime',
+          placeholder: '请选择会议起止时间',
+          value: '',
+          validator: ({ value, placeholder }) => {
+            if (!value) {
+              this.$errorMsg(placeholder)
+              return false
+            }
+            return true
+          }
+        },
+        {
+          label: '起止地点：',
+          type: 'select',
+          name: 'address',
+          value: '',
+          placeholder: '请选择会议地点',
+          selectOptions: [
+            {
+              label: '会议一室',
+              value: 1
+            },
+            {
+              label: '会议二室',
+              value: 2
+            },
+            {
+              label: '会议三室',
+              value: 3
+            },
+            {
+              label: '会议四室',
+              value: 4
+            }
+          ],
+          validator: ({ value, placeholder }) => {
+            if (!value) {
+              this.$errorMsg(placeholder)
+              return false
+            }
+            return true
+          }
         }
       ],
-      baseInfoModel: {
-        name: '',
-        isOnLine: 0,
-        joinType: '普通',
-        address: '',
-        remark: '',
-        manager: '',
-        studentNum: 100,
-        endTime: ''
+      joinMemeber: {
+        value: '',
+        options: [
+          {
+            label: '张三',
+            value: 'zhangsan'
+          },
+          {
+            label: '李四',
+            value: 'lisi'
+          },
+          {
+            label: '江小鱼',
+            value: 'jiangxiaoyu'
+          },
+          {
+            label: '花无缺',
+            value: 'huawuque'
+          },
+          {
+            label: '燕南天',
+            value: 'yannantian'
+          }
+        ]
+      },
+      remark: {
+        value: ''
+      }
+    }
+  },
+  methods: {
+    save() {
+      if (this.$refs.baseForm.checkParams()) {
+        if (!this.joinMemeber.value || this.joinMemeber.value.length === 0) {
+          this.$errorMsg('请选择与会人员')
+          return
+        }
+        this.$successMsg('保存成功')
+      }
+    },
+    submit() {
+      if (this.$refs.baseForm.checkParams()) {
+        if (!this.joinMemeber.value || this.joinMemeber.value.length === 0) {
+          this.$errorMsg('请选择与会人员')
+          return false
+        }
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            this.$successMsg('保存成功')
+            resolve()
+          }, 1000)
+        })
       }
     }
   }
@@ -179,23 +215,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.header-wrapper {
-  position: absolute;
-  left: 2px;
-  right: 2px;
-  top: 0;
-}
-.content-wrapper {
-  position: absolute;
-  top: 53px;
-  left: 2px;
-  right: 2px;
-  bottom: 5px;
-  overflow-y: auto;
+@media screen and (max-width: 768px) {
   .form-wrapper {
-    margin-top: 2%;
-    width: 50%;
-    padding-left: 4%;
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+@media screen and (min-width: 768px) {
+  .form-wrapper {
+    width: 60%;
+    margin: 0 auto;
   }
 }
 </style>

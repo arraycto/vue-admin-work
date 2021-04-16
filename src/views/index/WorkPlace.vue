@@ -4,7 +4,7 @@
       :body-style="{padding: '10px'}"
       shadow="hover"
     >
-      <div class="text-bold text-xl text-black">工作台</div>
+      <div class="text-bold text-xl">工作台</div>
       <div
         v-if="!isMobileScreen"
         class="flex margin-top"
@@ -13,7 +13,7 @@
           <img :src="avatar" />
         </div>
         <div class="flex-sub flex flex-direction justify-around margin-left">
-          <div class="text-black text-xl">早上好，Andy，青春只有一次，别让自己过得不精彩</div>
+          <div class="text-xl">早上好，Andy，青春只有一次，别让自己过得不精彩</div>
           <div class="text-grey text-sm"><i class="el-icon-heavy-rain"></i> 今日有小雨，出门别忘记带伞哦~</div>
         </div>
         <div class="flex flex-direction justify-around align-end item-action">
@@ -35,7 +35,7 @@
             <img :src="avatar" />
           </div>
           <div class="flex-sub flex flex-direction justify-around margin-left">
-            <div class="text-black text-xl">早上好，Andy，青春只有一次，别让自己过得不精彩</div>
+            <div class="text-xl">早上好，Andy，青春只有一次，别让自己过得不精彩</div>
             <div class="text-grey text-sm"><i class="el-icon-heavy-rain"></i> 今日有小雨，出门别忘记带伞哦~</div>
           </div>
         </div>
@@ -63,7 +63,7 @@
         <el-card :body-style="{padding: '5px'}">
           <template #header>
             <div class=" margin-tb-10">
-              <span class="text-black text-bold text-sm">
+              <span class="text-bold text-sm">
                 <i class="el-icon-menu text-blue"></i>
                 我的课程
               </span>
@@ -85,7 +85,7 @@
         >
           <template #header>
             <div class=" margin-tb-10">
-              <span class="text-black text-bold text-sm">
+              <span class="text-bold text-sm">
                 <i class="el-icon-s-opportunity text-blue"></i>
                 动态信息
               </span>
@@ -107,7 +107,7 @@
         <el-card>
           <template #header>
             <div class="flex justify-between margin-tb-10">
-              <span class="text-black text-bold text-sm">
+              <span class="text-bold text-sm">
                 <i class="el-icon-s-order text-blue"></i>
                 快捷操作
               </span>
@@ -130,7 +130,7 @@
         <el-card class="margin-top-xs">
           <template #header>
             <div class="flex justify-between margin-tb-10">
-              <span class="text-black text-bold text-sm">
+              <span class="text-bold text-sm">
                 <i class="el-icon-s-order text-blue"></i>
                 待办事项
               </span>
@@ -166,7 +166,7 @@
       >
         <template #header>
           <div class=" margin-tb-10">
-            <span class="text-black text-bold text-sm">
+            <span class="text-bold text-sm">
               <i class="el-icon-menu text-blue"></i>
               我的课程
             </span>
@@ -189,7 +189,7 @@
       >
         <template #header>
           <div class=" margin-tb-10">
-            <span class="text-black text-bold text-sm">
+            <span class="text-bold text-sm">
               <i class="el-icon-s-opportunity text-blue"></i>
               动态信息
             </span>
@@ -212,7 +212,7 @@
       >
         <template #header>
           <div class="flex justify-between margin-tb-10">
-            <span class="text-black text-bold text-sm">
+            <span class="text-bold text-sm">
               <i class="el-icon-s-order text-blue"></i>
               快捷操作
             </span>
@@ -238,7 +238,7 @@
       >
         <template #header>
           <div class="flex justify-between margin-tb-10">
-            <span class="text-black text-bold text-sm">
+            <span class="text-bold text-sm">
               <i class="el-icon-s-order text-blue"></i>
               待办事项
             </span>

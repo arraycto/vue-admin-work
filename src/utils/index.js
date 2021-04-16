@@ -10,6 +10,7 @@ import TableHeader from '@/components/table/TableHeader'
 import TableFooter from '@/components/table/TableFooter'
 import TableBody from '@/components/table/TableBody'
 import Dialog from '@/components/common/Dialog'
+import SubmitButton from '@/components/common/SubmitButton'
 
 import * as eCharts from 'echarts'
 
@@ -42,6 +43,8 @@ Vue.component('TableFooter', TableFooter)
 Vue.component('TableBody', TableBody)
 
 Vue.component('Dialog', Dialog)
+
+Vue.component('SubmitButton', SubmitButton)
 
 Vue.prototype.$echarts = eCharts
 Vue.prototype.$urlPath = urlPath

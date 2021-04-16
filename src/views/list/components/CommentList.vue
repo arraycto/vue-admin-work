@@ -1,10 +1,11 @@
 <template>
   <div class="comment-list-container">
     <div class="comment-wrapper">
-      <div
+      <el-card
         v-for="item of dataList"
         :key="item.id"
-        class="item-wrapper bg-white"
+        :body-style="{padding: '0'}"
+        class="item-wrapper"
       >
         <div class="header-wrapper">
           <div class="avatar-wrapper">
@@ -64,7 +65,7 @@
             fit="cover"
           />
         </div>
-      </div>
+      </el-card>
     </div>
     <TableFooter
       :current-page="pageModel.currentPage"
@@ -161,13 +162,11 @@ export default {
           justify-content: space-between;
           .nick-name {
             font-size: 14px;
-            color: #333;
             font-weight: 700;
           }
         }
       }
       .content-wrapper {
-        color: #555;
         font-size: 14px;
         margin: 5px 0;
         line-height: 20px;

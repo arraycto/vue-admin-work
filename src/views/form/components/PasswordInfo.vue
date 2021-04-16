@@ -39,12 +39,7 @@
         type="warning"
         @click="preStep"
       >上一步</el-button>
-      <el-button
-        :loading="loadingStatus"
-        type="primary"
-        size="small"
-        @click="nextStep"
-      >提交</el-button>
+      <submit-button :on-submit="nextStep" />
     </div>
   </el-form>
 </template>
@@ -79,13 +74,16 @@ export default {
       this.passwordModel.payPassword = ''
       this.$emit('pre-step')
     },
-    nextStep() {
+    nextStep(callback) {
       this.$refs.stepTwoForm.validate((valid) => {
         if (valid) {
           this.loadingStatus = true
           setTimeout(() => {
+            callback()
             this.$emit('next-step')
           }, 3000)
+        } else {
+          callback()
         }
       })
     }

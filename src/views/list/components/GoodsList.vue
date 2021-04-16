@@ -5,7 +5,10 @@
         <el-col
           v-for="item of dataList"
           :key="item.id"
-          :span="6"
+          :xs="24"
+          :sm="12"
+          :md="6"
+          class="col-item"
         >
           <el-card
             :body-style="{ padding: '0px' }"
@@ -66,12 +69,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-col-6 + .el-col-6 {
+.col-item + .col-item {
   margin-bottom: 10px;
 }
 .goods-list-container {
   height: calc(100vh - 130px);
-  margin-right: -15px;
   overflow-x: hidden;
   overflow-y: auto;
   .goods-wrapper {
