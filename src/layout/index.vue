@@ -73,7 +73,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/styles/variables.scss';
+@import "~@/styles/variables.scss";
 .app-container {
   box-sizing: border-box;
   position: relative;
@@ -94,7 +94,7 @@ export default {
     position: relative;
     box-sizing: border-box;
     margin-left: $app-left-menu-width;
-    transition: margin-left 0.3s;
+    transition: margin-left 0.3s ease-in-out;
   }
   .show-side-bar {
     width: $app-left-menu-width;

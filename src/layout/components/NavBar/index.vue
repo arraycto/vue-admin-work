@@ -15,7 +15,21 @@
       </transition-group>
     </el-breadcrumb>
     <div class="flex-sub"></div>
-    <div class="icon-wrapper">
+    <div
+      class="margin-right-xs search-wrapper"
+      :class="{ 'show-search-wrapper' : isShowSearch }"
+    >
+      <el-input
+        v-model="searchContent"
+        class="search-content"
+        placeholder="请输入搜索内容"
+        @keyup.enter.native="onSearchEnter"
+      />
+    </div>
+    <div
+      class="icon-wrapper"
+      @click="isShowSearch = !isShowSearch"
+    >
       <svg-icon
         icon-class="search"
         class="icon-class"
@@ -168,7 +182,9 @@ export default {
     return {
       breadcrumbs: [],
       isShowMessage: false,
-      nums: 3
+      nums: 3,
+      isShowSearch: false,
+      searchContent: ''
     }
   },
   computed: {
@@ -187,6 +203,12 @@ export default {
     this.generateBreadcrumb()
   },
   methods: {
+    onSearchEnter() {
+      if (!this.searchContent) {
+        return
+      }
+      window.open('https://www.baidu.com/s?wd=' + this.searchContent)
+    },
     clearNum(num) {
       this.nums = Math.max(0, this.nums - num)
     },
@@ -221,12 +243,20 @@ export default {
   }
 }
 </script>
-
+<style lang="scss">
+@import "~@/styles/variables.scss";
+.theme-dark {
+  .el-input__inner {
+    background-color: $theme_dark_menuDarkBg !important;
+  }
+}
+</style>
 <style lang="scss" scoped>
 @import "~@/styles/variables.scss";
 ::v-deep .el-badge__content.is-fixed {
   right: 80%;
 }
+
 .nav-bar-container {
   position: absolute;
   top: 0;
@@ -258,8 +288,31 @@ export default {
     .avatar-wrapper {
       display: none;
     }
+    .search-wrapper {
+      ::v-deep .el-input__inner {
+        display: none;
+      }
+    }
   }
   @media screen and (min-width: 768px) {
+    .search-wrapper {
+      ::v-deep .el-input__inner {
+        border-radius: 0;
+        height: 35px;
+        border: none;
+        width: 0;
+        padding: 0;
+        border-bottom: 1px solid #dcdfe6;
+        transition: all 0.1s ease-in-out;
+      }
+    }
+    .show-search-wrapper {
+      ::v-deep .el-input__inner {
+        width: 200px;
+        padding: 0 15px;
+        transition: all 0.3s ease-in-out;
+      }
+    }
     .avatar-wrapper {
       width: 2.2rem;
       height: 2.2rem;
