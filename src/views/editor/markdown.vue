@@ -25,7 +25,7 @@
     </div>
     <div
       v-if="priviewContent"
-      class="bg-white padding-xs margin-top"
+      class="priview-content padding-xs margin-top"
       v-html="priviewContent"
     ></div>
   </div>
@@ -63,7 +63,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~@/styles/variables.scss';
 .editor-container {
   position: relative;
+}
+.theme-dark .priview-content {
+  background: #5a5a5a;
+  color: #fff;
+}
+.priview-content {
+  background: #fff;
+  color: #333;
 }
 </style>

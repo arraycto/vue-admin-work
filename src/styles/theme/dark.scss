@@ -99,73 +99,78 @@
     background-color: $theme_dark_menuDarkBg;
   }
 
-  .el-card{
+  .el-card {
     background-color: $theme_dark_menuDarkBg;
     border: 1px solid $activeColor;
     color: #fff;
-    .el-card__header{
+    .el-card__header {
       border-bottom: none;
     }
-    .el-link.el-link--default{
+    .el-link.el-link--default {
       color: $activeColor;
     }
   }
 
-  .el-table{
+  .el-table {
     background-color: $theme_dark_menuDarkBg;
     color: #9e9e9e;
-    thead{
+    thead {
       color: #ffffff;
     }
     .hover-row {
       background-color: $theme_dark_menuBg !important;
     }
-    th, tr {
+    th,
+    tr {
       background-color: $theme_dark_menuDarkBg !important;
     }
-    th.is-leaf, td {
+    th.is-leaf,
+    td {
       border-bottom: 1px solid #828282;
     }
   }
-  .el-table::before{
+  .el-table::before {
     display: block;
   }
 
-  .el-dialog{
+  .el-dialog {
     background-color: $theme_dark_menuDarkBg !important;
-    .el-dialog__header{
+    .el-dialog__header {
       border-bottom: 2px solid $activeColor;
     }
-    .el-dialog__footer{
+    .el-dialog__footer {
       border-top: 2px solid $activeColor;
     }
-    .el-dialog__title{
+    .el-dialog__title {
       color: $activeColor;
     }
   }
 
-  .el-card, .el-form, .el-pagination{
+  .el-card,
+  .el-form,
+  .el-pagination {
     .el-input-number__increase,
-    .el-input-number__decrease, 
-    .el-range-input{
+    .el-input-number__decrease,
+    .el-range-input {
       background-color: $theme_dark_menuDarkBg !important;
     }
     .el-radio-button__inner,
     .el-textarea__inner,
-    .el-input__inner{
+    .el-input__inner {
+      color: #fff;
       border: 1px solid $activeColor;
       background-color: $theme_dark_menuDarkBg !important;
     }
   }
 
   .el-tabs {
-    .el-tabs__header{
+    .el-tabs__header {
       background-color: $theme_dark_menuDarkBg !important;
     }
     .el-tabs__item {
       color: $activeColor;
     }
-    .el-tabs__item.is-active{
+    .el-tabs__item.is-active {
       color: #1890ff;
     }
   }
@@ -176,11 +181,11 @@
     }
   }
 
-  .editor-toolbar a{
+  .editor-toolbar a {
     color: #94c2f7 !important;
   }
 
-  .CodeMirror{
+  .CodeMirror {
     background-color: #5a5a5a;
   }
 }
