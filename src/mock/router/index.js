@@ -110,6 +110,20 @@ export const adminRoutes = [
         menuName: 'markdown'
       }
     ]
+  },
+  {
+    menuUrl: '/other',
+    menuName: '其它功能',
+    children: [
+      {
+        menuUrl: '/other/print',
+        menuName: '打印'
+      },
+      {
+        menuUrl: 'http://www.baidu.com',
+        menuName: '外链'
+      }
+    ]
   }
 ]
 Mock.mock(RegExp(getMenuList), function () {
