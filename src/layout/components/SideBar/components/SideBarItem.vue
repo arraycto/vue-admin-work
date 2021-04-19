@@ -1,14 +1,15 @@
 <template>
   <div class="side-bar-item-container">
-    <router-link
+    <component
+      :is="componentName"
       v-if="hasNoChild()"
-      :to="resolvePath(routeItem.path)"
+      v-bind="properties"
     >
       <el-menu-item :index="resolvePath(routeItem.path)">
         <svg-icon :icon-class="(routeItem.meta && routeItem.meta.icon) || 'sub-menu'" />
         <span class="item-title">{{ routeItem.meta && routeItem.meta.title }}</span>
       </el-menu-item>
-    </router-link>
+    </component>
     <el-submenu
       v-else
       :index="resolvePath(routeItem.path)"
@@ -28,6 +29,7 @@
         :base-path="resolvePath(routeItem.path)"
       />
     </el-submenu>
+
   </div>
 </template>
 
@@ -50,7 +52,24 @@ export default {
   computed: {
     ...mapGetters({
       isCollapse: 'app/isCollapseSideBar'
-    })
+    }),
+    isExtrenal() {
+      return /^(http:| https:)/.test(this.routeItem.path)
+    },
+    componentName() {
+      return this.isExtrenal ? 'a' : 'router-link'
+    },
+    properties() {
+      return this.isExtrenal
+        ? {
+          href: this.resolvePath(this.routeItem.path),
+          target: '_blank',
+          rel: 'noopener'
+        }
+        : {
+          to: this.resolvePath(this.routeItem.path)
+        }
+    }
   },
   methods: {
     hasNoChild() {
@@ -75,6 +94,9 @@ export default {
       return children.filter((it) => !it.hidden)
     },
     resolvePath(tempPath) {
+      if (this.isExtrenal) {
+        return tempPath
+      }
       return path.resolve(this.basePath, tempPath)
     }
   }
