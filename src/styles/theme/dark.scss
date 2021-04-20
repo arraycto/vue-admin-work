@@ -161,6 +161,17 @@
       border: 1px solid $activeColor;
       background-color: $theme_dark_menuDarkBg !important;
     }
+    .btn-prev,
+    .btn-next,
+    .el-pager li {
+      background-color: $theme_dark_menuDarkBg !important;
+      color: #ffffff;
+    }
+    .btn-prev:hover,
+    .btn-next,
+    .el-pager li.active {
+      color: #1890ff;
+    }
   }
 
   .el-tabs {
