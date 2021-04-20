@@ -18,7 +18,7 @@
           :closable="isAffix(item) ? false: true"
           @click="clickRoute(item)"
           @close="removeRoute(item)"
-          @contextmenu.native.prevent="onContextMenu"
+          @contextmenu.native.prevent="onContextMenu(item, $event)"
         >
           {{ item.meta.title }}
         </el-tag>
@@ -35,22 +35,27 @@
           :underline="false"
         >刷新页面</el-link>
       </li>
-      <li>
+      <li :disabled="showLeftMenu">
         <el-link
+          :disabled="showLeftMenu"
           icon="el-icon-back"
           :underline="false"
+          @click="closeLeft"
         >关闭左侧</el-link>
       </li>
-      <li>
+      <li :disabled="showRightMenu">
         <el-link
+          :disabled="showRightMenu"
           icon="el-icon-right"
           :underline="false"
+          @click="closeRight"
         >关闭右侧</el-link>
       </li>
       <li>
         <el-link
           icon="el-icon-close"
           :underline="false"
+          @click="closeAll"
         >关闭所有</el-link>
       </li>
     </ul>
@@ -68,7 +73,10 @@ export default {
         left: 0,
         top: 0
       },
-      showContextMenu: false
+      showContextMenu: false,
+      selectRoute: null,
+      showLeftMenu: true,
+      showRightMenu: true
     }
   },
   computed: {
@@ -125,13 +133,16 @@ export default {
       this.$router.push({ path: tempRoute.path })
     },
     addRoute() {
-      this.$store.dispatch('CacheRoute/addRoute', this.$route)
-      this.$nextTick((_) => {
-        this.$refs.scrollBar.$refs.wrap.scrollTo({
-          behavior: 'smooth',
-          left: this.$refs[this.$route.path][0].$el.offsetLeft
+      const { name } = this.$route
+      if (name) {
+        this.$store.dispatch('CacheRoute/addRoute', this.$route)
+        this.$nextTick((_) => {
+          this.$refs.scrollBar.$refs.wrap.scrollTo({
+            behavior: 'smooth',
+            left: this.$refs[this.$route.path][0].$el.offsetLeft
+          })
         })
-      })
+      }
     },
     removeRoute(tempRoute) {
       this.$store.dispatch('CacheRoute/removeRoute', tempRoute)
@@ -152,7 +163,16 @@ export default {
     isActive(tempRoute) {
       return tempRoute && tempRoute.path === this.$route.path
     },
-    onContextMenu(ctx) {
+    isLeftLast(tempRoute) {
+      return this.visitedRoutes.indexOf(tempRoute) === 0
+    },
+    isRightLast(tempRoute) {
+      return this.visitedRoutes.indexOf(tempRoute) === this.visitedRoutes.length - 1
+    },
+    onContextMenu(item, ctx) {
+      this.selectRoute = item
+      this.showLeftMenu = this.isLeftLast(this.selectRoute)
+      this.showRightMenu = this.isRightLast(this.selectRoute)
       const { x, y } = this.$el.getBoundingClientRect()
       const { clientX, clientY } = ctx
       this.contextMenuStyle.left = clientX - x + 15 + 'px'
@@ -162,15 +182,49 @@ export default {
     closeMenu() {
       this.showContextMenu = false
     },
-    refreshRoute() {
+    refreshRoute(item) {
       this.$router.replace({ path: '/redirect' + this.$route.path })
+    },
+    closeLeft() {
+      if (!this.selectRoute) {
+        return
+      }
+      this.$store.dispatch('CacheRoute/delLeftRoute', this.selectRoute)
+        .then(_ => {
+          this.$nextTick(_ => {
+            if (!this.isActive(this.selectRoute)) {
+              this.$router.push({ path: this.selectRoute.path })
+            }
+          })
+        })
+    },
+    closeRight() {
+      if (!this.selectRoute) {
+        return
+      }
+      this.$store.dispatch('CacheRoute/delRightRoute', this.selectRoute)
+        .then(_ => {
+          this.$nextTick(_ => {
+            if (!this.isActive(this.selectRoute)) {
+              this.$router.push({ path: this.selectRoute.path })
+            }
+          })
+        })
+    },
+    closeAll() {
+      this.$store.dispatch('CacheRoute/delAllRoute', this.selectRoute)
+        .then(_ => {
+          this.$nextTick(_ => {
+            this.$router.push({ path: this.visitedRoutes[0].path })
+          })
+        })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '~@/styles/variables.scss';
+@import "~@/styles/variables.scss";
 .tag-view-container {
   position: absolute;
   top: $navBarHeight + 1;
@@ -215,6 +269,21 @@ export default {
     }
     & > li:hover {
       background-color: #f5f5f5;
+    }
+  }
+}
+.theme-dark .contex-menu-wrapper {
+  background-color: $theme_dark_menuDarkBg;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.1);
+  & > li:hover {
+    background-color: $theme_dark_menuHoverBg;
+  }
+  ::v-deep {
+    .el-link.el-link--default {
+      color: #ffffff;
+    }
+    .el-link.is-disabled {
+      color: #9c9c9c;
     }
   }
 }

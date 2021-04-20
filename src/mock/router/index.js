@@ -34,7 +34,7 @@ export const adminRoutes = [
         menuName: '表格操作'
       },
       {
-        menuUrl: '/list/table-search',
+        menuUrl: '/list/table-with-search',
         menuName: '表格搜索'
       },
       {
@@ -48,15 +48,17 @@ export const adminRoutes = [
     menuName: '表单页面',
     children: [
       {
-        menuUrl: '/form/from',
-        menuName: '表单操作'
+        menuUrl: '/form/base-form-view',
+        menuName: '表单操作',
+        cacheable: true
       },
       {
-        menuUrl: '/form/AdvanceFrom',
-        menuName: '高级表单'
+        menuUrl: '/form/advance-form',
+        menuName: '高级表单',
+        cacheable: true
       },
       {
-        menuUrl: '/form/StepForm',
+        menuUrl: '/form/step-form',
         menuName: '分步表单'
       },
       {
@@ -102,7 +104,7 @@ export const adminRoutes = [
     menuName: '编辑器',
     children: [
       {
-        menuUrl: '/editor/richtext',
+        menuUrl: '/editor/rich-text',
         menuName: '富文本'
       },
       {

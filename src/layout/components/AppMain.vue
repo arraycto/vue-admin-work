@@ -14,12 +14,10 @@
 <script>
 export default {
   name: 'AppMain',
-  data() {
-    return {
-      cachedViews: []
-    }
-  },
   computed: {
+    cachedViews() {
+      return this.$store.state.CacheRoute.cachedRoute
+    },
     key() {
       return this.$route.path
     }
@@ -28,7 +26,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/styles/variables.scss';
+@import "~@/styles/variables.scss";
 $top: $navBarHeight + 35;
 .app-main {
   position: absolute;

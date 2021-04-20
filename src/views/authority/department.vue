@@ -89,10 +89,7 @@
         </el-table>
       </template>
     </TableBody>
-    <Dialog
-      ref="dialog"
-      :auto-close="false"
-    >
+    <Dialog ref="dialog">
       <template>
         <BaseForm
           ref="baseForm"

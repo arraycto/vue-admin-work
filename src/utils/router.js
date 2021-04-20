@@ -4,7 +4,6 @@ import 'nprogress/nprogress.css'
 import store from '@/store'
 import service from '@/api/axios'
 import Layout from '@/layout'
-import { pathToFileName } from './AsyncRouteMap'
 import { baseAddress, getMenuList } from '@/api/url'
 
 import Cookies from 'js-cookie'
@@ -25,7 +24,7 @@ function getRoutes() {
 }
 
 function getComponent(path) {
-  return resolve => { require(['@/views' + pathToFileName(path)], resolve) }
+  return resolve => { require(['@/views' + path], resolve) }
 }
 
 function getCharCount(str, char) {
@@ -54,7 +53,8 @@ function generatorRoutes(res) {
       component: isMenu(it.menuUrl) ? Layout : getComponent(it.menuUrl),
       meta: {
         title: it.menuName,
-        affix: false,
+        affix: !!it.affix,
+        cacheable: it.cacheable,
         icon: ''
       }
     }

@@ -68,7 +68,7 @@
 <script>
 import BaseForm from '@/components/common/BaseForm'
 export default {
-  name: 'Form',
+  name: 'BaseFormView',
   components: { BaseForm },
   data() {
     return {

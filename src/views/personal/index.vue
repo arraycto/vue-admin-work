@@ -22,7 +22,7 @@
                 <i class="el-icon-camera-solid text-white text-sl"></i>
               </div>
             </div>
-            <div class="text-xl text-black">
+            <div class="text-xl">
               admin
             </div>
             <div class="des-wrapper">
@@ -104,7 +104,7 @@
             slot="header"
             class="flex justify-between align-center"
           >
-            <span class="text-sm text-black">待办事项</span>
+            <span class="text-sm">待办事项</span>
           </div>
           <div
             v-for="(item, index) of watingJobs"
@@ -134,7 +134,7 @@
             slot="header"
             class="flex justify-between align-center"
           >
-            <span class="text-sm text-black">消息中心</span>
+            <span class="text-sm">消息中心</span>
             <el-button
               style="padding: 3px 0"
               type="text"
@@ -149,7 +149,7 @@
           >
             <div
               class="notify"
-              :class="{'bg-red ripple' : item.status === 0, 'bg-green' : item.status === 1}"
+              :class="{'bg-red' : item.status === 0, 'bg-green' : item.status === 1}"
             ></div>
             <div class="flex-sub margin-left">
               <div class="title">
@@ -377,6 +377,21 @@ export default {
       color: #333;
       border-bottom: 1px solid #f5f5f5;
     }
+  }
+}
+.theme-dark {
+  .des-wrapper,
+  .text-wrapper {
+    color: #f5f5f5 !important;
+  }
+  .wating-item {
+    color: #888 !important;
+  }
+  .title {
+    color: #f5f5f5 !important;
+  }
+  .content {
+    color: #888 !important;
   }
 }
 </style>

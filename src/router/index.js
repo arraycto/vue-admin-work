@@ -63,6 +63,7 @@ export const routes = [
     children: [
       {
         path: 'main',
+        name: 'main',
         component: () => import('@/views/index'),
         meta: {
           title: '主控台',
@@ -71,7 +72,8 @@ export const routes = [
       },
       {
         path: 'workplace',
-        component: () => import('@/views/index/WorkPlace'),
+        name: 'workPlace',
+        component: () => import('@/views/index/work-place'),
         meta: {
           title: '工作台'
         }

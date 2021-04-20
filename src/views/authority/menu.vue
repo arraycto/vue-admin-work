@@ -1,15 +1,12 @@
 <template>
   <div class="main-container">
     <TableHeader :can-collapsed="false">
-      <template
-        v-if="actionModel"
-        slot="right"
-      >
+      <template slot="right">
         <el-button
           type="primary"
           size="mini"
           icon="el-icon-plus"
-          @click="actionModel.addItem"
+          @click="onAddItem"
         >添加
         </el-button>
       </template>
@@ -66,27 +63,24 @@
               <el-link
                 type="primary"
                 :underline="false"
-                @click="actionModel.editItem(scope.row)"
+                @click="onUpdateItem(scope.row)"
               >编辑</el-link>
               <el-link
                 type="danger"
                 :underline="false"
-                @click="actionModel.deleteItems(scope.row)"
+                @click="onDeleteItems(scope.row)"
               >删除</el-link>
             </template>
           </el-table-column>
         </el-table>
       </template>
     </TableBody>
-    <Dialog
-      v-if="actionModel"
-      ref="dialog"
-      :validate-form="actionModel.validateFormHandler"
-      :title="menuModel.title"
-    >
-      <template slot="body">
+    <Dialog ref="dialog">
+      <template>
         <el-form
-          v-model="menuModel"
+          ref="baseForm"
+          :model="menuModel"
+          :rules="formRules"
           label-width="80px"
           label-position="right"
         >
@@ -107,7 +101,10 @@
               </el-select>
             </el-col>
           </el-form-item>
-          <el-form-item label="菜单名称">
+          <el-form-item
+            label="菜单名称"
+            prop="name"
+          >
             <el-col :span="20">
               <el-input
                 v-model="menuModel.name"
@@ -116,18 +113,17 @@
               />
             </el-col>
           </el-form-item>
-          <el-form-item label="菜单地址">
+          <el-form-item
+            label="菜单地址"
+            prop="url"
+          >
             <el-col :span="20">
               <el-input
                 v-model="menuModel.url"
                 size="small"
                 placeholder="请输入菜单地址"
-                :disabled="menuModel.mode === 'edit'"
               >
-                <template
-                  v-if="menuModel.mode === 'add'"
-                  slot="prepend"
-                >{{ menuModel.parentItem ? menuModel.parentItem : '/' }}</template>
+                <template slot="prepend">{{ menuModel.parentItem ? menuModel.parentItem : '/' }}</template>
               </el-input>
             </el-col>
           </el-form-item>
@@ -139,107 +135,107 @@
 
 <script>
 import TableMixin from '@/mixins/TableMixin'
-import { currentDate, uuid } from '@/utils/utils'
+import { uuid } from '@/utils/utils'
+import { UpdateItemMixin, GetDataMixin, AddItemMixin, DeleteItemsMixin } from '@/mixins/ActionMixin'
 export default {
   name: 'Menu',
-  mixins: [TableMixin],
+  mixins: [TableMixin, GetDataMixin, UpdateItemMixin, AddItemMixin, DeleteItemsMixin],
   data() {
     return {
       menuModel: {
-        mode: 'add',
-        title: '',
         id: uuid(),
         name: '',
         parentItem: '',
         url: '',
         createTime: ''
+      },
+      formRules: {
+        name: [
+          { required: true, message: '请输入菜单名称', trigger: 'blur' }
+        ],
+        url: [
+          { required: true, message: '请输入菜单地址', trigger: 'blur' }
+        ]
       }
     }
   },
   mounted() {
-    this.getData()
-  },
-  methods: {
-    initSetup() {
-      return {
-        loadDataUrl: this.$urlPath.getMenuList,
-        getData: this.getData,
-        addUrl: '',
-        addItem: this.addItem,
-        editUrl: '',
-        editItem: this.editItem,
-        deleteUrl: '',
-        deleteItems: this.deleteItems,
-        validateFormHandler: this.validateForm
-      }
-    },
-    getData() {
-      this.$post({
-        url: this.actionModel.loadDataUrl
-      }).then((res) => {
+    this.initGetData({
+      url: this.$urlPath.getMenuList,
+      onResult: (res) => {
         this.handleSuccess(res)
-      })
-    },
-    addItem() {
-      this.$refs.dialog.show(() => {
-        this.menuModel.mode = 'add'
-        this.menuModel.id = uuid()
-        this.menuModel.title = '添加菜单信息'
-        this.menuModel.name = ''
-        this.menuModel.url = ''
-      }).then(() => {
-        if (this.menuModel.parentItem) {
-          const parentMenu = this.dataList.find(it => it.menuUrl === this.menuModel.parentItem)
-          parentMenu.children || (parentMenu.children = [])
-          parentMenu.children.push({
-            id: this.menuModel.id,
-            menuName: this.menuModel.name,
-            menuUrl: this.menuModel.parentItem + '/' + this.menuModel.url,
-            createTime: currentDate()
-          })
-        } else {
-          this.dataList.push({
-            id: this.menuModel.id,
-            menuName: this.menuModel.name,
-            menuUrl: '/' + this.menuModel.url,
-            createTime: currentDate()
-          })
+      }
+    }).then(this.getData())
+    this.initAddItem({
+      url: this.$urlPath.getMenuList,
+      params: () => {
+        return {
+          menuName: this.menuModel.name,
+          menuUrl: this.menuModel.menuUrl
         }
-      })
-    },
-    editItem(item) {
-      this.$refs.dialog.show(() => {
-        this.menuModel.mode = 'edit'
-        this.menuModel.title = '编辑菜单信息'
-        this.menuModel.name = item.menuName
-        this.menuModel.url = item.menuUrl
-        this.menuModel.parentItem = '/' + item.menuUrl.split('/')[1]
-      }).then(() => {
-        item.menuName = this.menuModel.name
-      })
-    },
-    deleteItems(item) {
-      if (item.children && item.children.length > 0) {
-        this.$errorMsg('当前菜单包含有子菜单，不可删除，请先删除子菜单')
-      } else {
-        // TODO (此处还有问题)
-        this.$showConfirmDialog('是否要删除此菜单信息，删除后不可恢复？')
-          .then(() => {
-            this.dataList.splice(this.dataList.indexOf(item), 1)
-          })
+      },
+      onAddItem: () => {
+        this.$refs.dialog.show({
+          beforeShowAction: () => {
+            this.menuModel.name = ''
+            this.menuModel.url = ''
+          },
+          onConfirmCallback: () => {
+            this.$refs.baseForm.validate((valid) => {
+              if (!valid) return
+              this.doAddItem()
+            })
+          }
+        })
+      },
+      onResult: () => { },
+      onError: () => { }
+    })
+    this.initUpdateItem({
+      url: this.$urlPath.getMenuList,
+      params: () => {
+        return {
+          menuName: this.menuModel.name,
+          menuUrl: this.menuModel.menuUrl
+        }
+      },
+      onUpdateItem: (item) => {
+        this.$refs.dialog.show({
+          beforeShowAction: () => {
+            this.menuModel.id = item.id
+            this.menuModel.name = item.menuName
+            this.menuModel.url = item.menuUrl
+          },
+          onConfirmCallback: () => {
+            this.$refs.baseForm.validate((valid) => {
+              if (!valid) return
+              this.doUpdateItem()
+            })
+          }
+        })
+      },
+      onResult: () => {
+        this.$successMsg('菜单模拟添加成功')
+      },
+      onError: () => { }
+    })
+    this.initDeleteItems({
+      url: this.$urlPath.getMenuList,
+      params: {
+        id: this.menuModel.id
+      },
+      onDeleteItems: (item) => {
+        this.menuModel.id = item.id
+        if (item.children && item.children.length > 0) {
+          this.$errorMsg('当前菜单包含有子菜单，不可删除，请先删除子菜单')
+        } else {
+          this.$showConfirmDialog('是否要删除此菜单信息，删除后不可恢复？')
+            .then(() => {
+              this.$successMsg('菜单模拟删除成功')
+            })
+        }
       }
-    },
-    validateForm() {
-      if (!this.menuModel.name) {
-        this.$errorMsg('请输入菜单名称')
-        return false
-      }
-      if (!this.menuModel.url) {
-        this.$errorMsg('请输入菜单地址')
-        return false
-      }
-      return true
-    }
+    })
   }
 }
 </script>
