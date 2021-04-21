@@ -35,6 +35,9 @@ export default {
     transform: rotate(0deg);
     transition: transform 0.3s;
   }
+  .hamburger:hover {
+    cursor: pointer;
+  }
   .opend {
     transform: rotate(180deg);
   }

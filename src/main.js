@@ -8,6 +8,7 @@ import '@/styles/index.scss'
 import './api/http'
 
 import './mock'
+import '@/assets/theme/index.css'
 
 Vue.config.productionTip = false
 

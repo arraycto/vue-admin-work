@@ -25,7 +25,7 @@
       </div>
       <section class="main-content-wrapper">
         <AppMain />
-        <PageFooter />
+        <!-- <PageFooter /> -->
       </section>
     </div>
     <Setting />
@@ -38,7 +38,6 @@ import NavBar from './components/NavBar'
 import TagView from './components/TagView'
 import AppMain from './components/AppMain'
 import Setting from '../components/common/Setting'
-import PageFooter from './components/Footer'
 import variables from '@/styles/variables.scss'
 import { mapGetters } from 'vuex'
 export default {
@@ -48,8 +47,7 @@ export default {
     NavBar,
     TagView,
     AppMain,
-    Setting,
-    PageFooter
+    Setting
   },
   data() {
     return {
@@ -87,7 +85,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/variables.scss";
+@import '~@/styles/variables.scss';
 $top: $navBarHeight + 45;
 .app-container {
   box-sizing: border-box;

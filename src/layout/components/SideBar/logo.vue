@@ -1,10 +1,12 @@
 <template>
   <div class="logo-container logo-border-bottom flex justify-center align-center">
     <img :src="require('@/assets/work_logo.png')" />
-    <span
-      v-show="!collapse"
-      class="margin-left-xs text-bold"
-    >vue-admin-work</span>
+    <transition name="el-fade-in-linear">
+      <span
+        v-show="!collapse"
+        class="margin-left-xs text-bold"
+      >vue-admin-work</span>
+    </transition>
   </div>
 </template>
 
@@ -21,7 +23,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/variables.scss";
+@import '~@/styles/variables.scss';
 .logo-container {
   height: 50px;
   line-height: 50px;
