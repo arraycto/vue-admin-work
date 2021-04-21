@@ -19,10 +19,16 @@
       class="app-main-wrapper"
       :class="[hiddenSideBar ? 'hidden-app-main' : 'show-app-main']"
     >
-      <NavBar />
-      <TagView />
-      <AppMain />
+      <div class="header-layout-wrapper">
+        <NavBar />
+        <TagView />
+      </div>
+      <section class="main-content-wrapper">
+        <AppMain />
+        <PageFooter />
+      </section>
     </div>
+    <Setting />
   </div>
 </template>
 
@@ -31,6 +37,9 @@ import SideBar from './components/SideBar'
 import NavBar from './components/NavBar'
 import TagView from './components/TagView'
 import AppMain from './components/AppMain'
+import Setting from '../components/common/Setting'
+import PageFooter from './components/Footer'
+import variables from '@/styles/variables.scss'
 import { mapGetters } from 'vuex'
 export default {
   name: 'Layout',
@@ -38,7 +47,9 @@ export default {
     SideBar,
     NavBar,
     TagView,
-    AppMain
+    AppMain,
+    Setting,
+    PageFooter
   },
   data() {
     return {
@@ -51,7 +62,10 @@ export default {
     ...mapGetters({
       hiddenSideBar: 'app/isCollapseSideBar',
       themeId: 'app/getTheme'
-    })
+    }),
+    variables() {
+      return variables
+    }
   },
   watch: {
     hiddenSideBar(newVal) {
@@ -74,6 +88,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@/styles/variables.scss";
+$top: $navBarHeight + 45;
 .app-container {
   box-sizing: border-box;
   position: relative;
@@ -91,10 +106,26 @@ export default {
     z-index: 1001;
   }
   .app-main-wrapper {
+    height: 100%;
     position: relative;
     box-sizing: border-box;
     margin-left: $app-left-menu-width;
-    transition: margin-left 0.3s ease-in-out;
+    transition: margin-left 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    .header-layout-wrapper {
+      position: fixed;
+      top: 0;
+      left: $app-left-menu-width;
+      right: 0;
+      z-index: 999;
+      transition: left 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+    .main-content-wrapper {
+      width: 100%;
+      height: 100%;
+      padding: 5px;
+      padding-top: $top;
+      overflow-x: hidden;
+    }
   }
   .show-side-bar {
     width: $app-left-menu-width;
@@ -105,9 +136,15 @@ export default {
     }
     .hidden-app-main {
       margin-left: 0;
+      .header-layout-wrapper {
+        left: 0;
+      }
     }
     .show-app-main {
       margin-left: 0;
+      .header-layout-wrapper {
+        left: 0;
+      }
     }
     .shadow {
       display: block;
@@ -127,24 +164,24 @@ export default {
       transition: all 0.3s ease-in;
     }
   }
-  @media screen and (min-width: 768px) and (max-width: 992px) {
+  @media screen and (min-width: 768px) {
     .hidden-app-main {
       margin-left: 54px;
+      .header-layout-wrapper {
+        left: 54px;
+      }
     }
     .hiden-side-bar {
       width: 54px !important;
     }
     .show-app-main {
       margin-left: $app-left-menu-width;
+      .header-layout-wrapper {
+        left: $app-left-menu-width;
+      }
     }
   }
   @media screen and (min-width: 992px) {
-    .hidden-app-main {
-      margin-left: 54px;
-    }
-    .show-app-main {
-      margin-left: $app-left-menu-width;
-    }
     .shadow {
       display: none;
     }

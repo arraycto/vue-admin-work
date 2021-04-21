@@ -162,7 +162,7 @@ export default {
           span: 8
         }
       ],
-      extraParams: this.withPageInfoData(),
+      extraParams: () => this.withPageInfoData(),
       onResult: (res) => {
         this.handleSuccess(res)
       },
@@ -174,7 +174,7 @@ export default {
   mounted() {
     this.initGetData({
       url: this.$urlPath.getTableList,
-      params: this.withPageInfoData(),
+      params: () => this.withPageInfoData(),
       onResult: (res) => {
         this.handleSuccess(res)
       }

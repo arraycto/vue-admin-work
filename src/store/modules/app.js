@@ -2,7 +2,7 @@
 const state = {
   collapseSideBar: false,
   device: 'desktop',
-  theme: 'dark'
+  theme: 'light'
 }
 
 const getters = {

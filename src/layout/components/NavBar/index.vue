@@ -258,17 +258,13 @@ export default {
 }
 
 .nav-bar-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
   display: flex;
   padding: 10px;
-  height: $navBarHeight;
+  height: $navBarHeight + 1;
   box-sizing: border-box;
   flex-direction: row;
   align-items: center;
-  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  border: 1px solid #f5f5f5;
   .breadcrumb {
     margin-left: 10px;
     .breadcrumb-title {

@@ -2,6 +2,7 @@
   <el-card
     :body-style="{ padding: 0 }"
     class="table-footer-container"
+    shadow="never"
   >
     <div class="flex">
       <el-pagination

@@ -6,7 +6,7 @@
   >
     <el-card
       :body-style="{padding: '0px'}"
-      shadow="hover"
+      shadow="never"
     >
       <div
         slot="header"

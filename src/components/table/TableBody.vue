@@ -3,6 +3,7 @@
     :body-style="{padding: 0}"
     class="table-container"
     :style="cardStyle"
+    shadow="never"
   >
     <slot name="table"></slot>
   </el-card>

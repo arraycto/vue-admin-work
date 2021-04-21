@@ -58,11 +58,15 @@ export const GetDataMixin = {
       return Promise.resolve(this.getDataModel.init)
     },
     getData() {
+      const data = checkParams(this.getDataModel)
+      if (!data) {
+        throw new Error('please set update param')
+      }
       this.getDataModel.beforeAction && this.getDataModel.beforeAction()
       loadData.call(this, {
         url: this.getDataModel.url,
         method: this.getDataModel.method || 'post',
-        data: this.getDataModel.params
+        data
       }).then((res) => {
         handleResult.call(this, this.getDataModel, res)
       }).catch((error) => {
@@ -191,7 +195,6 @@ export const DeleteItemsMixin = {
       if (!data) {
         throw new Error('please set delete param')
       }
-      console.log(data)
       deleteItems.call(this, {
         url: this.deleteItemsModel.url,
         method: this.deleteItemsModel.method || 'post',

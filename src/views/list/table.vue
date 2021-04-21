@@ -279,7 +279,7 @@ export default {
   mounted() {
     this.initGetData({
       url: this.$urlPath.getTableList,
-      params: this.withPageInfoData(),
+      params: () => this.withPageInfoData(),
       beforeAction: () => {
         this.tableLoading = true
       },
