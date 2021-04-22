@@ -58,7 +58,7 @@ export const routes = [
     hidden: false,
     meta: {
       title: 'Dashboard',
-      icon: 'index'
+      icon: 'dashboard'
     },
     children: [
       {

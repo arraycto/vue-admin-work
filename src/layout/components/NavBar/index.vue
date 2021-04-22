@@ -264,7 +264,6 @@ export default {
   box-sizing: border-box;
   flex-direction: row;
   align-items: center;
-  border: 1px solid #f5f5f5;
   .breadcrumb {
     margin-left: 10px;
     .breadcrumb-title {

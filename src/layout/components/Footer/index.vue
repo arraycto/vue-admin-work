@@ -2,7 +2,6 @@
   <el-card
     :body-style="{padding: '0'}"
     shadow="never"
-    class="margin-top-xs"
   >
     <div class="footer-container flex justify-center align-center padding">
       <img :src="require('@/assets/work_logo.png')" />

@@ -1,4 +1,8 @@
-@import "../variables.scss";
+$theme_light_menuBg: #ffffff;
+$theme_light_menuDarkBg: #ffffff;
+$theme_light_menuHoverBg: #ffffff;
+$theme_light_menuColor: #515a6e;
+$theme_light_activeColor: #047fff;
 
 .theme-light {
   $activeColor: #047fff;
@@ -89,7 +93,11 @@
     background-color: $theme_light_menuBg;
   }
 
-  .tag-view-theme {
-    background-color: $theme_light_menuBg;
-  }
+}
+:export{
+  theme_light_menuBg: $theme_light_menuBg;
+  theme_light_menuHoverBg: $theme_light_menuHoverBg;
+  theme_light_menuColor: $theme_light_menuColor;
+  theme_light_activeColor: $theme_light_activeColor;
+  theme_light_mainBg: #f5f7f9;
 }

@@ -6,6 +6,7 @@ export const adminRoutes = [
   {
     menuUrl: '/authority',
     menuName: '系统管理',
+    icon: 'system',
     children: [
       {
         menuUrl: '/authority/department',
@@ -28,6 +29,7 @@ export const adminRoutes = [
   {
     menuUrl: '/list',
     menuName: '列表页面',
+    icon: 'list',
     children: [
       {
         menuUrl: '/list/table',
@@ -46,6 +48,7 @@ export const adminRoutes = [
   {
     menuUrl: '/form',
     menuName: '表单页面',
+    icon: 'form',
     children: [
       {
         menuUrl: '/form/base-form-view',
@@ -70,6 +73,7 @@ export const adminRoutes = [
   {
     menuUrl: '/result',
     menuName: '结果页面',
+    icon: 'result-page',
     children: [
       {
         menuUrl: '/result/success',
@@ -84,6 +88,7 @@ export const adminRoutes = [
   {
     menuUrl: '/exception',
     menuName: '异常页面',
+    icon: 'warning',
     children: [
       {
         menuUrl: '/exception/404',
@@ -102,6 +107,7 @@ export const adminRoutes = [
   {
     menuUrl: '/editor',
     menuName: '编辑器',
+    icon: 'editor',
     children: [
       {
         menuUrl: '/editor/rich-text',

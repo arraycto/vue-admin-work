@@ -1,4 +1,9 @@
-@import "../variables.scss";
+$theme_blue_menuBg: #409eff;
+$theme_blue_menuDarkBg: #047fff;
+$theme_blue_menuHoverBg: #047fff;
+$theme_blue_menuColor: #ffffff;
+$theme_blue_activeColor: #ffffff;
+
 
 .theme-blue {
   $activeColor: #ffffff;
@@ -60,6 +65,11 @@
     background-color: $theme_blue_menuHoverBg !important;
   }
 
+  // nav bar theme
+  .nav-bar-theme {
+    background-color: #ffffff;
+  }
+
   .logo-container {
     background-color: $theme_blue_menuDarkBg;
   }
@@ -72,4 +82,11 @@
     cursor: pointer;
     color: $theme_blue_menuBg;
   }
+}
+:export{
+  theme_blue_menuBg: $theme_blue_menuBg;
+  theme_blue_menuHoverBg: $theme_blue_menuHoverBg;
+  theme_blue_menuColor: $theme_blue_menuColor;
+  theme_blue_activeColor: $theme_blue_activeColor;
+  theme_blue_mainBg: #f5f7f9;
 }

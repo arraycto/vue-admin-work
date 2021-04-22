@@ -54,8 +54,8 @@ function generatorRoutes(res) {
       meta: {
         title: it.menuName,
         affix: !!it.affix,
-        cacheable: it.cacheable,
-        icon: ''
+        cacheable: !!it.cacheable,
+        icon: it.icon || ''
       }
     }
     if (it.children) {

@@ -1,0 +1,65 @@
+$theme_dark-side_menuBg: #191a23;
+$theme_dark-side_menuHoverBg: #080c11;
+$theme_dark-side_menuColor: #ffffff;
+$theme_dark-side_activeColor: #ffffff;
+
+.theme-dark-side {
+  $activeColor: #f8ddb2;
+
+  // logo class
+  .logo-container {
+    background-color: $theme_dark-side_menuBg;
+  }
+
+  .logo-border-bottom {
+    border-bottom: 1px solid $theme_dark-side_menuBg;
+  }
+  // logo class
+
+  .side-bar-theme {
+    background-color: $theme_dark-side_menuBg;
+  }
+  .el-menu .is-opened .el-menu-item {
+    background-color: $theme_dark-side_menuBg !important;
+  }
+
+  .el-menu .el-submenu__title:hover {
+    background-color: $theme_dark-side_menuHoverBg !important;
+  }
+
+  .el-menu .el-submenu__title i {
+    color: $theme_dark_menuColor;
+  }
+
+  .el-menu .el-menu-item:hover {
+    background-color: $theme_dark-side_menuHoverBg !important;
+  }
+
+  .el-menu .el-submenu .el-submenu .el-submenu__title {
+    background-color: $theme_dark-side_menuBg !important;
+  }
+
+  .el-menu .el-submenu .el-submenu .el-submenu__title:hover {
+    background-color: $theme_dark-side_menuHoverBg !important;
+  }
+
+  .el-menu-item.is-active {
+    color: $activeColor;
+  }
+
+  .show-side-bar {
+    box-shadow: 2px 0 8px $theme_dark-side_menuBg;
+  }
+
+  // nav bar theme
+  .nav-bar-theme {
+    background-color: #ffffff;
+  }
+}
+:export{
+  theme_dark-side_menuBg: $theme_dark-side_menuBg;
+  theme_dark-side_menuHoverBg: $theme_dark-side_menuHoverBg;
+  theme_dark-side_menuColor: $theme_dark-side_menuColor;
+  theme_dark-side_activeColor: $theme_dark-side_activeColor;
+  theme_dark-side_mainBg: #f5f7f9;
+}

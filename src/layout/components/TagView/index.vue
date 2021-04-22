@@ -173,10 +173,11 @@ export default {
       this.selectRoute = item
       this.showLeftMenu = this.isLeftLast(this.selectRoute)
       this.showRightMenu = this.isRightLast(this.selectRoute)
-      const { x, y } = this.$el.getBoundingClientRect()
+      const { x } = this.$el.getBoundingClientRect()
       const { clientX, clientY } = ctx
-      this.contextMenuStyle.left = clientX - x + 15 + 'px'
-      this.contextMenuStyle.top = clientY - y + 'px'
+      const screenWidth = document.body.clientWidth
+      this.contextMenuStyle.left = ((clientX + 130) > screenWidth ? clientX - 130 - x - 15 : clientX - x + 15) + 'px'
+      this.contextMenuStyle.top = clientY + 'px'
       this.showContextMenu = true
     },
     closeMenu() {

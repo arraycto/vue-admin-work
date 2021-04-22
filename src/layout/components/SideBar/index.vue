@@ -9,8 +9,8 @@
         :default-active="routePath"
         mode="vertical"
         :collapse="collapse"
-        :background-color="variables[`theme_${themeId}_menuBg`]"
-        :text-color="variables[`theme_${themeId}_menuColor`]"
+        :background-color="$styleVariables[`theme_${themeId}_menuBg`]"
+        :text-color="$styleVariables[`theme_${themeId}_menuColor`]"
         :unique-opened="false"
         :collapse-transition="false"
         @select="onPathSelect"
@@ -29,7 +29,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import variables from '@/styles/variables.scss'
 import Logo from './logo'
 import SideBarItem from './components/SideBarItem'
 export default {
@@ -47,9 +46,6 @@ export default {
     filterRoutes() {
       return this.routes.filter((it) => !it.hidden)
     },
-    variables() {
-      return variables
-    },
     routePath() {
       return this.$route.path
     }
@@ -65,7 +61,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/styles/variables.scss';
+@import "~@/styles/variables.scss";
 .side-bar-container {
   height: 100%;
   box-sizing: border-box;

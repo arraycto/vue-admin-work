@@ -1,4 +1,5 @@
 @charset "utf-8";
+@import './theme.scss';
 
 // nav-bar-height
 $navBarHeight: 49px;
@@ -6,44 +7,8 @@ $navBarHeight: 49px;
 // sidebar
 $app-left-menu-width: 250px;
 
-$theme_dark_menuBg: #21264a;
-$theme_dark_menuDarkBg: #1f2d3d;
-$theme_dark_menuHoverBg: #080c11;
-$theme_dark_menuColor: #ffffff;
-$theme_dark_activeColor: #ffffff;
-
-$theme_blue_menuBg: #409eff;
-$theme_blue_menuDarkBg: #047fff;
-$theme_blue_menuHoverBg: #047fff;
-$theme_blue_menuColor: #ffffff;
-$theme_blue_activeColor: #ffffff;
-
-$theme_light_menuBg: #ffffff;
-$theme_light_menuDarkBg: #ffffff;
-$theme_light_menuHoverBg: #ffffff;
-$theme_light_menuColor: #515a6e;
-$theme_light_activeColor: #047fff;
-
 $mainPadding: 2px;
 
 :export {
-  theme_dark_menuBg: $theme_dark_menuBg;
-  theme_dark_menuDarkBg: $theme_dark_menuDarkBg;
-  theme_dark_menuHoverBg: $theme_dark_menuHoverBg;
-  theme_dark_menuColor: $theme_dark_menuColor;
-  theme_dark_activeColor: $theme_dark_activeColor;
-
-  theme_blue_menuBg: $theme_blue_menuBg;
-  theme_blue_menuDarkBg: $theme_blue_menuDarkBg;
-  theme_blue_menuHoverBg: $theme_blue_menuHoverBg;
-  theme_blue_menuColor: $theme_blue_menuColor;
-  theme_blue_activeColor: $theme_blue_activeColor;
-
-  theme_light_menuBg: $theme_light_menuBg;
-  theme_light_menuDarkBg: $theme_light_menuDarkBg;
-  theme_light_menuHoverBg: $theme_light_menuHoverBg;
-  theme_light_menuColor: $theme_light_menuColor;
-  theme_light_activeColor: $theme_light_activeColor;
-
   left_menu_width: $app-left-menu-width;
 }

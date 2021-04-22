@@ -14,6 +14,8 @@ import SubmitButton from '@/components/common/SubmitButton'
 
 import * as eCharts from 'echarts'
 
+import styleVariables from '@/styles/theme.scss'
+
 Vue.use(Element)
 
 function initDevice() {
@@ -50,6 +52,7 @@ Vue.prototype.$echarts = eCharts
 Vue.prototype.$urlPath = urlPath
 Vue.prototype.$isMobile = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
 Vue.prototype.$isAndroid = navigator.userAgent.indexOf('Android') > -1 || navigator.userAgent.indexOf('Adr') > -1
+Vue.prototype.$styleVariables = styleVariables
 
 Vue.prototype.$successMsg = function (message = '') {
   this.$message({

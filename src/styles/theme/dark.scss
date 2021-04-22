@@ -1,4 +1,8 @@
-@import "../variables.scss";
+$theme_dark_menuBg: #191a23;
+$theme_dark_menuDarkBg: #1f2d3d;
+$theme_dark_menuHoverBg: #080c11;
+$theme_dark_menuColor: #ffffff;
+$theme_dark_activeColor: #ffffff;
 
 .theme-dark {
   $activeColor: #f8ddb2;
@@ -77,6 +81,7 @@
   // nav bar theme
   .nav-bar-theme {
     background-color: $theme_dark_menuDarkBg;
+    border-bottom: 1px solid $theme_dark_menuBg;
   }
 
   .icon-class,
@@ -199,4 +204,11 @@
   .CodeMirror {
     background-color: #5a5a5a;
   }
+}
+:export{
+  theme_dark_menuBg: $theme_dark_menuBg;
+  theme_dark_menuHoverBg: $theme_dark_menuHoverBg;
+  theme_dark_menuColor: $theme_dark_menuColor;
+  theme_dark_activeColor: $theme_dark_activeColor;
+  theme_dark_mainBg: #21264a;
 }

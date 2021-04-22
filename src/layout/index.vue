@@ -23,9 +23,11 @@
         <NavBar />
         <TagView />
       </div>
-      <section class="main-content-wrapper">
+      <section
+        class="main-content-wrapper"
+        :style="{'background-color': $styleVariables[`theme_${themeId}_mainBg`]}"
+      >
         <AppMain />
-        <!-- <PageFooter /> -->
       </section>
     </div>
     <Setting />
@@ -38,7 +40,6 @@ import NavBar from './components/NavBar'
 import TagView from './components/TagView'
 import AppMain from './components/AppMain'
 import Setting from '../components/common/Setting'
-import variables from '@/styles/variables.scss'
 import { mapGetters } from 'vuex'
 export default {
   name: 'Layout',
@@ -60,10 +61,7 @@ export default {
     ...mapGetters({
       hiddenSideBar: 'app/isCollapseSideBar',
       themeId: 'app/getTheme'
-    }),
-    variables() {
-      return variables
-    }
+    })
   },
   watch: {
     hiddenSideBar(newVal) {
@@ -85,7 +83,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/styles/variables.scss';
+@import "~@/styles/variables.scss";
 $top: $navBarHeight + 45;
 .app-container {
   box-sizing: border-box;
