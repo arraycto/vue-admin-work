@@ -47,8 +47,9 @@ export default {
 <style lang="scss" scoped>
 $border-radius: 4px;
 .style-example-container {
-  width: 60px;
-  height: 50px;
+  width: 50px;
+  height: 40px;
+  margin: 0 auto;
   border-radius: $border-radius;
   background-color: transparent;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);

@@ -380,23 +380,23 @@ export default {
       ],
       fastActions: [
         {
-          title: '表格操作',
+          title: '常用操作',
           path: '/'
         },
         {
-          title: '表格操作',
+          title: '常用操作',
           path: '/'
         },
         {
-          title: '表格操作',
+          title: '快捷操作',
           path: '/'
         },
         {
-          title: '表格操作',
+          title: '快捷操作',
           path: '/'
         },
         {
-          title: '表格操作',
+          title: '常用操作',
           path: '/'
         }
       ],

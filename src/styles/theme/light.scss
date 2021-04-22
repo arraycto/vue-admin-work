@@ -61,28 +61,6 @@ $theme_light_activeColor: #047fff;
     border-right: 2px solid #2d8cf0;
   }
 
-  .el-tag--plain {
-    border-color: $activeColor;
-    color: $activeColor;
-  }
-  .el-tag--dark {
-    background-color: $activeColor;
-    border-color: $activeColor;
-  }
-  // nav-bar tag 样式
-  .el-tag--dark .el-tag__close {
-    color: #ffffff;
-  }
-  .el-tag--plain .el-tag__close {
-    color: $activeColor;
-  }
-  .el-tag--dark .el-tag__close:hover,
-  .el-tag--plain .el-tag__close:hover {
-    background-color: #f5f5f5;
-    color: #333333;
-  }
-  // nav-bar tag 样式
-
   .icon-class:hover {
     cursor: pointer;
     color: $activeColor;

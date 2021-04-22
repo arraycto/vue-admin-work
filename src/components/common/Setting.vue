@@ -10,9 +10,15 @@
       :visible.sync="opened"
       :with-header="false"
       direction="rtl"
-      size="20%"
+      :size="isMobileScreen ? '75%' : '20%'"
     >
-      <div class="padding">
+      <div class="padding margin-top">
+        <div
+          class="close-wrapper"
+          @click="opened = false"
+        >
+          <i class="el-icon-close"></i>
+        </div>
         <el-divider content-position="center">主题风格设置</el-divider>
         <el-row :gutter="5">
           <el-col
@@ -35,6 +41,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import StyleExample from './StyleExample'
 export default {
   name: 'Setting',
@@ -76,6 +83,11 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapGetters({
+      isMobileScreen: 'app/isMobileScreen'
+    })
+  },
   methods: {
     openDrawer() {
       this.opened = !this.opened
@@ -110,6 +122,12 @@ export default {
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     font-size: 30px;
     color: #fff;
+  }
+  .close-wrapper {
+    position: absolute;
+    right: 5%;
+    top: 1%;
+    font-size: 20px;
   }
 }
 .el-col + .el-col {

@@ -39,27 +39,6 @@ $theme_blue_activeColor: #ffffff;
     color: $activeColor;
     background: linear-gradient($theme_blue_menuDarkBg, $theme_blue_menuBg, $theme_blue_menuDarkBg) !important;
   }
-  .el-tag--plain {
-    border-color: $theme_blue_menuBg;
-    color: $theme_blue_menuBg;
-  }
-  .el-tag--dark {
-    background-color: $theme_blue_menuBg;
-    border-color: $theme_blue_menuBg;
-  }
-  // nav-bar tag 样式
-  .el-tag--dark .el-tag__close {
-    color: #ffffff;
-  }
-  .el-tag--plain .el-tag__close {
-    color: $theme_blue_menuBg;
-  }
-  .el-tag--dark .el-tag__close:hover,
-  .el-tag--plain .el-tag__close:hover {
-    background-color: $theme_blue_menuDarkBg;
-    color: #ffffff;
-  }
-  // nav-bar tag 样式
 
   .el-menu .el-submenu .el-submenu .el-submenu__title:hover {
     background-color: $theme_blue_menuHoverBg !important;

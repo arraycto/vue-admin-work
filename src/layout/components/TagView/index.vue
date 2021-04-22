@@ -5,7 +5,7 @@
   >
     <el-scrollbar
       ref="scrollBar"
-      style="width: 100%"
+      style="width: 100%; min-height: 24px"
     >
       <div class="tag-view-content">
         <el-tag

@@ -60,7 +60,8 @@ export default {
   computed: {
     ...mapGetters({
       hiddenSideBar: 'app/isCollapseSideBar',
-      themeId: 'app/getTheme'
+      themeId: 'app/getTheme',
+      isMobileScreen: 'app/isMobileScreen'
     })
   },
   watch: {
@@ -71,6 +72,11 @@ export default {
         }, 300)
       } else {
         this.hiddenSideBarStyle.display = ''
+      }
+    },
+    $route(route) {
+      if (this.isMobileScreen && !this.hiddenSideBar) {
+        this.$store.dispatch('app/toggleCollapseSideBar')
       }
     }
   },
