@@ -4,6 +4,8 @@
 // nav-bar-height
 $navBarHeight: 49px;
 
+$tagViewHeight: 35px;
+
 // sidebar
 $app-left-menu-width: 250px;
 
@@ -11,4 +13,6 @@ $mainPadding: 2px;
 
 :export {
   left_menu_width: $app-left-menu-width;
+  navBarHeight: $navBarHeight;
+  tagViewHeight: $tagViewHeight;
 }

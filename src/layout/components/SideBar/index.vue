@@ -1,6 +1,6 @@
 <template>
   <div class="side-bar-container">
-    <Logo />
+    <Logo v-if="showLogo" />
     <el-scrollbar
       style="height:100%"
       wrap-class="scrollbar-wrapper"
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import Logo from './logo'
 import SideBarItem from './components/SideBarItem'
 export default {
@@ -41,6 +41,9 @@ export default {
       collapse: 'app/isCollapseSideBar',
       themeId: 'app/getTheme',
       routes: 'user/getRoutes'
+    }),
+    ...mapState({
+      showLogo: (state) => state.app.showLogo
     }),
     filterRoutes() {
       return this.routes.filter((it) => !it.hidden)

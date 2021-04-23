@@ -20,12 +20,20 @@
       :class="[hiddenSideBar ? 'hidden-app-main' : 'show-app-main']"
     >
       <div class="header-layout-wrapper">
-        <NavBar />
-        <TagView />
+        <NavBar
+          v-if="showNavBar"
+          ref="navBar"
+        />
+        <TagView
+          v-if="showTagView"
+          ref="tagView"
+        />
       </div>
       <section
         class="main-content-wrapper"
-        :style="{'background-color': $styleVariables[`theme_${themeId}_mainBg`]}"
+        :style="{'background-color': $styleVariables[`theme_${themeId}_mainBg`],
+                 'padding-top': paddingTop + 'px'
+        }"
       >
         <AppMain />
       </section>
@@ -40,7 +48,7 @@ import NavBar from './components/NavBar'
 import TagView from './components/TagView'
 import AppMain from './components/AppMain'
 import Setting from '../components/common/Setting'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'Layout',
   components: {
@@ -54,7 +62,8 @@ export default {
     return {
       hiddenSideBarStyle: {
         display: ''
-      }
+      },
+      paddingTop: parseInt(this.$styleVariables.navBarHeight) + parseInt(this.$styleVariables.tagViewHeight) + 10
     }
   },
   computed: {
@@ -62,9 +71,27 @@ export default {
       hiddenSideBar: 'app/isCollapseSideBar',
       themeId: 'app/getTheme',
       isMobileScreen: 'app/isMobileScreen'
+    }),
+    ...mapState({
+      showNavBar: (state) => state.app.showNavBar,
+      showTagView: (state) => state.app.showTagView
     })
   },
   watch: {
+    showNavBar(newVal) {
+      setTimeout(_ => {
+        const navBarHeight = this.$refs.navBar ? this.$refs.navBar.$el.getBoundingClientRect().height : 0
+        const tagViewHeight = this.$refs.tagView ? this.$refs.tagView.$el.getBoundingClientRect().height : 0
+        this.paddingTop = navBarHeight + tagViewHeight + 10
+      }, 0)
+    },
+    showTagView(newVal) {
+      setTimeout(_ => {
+        const navBarHeight = this.$refs.navBar ? this.$refs.navBar.$el.getBoundingClientRect().height : 0
+        const tagViewHeight = this.$refs.tagView ? this.$refs.tagView.$el.getBoundingClientRect().height : 0
+        this.paddingTop = navBarHeight + tagViewHeight + 10
+      }, 0)
+    },
     hiddenSideBar(newVal) {
       if (newVal) {
         setTimeout(() => {
@@ -90,7 +117,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@/styles/variables.scss";
-$top: $navBarHeight + 45;
 .app-container {
   box-sizing: border-box;
   position: relative;
@@ -125,7 +151,6 @@ $top: $navBarHeight + 45;
       width: 100%;
       height: 100%;
       padding: 5px;
-      padding-top: $top;
       overflow-x: hidden;
     }
   }

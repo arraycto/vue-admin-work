@@ -2,7 +2,13 @@
 const state = {
   collapseSideBar: false,
   device: 'desktop',
-  theme: 'blue'
+  theme: 'dark-side',
+  showLogo: true,
+  showNavBar: true,
+  showTagView: true,
+  showSearchBar: true,
+  showMessageBar: true,
+  showFullScreenBar: true
 }
 
 const getters = {
@@ -32,6 +38,11 @@ const actions = {
   },
   changeTheme({ commit }, themeId) {
     commit('changeTheme', themeId)
+  },
+  toggleComponent({ commit }, stateObj) {
+    if (stateObj) {
+      commit('toggleComponent', stateObj)
+    }
   }
 }
 
@@ -50,6 +61,9 @@ const mutations = {
   },
   changeTheme(state, themeId) {
     state.theme = themeId
+  },
+  toggleComponent(state, stateObj) {
+    state[stateObj.name] = stateObj.state
   }
 }
 

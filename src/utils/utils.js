@@ -62,3 +62,19 @@ export function isNumber(param) {
 export function isBoolean(param) {
   return Object.prototype.toString.call(param) === '[object Boolean]'
 }
+
+/**
+ * @param {*} element
+ * @param {*} className
+ * @returns
+ */
+export function toggleClass(element, className) {
+  if (!element || !className) {
+    return
+  }
+  let classString = element.className
+  const clazz = classString.split(' ').filter(it => it.indexOf('theme_color_') === -1)
+  clazz.push(className)
+  classString = clazz.join(' ')
+  element.className = classString
+}

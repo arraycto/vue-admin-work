@@ -16,6 +16,7 @@
     </el-breadcrumb>
     <div class="flex-sub"></div>
     <div
+      v-if="showSearchBar"
       class="margin-right-xs search-wrapper"
       :class="{ 'show-search-wrapper' : isShowSearch }"
     >
@@ -27,6 +28,7 @@
       />
     </div>
     <div
+      v-if="showSearchBar"
       class="icon-wrapper"
       @click="isShowSearch = !isShowSearch"
     >
@@ -36,6 +38,7 @@
       />
     </div>
     <el-popover
+      v-if="showMessageBar"
       trigger="click"
       @after-enter="afterEnter"
     >
@@ -57,6 +60,7 @@
       />
     </el-popover>
     <div
+      v-if="showFullScreenBar"
       class="icon-wrapper"
       @click="onScreenFull"
     >
@@ -167,7 +171,7 @@
 
 <script>
 import Hamburger from '../Hamburger'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import screenfull from 'screenfull'
 import ResetPasswordMixin from '@/mixins/ResetPasswordMixin'
 import MessageContent from '@/views/message/TopMessageContent'
@@ -192,6 +196,11 @@ export default {
       collapse: 'app/isCollapseSideBar',
       avatar: 'user/getAvatar',
       userName: 'user/getUserName'
+    }),
+    ...mapState({
+      showSearchBar: (state) => state.app.showSearchBar,
+      showMessageBar: (state) => state.app.showMessageBar,
+      showFullScreenBar: (state) => state.app.showFullScreenBar
     })
   },
   watch: {

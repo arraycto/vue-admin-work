@@ -36,7 +36,7 @@
             />
           </el-col>
         </el-row>
-        <div class="flex justify-between padding-left padding-right">
+        <div class="flex justify-between padding-left padding-right padding-bottom">
           <div
             v-for="(item, index) of primartyColorList"
             :key="index"
@@ -46,6 +46,31 @@
             @click="colorClick(item)"
           ></div>
         </div>
+        <el-divider content-position="center">内容区域设置</el-divider>
+        <div class="flex justify-between padding-tb-sm">
+          <span class="text-black">头部LOGO</span>
+          <el-switch v-model="showLogo" />
+        </div>
+        <div class="flex justify-between padding-tb-sm">
+          <span class="text-black">导航条</span>
+          <el-switch v-model="showNavBar" />
+        </div>
+        <div class="flex justify-between padding-tb-sm">
+          <span class="text-black">状态栏</span>
+          <el-switch v-model="showTagView" />
+        </div>
+        <div class="flex justify-between padding-tb-sm">
+          <span class="text-black">搜索</span>
+          <el-switch v-model="showSearchBar" />
+        </div>
+        <div class="flex justify-between padding-tb-sm">
+          <span class="text-black">消息</span>
+          <el-switch v-model="showMessageBar" />
+        </div>
+        <div class="flex justify-between padding-tb-sm">
+          <span class="text-black">全屏</span>
+          <el-switch v-model="showFullScreenBar" />
+        </div>
       </div>
     </el-drawer>
   </div>
@@ -54,6 +79,12 @@
 <script>
 import { mapGetters } from 'vuex'
 import StyleExample from './StyleExample'
+import '@/assets/theme/black/index.css'
+import '@/assets/theme/red/index.css'
+import '@/assets/theme/purple/index.css'
+import '@/assets/theme/cyan/index.css'
+import '@/assets/theme/blue/index.css'
+import { toggleClass } from '@/utils/utils'
 export default {
   name: 'Setting',
   components: {
@@ -124,7 +155,73 @@ export default {
   computed: {
     ...mapGetters({
       isMobileScreen: 'app/isMobileScreen'
-    })
+    }),
+    showLogo: {
+      get() {
+        return this.$store.state.app.showLogo
+      },
+      set(val) {
+        this.$store.dispatch('app/toggleComponent', {
+          name: 'showLogo',
+          state: val
+        })
+      }
+    },
+    showSearchBar: {
+      get() {
+        return this.$store.state.app.showSearchBar
+      },
+      set(val) {
+        this.$store.dispatch('app/toggleComponent', {
+          name: 'showSearchBar',
+          state: val
+        })
+      }
+    },
+    showTagView: {
+      get() {
+        return this.$store.state.app.showTagView
+      },
+      set(val) {
+        this.$store.dispatch('app/toggleComponent', {
+          name: 'showTagView',
+          state: val
+        })
+      }
+    },
+    showNavBar: {
+      get() {
+        return this.$store.state.app.showNavBar
+      },
+      set(val) {
+        this.$store.dispatch('app/toggleComponent', {
+          name: 'showNavBar',
+          state: val
+        })
+      }
+    },
+    showMessageBar: {
+      get() {
+        return this.$store.state.app.showMessageBar
+      },
+      set(val) {
+        this.$store.dispatch('app/toggleComponent', {
+          name: 'showMessageBar',
+          state: val
+        })
+      }
+    },
+    showFullScreenBar: {
+      get() {
+        return this.$store.state.app.showFullScreenBar
+      },
+      set(val) {
+        this.$store.dispatch('app/toggleComponent', {
+          name: 'showFullScreenBar',
+          state: val
+        })
+      }
+    }
   },
   methods: {
     openDrawer() {
@@ -140,9 +237,7 @@ export default {
       this.primartyColorList.forEach((it) => {
         it.checked = it === item
       })
-      // import(`@/assets/theme/${item.name}/index.css`).then((res) => {
-      //   console.log(res)
-      // })
+      toggleClass(document.body, 'theme_color_' + item.name)
     }
   }
 }
@@ -183,7 +278,7 @@ export default {
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   }
   .circle::after {
-    content: '';
+    content: "";
     display: block;
     margin: 0 auto;
     margin-top: 25px;

@@ -14,7 +14,7 @@ import SubmitButton from '@/components/common/SubmitButton'
 
 import * as eCharts from 'echarts'
 
-import styleVariables from '@/styles/theme.scss'
+import styleVariables from '@/styles/variables.scss'
 
 Vue.use(Element)
 
