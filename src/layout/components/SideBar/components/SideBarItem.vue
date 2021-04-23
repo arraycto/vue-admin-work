@@ -5,7 +5,10 @@
       v-if="hasNoChild()"
       v-bind="properties"
     >
-      <el-menu-item :index="resolvePath(routeItem.path)">
+      <el-menu-item
+        :index="resolvePath(routeItem.path)"
+        class="my-menu-item-tag-class"
+      >
         <svg-icon :icon-class="(routeItem.meta && routeItem.meta.icon) || 'sub-menu'" />
         <span class="item-title">{{ routeItem.meta && routeItem.meta.title }}</span>
       </el-menu-item>

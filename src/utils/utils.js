@@ -78,3 +78,10 @@ export function toggleClass(element, className) {
   classString = clazz.join(' ')
   element.className = classString
 }
+
+export function setMenuActiveClasss(themeId, color) {
+  if (['dark-side', 'dark'].includes(themeId)) {
+    const ele = document.querySelector('.my-menu-item-tag-class.el-menu-item.is-active')
+    ele && (ele.style.backgroundColor = `${color} !important`)
+  }
+}

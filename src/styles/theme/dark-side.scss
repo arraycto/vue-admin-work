@@ -19,33 +19,35 @@ $theme_dark-side_activeColor: #ffffff;
   .side-bar-theme {
     background-color: $theme_dark-side_menuBg;
   }
-  .el-menu .is-opened .el-menu-item {
-    background-color: $theme_dark-side_menuBg !important;
-  }
+  
+  // .el-menu .is-opened .el-menu-item {
+  //   background-color: $theme_dark-side_menuHoverBg !important;
+  // }
 
-  .el-menu .el-submenu__title:hover {
-    background-color: $theme_dark-side_menuHoverBg !important;
-  }
+  // .el-menu .el-submenu__title:hover {
+  //   background-color: $theme_dark-side_menuHoverBg !important;
+  // }
 
-  .el-menu .el-submenu__title i {
-    color: $theme_dark_menuColor;
-  }
+  // .el-menu .el-submenu__title i {
+  //   color: $theme_dark_menuColor;
+  // }
 
-  .el-menu .el-menu-item:hover {
-    background-color: $theme_dark-side_menuHoverBg !important;
-  }
+  // .el-menu .el-menu-item:hover {
+  //   background-color: $theme_dark-side_menuHoverBg !important;
+  // }
 
-  .el-menu .el-submenu .el-submenu .el-submenu__title {
-    background-color: $theme_dark-side_menuBg !important;
-  }
+  // .el-menu .el-submenu .el-submenu .el-submenu__title {
+  //   background-color: $theme_dark-side_menuBg !important;
+  // }
 
-  .el-menu .el-submenu .el-submenu .el-submenu__title:hover {
-    background-color: $theme_dark-side_menuHoverBg !important;
-  }
+  // .el-menu .el-submenu .el-submenu .el-submenu__title:hover {
+  //   background-color: $theme_dark-side_menuHoverBg !important;
+  // }
 
-  .el-menu-item.is-active {
-    color: $activeColor;
-  }
+  // .is-opened .el-menu-item.is-active {
+  //   color: $activeColor;
+  //   background-color: #409eff;
+  // }
 
   .show-side-bar {
     box-shadow: 2px 0 8px $theme_dark-side_menuBg;

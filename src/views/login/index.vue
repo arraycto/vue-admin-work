@@ -9,8 +9,14 @@
     <div class="flex form-wrapper">
       <div class="left"></div>
       <div class="right">
-        <div class="title">
-          欢迎来到vue-admin-work
+        <div
+          class="flex-sub flex justify-center align-center"
+          style="width: 48%;"
+        >
+          <div class="logo-wrapper">
+            <img :src="require('@/assets/work_logo.png')" />
+          </div>
+          <div class="title margin-left">Vue Admin Work</div>
         </div>
         <div class="form-container">
           <div class="item-wrapper">
@@ -41,7 +47,22 @@
             </el-button>
           </div>
         </div>
+        <div
+          class="flex-sub margin-top"
+          style="width: 48%;"
+        >
+          <div class="flex justify-between">
+            <el-checkbox v-model="autoLogin">自动登录</el-checkbox>
+            <el-link
+              :underline="false"
+              type="primary"
+            >忘记密码？</el-link>
+          </div>
+        </div>
       </div>
+    </div>
+    <div class="footer-wrapper">
+      <PageFooter />
     </div>
   </div>
 </template>
@@ -53,8 +74,10 @@ import ImageBg3 from '@/assets/img_login_bg_03.jpg'
 import ImageMobileBg1 from '@/assets/img_login_mobile_bg_01.jpg'
 import Cookies from 'js-cookie'
 import { randomString } from '@/utils/utils'
+import PageFooter from '@/layout/components/Footer'
 export default {
   name: 'Login',
+  components: { PageFooter },
   data() {
     return {
       username: 'admin',
@@ -63,7 +86,8 @@ export default {
       ImageBg2,
       ImageBg3,
       ImageMobileBg1,
-      redirect: ''
+      redirect: '',
+      autoLogin: true
     }
   },
   watch: {
@@ -124,6 +148,25 @@ export default {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+  }
+  .logo-wrapper {
+    & img {
+      width: 50px;
+    }
+    & img::after {
+      content: "欢迎来到vue-admin-work";
+    }
+  }
+  .footer-wrapper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    ::v-deep {
+      .el-card {
+        background-color: transparent;
+      }
     }
   }
   .form-wrapper {
@@ -228,7 +271,6 @@ export default {
           font-size: 24px;
           font-weight: bold;
           color: #5497ff;
-          margin-bottom: 15%;
         }
         .item-wrapper {
           width: 48%;

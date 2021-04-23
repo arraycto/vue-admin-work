@@ -49,6 +49,7 @@ import TagView from './components/TagView'
 import AppMain from './components/AppMain'
 import Setting from '../components/common/Setting'
 import { mapGetters, mapState } from 'vuex'
+import { setMenuActiveClasss } from '@/utils/utils'
 export default {
   name: 'Layout',
   components: {
@@ -106,6 +107,9 @@ export default {
         this.$store.dispatch('app/toggleCollapseSideBar')
       }
     }
+  },
+  mounted() {
+    setMenuActiveClasss(this.$store.state.app.theme, this.$styleVariables.theme_blue_menuBg)
   },
   methods: {
     closeSideBar() {

@@ -84,7 +84,7 @@ import '@/assets/theme/red/index.css'
 import '@/assets/theme/purple/index.css'
 import '@/assets/theme/cyan/index.css'
 import '@/assets/theme/blue/index.css'
-import { toggleClass } from '@/utils/utils'
+import { setMenuActiveClasss, toggleClass } from '@/utils/utils'
 export default {
   name: 'Setting',
   components: {
@@ -154,7 +154,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isMobileScreen: 'app/isMobileScreen'
+      isMobileScreen: 'app/isMobileScreen',
+      themeId: 'app/getTheme'
     }),
     showLogo: {
       get() {
@@ -237,6 +238,7 @@ export default {
       this.primartyColorList.forEach((it) => {
         it.checked = it === item
       })
+      setMenuActiveClasss(this.themeId, item.value)
       toggleClass(document.body, 'theme_color_' + item.name)
     }
   }
