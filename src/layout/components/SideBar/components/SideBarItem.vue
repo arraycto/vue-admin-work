@@ -5,10 +5,7 @@
       v-if="hasNoChild()"
       v-bind="properties"
     >
-      <el-menu-item
-        :index="resolvePath(routeItem.path)"
-        class="my-menu-item-tag-class"
-      >
+      <el-menu-item :index="resolvePath(routeItem.path)">
         <svg-icon :icon-class="(routeItem.meta && routeItem.meta.icon) || 'sub-menu'" />
         <span class="item-title">{{ routeItem.meta && routeItem.meta.title }}</span>
       </el-menu-item>
@@ -65,13 +62,13 @@ export default {
     properties() {
       return this.isExtrenal
         ? {
-          href: this.resolvePath(this.routeItem.path),
-          target: '_blank',
-          rel: 'noopener'
-        }
+            href: this.resolvePath(this.routeItem.path),
+            target: '_blank',
+            rel: 'noopener'
+          }
         : {
-          to: this.resolvePath(this.routeItem.path)
-        }
+            to: this.resolvePath(this.routeItem.path)
+          }
     }
   },
   methods: {

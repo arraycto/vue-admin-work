@@ -49,7 +49,7 @@ import TagView from './components/TagView'
 import AppMain from './components/AppMain'
 import Setting from '../components/common/Setting'
 import { mapGetters, mapState } from 'vuex'
-import { setMenuActiveClasss } from '@/utils/utils'
+import { toggleClass } from '@/utils/utils'
 export default {
   name: 'Layout',
   components: {
@@ -64,7 +64,10 @@ export default {
       hiddenSideBarStyle: {
         display: ''
       },
-      paddingTop: parseInt(this.$styleVariables.navBarHeight) + parseInt(this.$styleVariables.tagViewHeight) + 10
+      paddingTop:
+        parseInt(this.$styleVariables.navBarHeight) +
+        parseInt(this.$styleVariables.tagViewHeight) +
+        10
     }
   },
   computed: {
@@ -80,16 +83,24 @@ export default {
   },
   watch: {
     showNavBar(newVal) {
-      setTimeout(_ => {
-        const navBarHeight = this.$refs.navBar ? this.$refs.navBar.$el.getBoundingClientRect().height : 0
-        const tagViewHeight = this.$refs.tagView ? this.$refs.tagView.$el.getBoundingClientRect().height : 0
+      setTimeout((_) => {
+        const navBarHeight = this.$refs.navBar
+          ? this.$refs.navBar.$el.getBoundingClientRect().height
+          : 0
+        const tagViewHeight = this.$refs.tagView
+          ? this.$refs.tagView.$el.getBoundingClientRect().height
+          : 0
         this.paddingTop = navBarHeight + tagViewHeight + 10
       }, 0)
     },
     showTagView(newVal) {
-      setTimeout(_ => {
-        const navBarHeight = this.$refs.navBar ? this.$refs.navBar.$el.getBoundingClientRect().height : 0
-        const tagViewHeight = this.$refs.tagView ? this.$refs.tagView.$el.getBoundingClientRect().height : 0
+      setTimeout((_) => {
+        const navBarHeight = this.$refs.navBar
+          ? this.$refs.navBar.$el.getBoundingClientRect().height
+          : 0
+        const tagViewHeight = this.$refs.tagView
+          ? this.$refs.tagView.$el.getBoundingClientRect().height
+          : 0
         this.paddingTop = navBarHeight + tagViewHeight + 10
       }, 0)
     },
@@ -109,7 +120,10 @@ export default {
     }
   },
   mounted() {
-    setMenuActiveClasss(this.$store.state.app.theme, this.$styleVariables.theme_blue_menuBg)
+    toggleClass(
+      document.body,
+      'theme_color_' + this.$store.state.app.defaultPrimaryColor
+    )
   },
   methods: {
     closeSideBar() {
@@ -120,7 +134,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/variables.scss";
+@import '~@/styles/variables.scss';
 .app-container {
   box-sizing: border-box;
   position: relative;

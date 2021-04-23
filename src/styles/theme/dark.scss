@@ -44,8 +44,9 @@ $theme_dark_activeColor: #ffffff;
     background-color: $theme_dark_menuHoverBg !important;
   }
 
-  .el-menu-item.is-active {
+  .is-opened .el-menu-item.is-active {
     color: $activeColor;
+    background: $theme_dark_menuHoverBg !important;
   }
   .el-tag--plain {
     border-color: $activeColor;
@@ -205,7 +206,8 @@ $theme_dark_activeColor: #ffffff;
     background-color: #5a5a5a;
   }
 }
-:export{
+
+:export {
   theme_dark_menuBg: $theme_dark_menuBg;
   theme_dark_menuHoverBg: $theme_dark_menuHoverBg;
   theme_dark_menuColor: $theme_dark_menuColor;

@@ -3,6 +3,7 @@ const state = {
   collapseSideBar: false,
   device: 'desktop',
   theme: 'dark-side',
+  defaultPrimaryColor: 'blue',
   showLogo: true,
   showNavBar: true,
   showTagView: true,

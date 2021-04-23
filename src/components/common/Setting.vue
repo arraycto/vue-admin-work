@@ -71,6 +71,11 @@
           <span class="text-black">全屏</span>
           <el-switch v-model="showFullScreenBar" />
         </div>
+        <el-divider />
+        <Contact />
+        <div class="footer">
+          <PageFooter :show-logo="false" />
+        </div>
       </div>
     </el-drawer>
   </div>
@@ -79,16 +84,20 @@
 <script>
 import { mapGetters } from 'vuex'
 import StyleExample from './StyleExample'
+import Contact from './Contact'
+import PageFooter from '@/layout/components/Footer'
 import '@/assets/theme/black/index.css'
 import '@/assets/theme/red/index.css'
 import '@/assets/theme/purple/index.css'
 import '@/assets/theme/cyan/index.css'
 import '@/assets/theme/blue/index.css'
-import { setMenuActiveClasss, toggleClass } from '@/utils/utils'
+import { toggleClass } from '@/utils/utils'
 export default {
   name: 'Setting',
   components: {
-    StyleExample
+    StyleExample,
+    Contact,
+    PageFooter
   },
   data() {
     return {
@@ -238,7 +247,6 @@ export default {
       this.primartyColorList.forEach((it) => {
         it.checked = it === item
       })
-      setMenuActiveClasss(this.themeId, item.value)
       toggleClass(document.body, 'theme_color_' + item.name)
     }
   }
@@ -280,7 +288,7 @@ export default {
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   }
   .circle::after {
-    content: "";
+    content: '';
     display: block;
     margin: 0 auto;
     margin-top: 25px;
@@ -289,6 +297,12 @@ export default {
     border-radius: 50%;
     background-color: rgb(3, 190, 50);
     text-align: center;
+  }
+  .footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
 }
 .example-wrapper + .example-wrapper {

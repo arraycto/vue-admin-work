@@ -4,7 +4,10 @@
     shadow="never"
   >
     <div class="footer-container flex justify-center align-center padding">
-      <img :src="require('@/assets/work_logo.png')" />
+      <img
+        v-if="showLogo"
+        :src="require('@/assets/work_logo.png')"
+      />
       <span class="margin-left text-gray">Copyright
         <svg-icon icon-class="copy-right" /> Vue Admin Work 2021
       </span>
@@ -14,7 +17,13 @@
 
 <script>
 export default {
-  name: 'PageFooter'
+  name: 'PageFooter',
+  props: {
+    showLogo: {
+      type: Boolean,
+      default: true
+    }
+  }
 }
 </script>
 
