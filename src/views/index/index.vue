@@ -29,7 +29,10 @@
             v-else-if="index === 1"
             #extra="{ extra }"
           >
-            <div class="margin-top">
+            <div
+              class="margin-top"
+              style="position: relative"
+            >
               <div class="text-gray">
                 较昨日新增：{{ extra.data }}
                 <i class="el-icon-caret-top text-green"></i>
@@ -37,6 +40,9 @@
               <div class="text-gray margin-top-sm">
                 较上周新增：{{ extra.data1 }}
                 <i class="el-icon-caret-top text-blue"></i>
+              </div>
+              <div class="stack-avatar-wrapper">
+                <StackAvatar />
               </div>
             </div>
           </template>
@@ -122,6 +128,7 @@ import EnrollmentChannelsChart from './components/chart/EnrollmentChannelsChart'
 import DepartmentChart from './components/chart/DepartmentChart'
 import SchoolChart from './components/chart/SchoolChart'
 import FullYearSalesChart from './components/chart/FullYearSalesChart'
+import StackAvatar from '@/components/common/StackAvatar'
 import ResizeMixin from '@/mixins/ResizeMixin'
 export default {
   name: 'Index',
@@ -133,7 +140,8 @@ export default {
     StudentChart,
     EnrollmentChannelsChart,
     DepartmentChart,
-    FullYearSalesChart
+    FullYearSalesChart,
+    StackAvatar
   },
   mixins: [ResizeMixin],
   data() {
@@ -217,5 +225,10 @@ export default {
 }
 .chart-item {
   background-color: #fff;
+}
+.stack-avatar-wrapper {
+  position: absolute;
+  right: 2%;
+  top: 10%;
 }
 </style>
