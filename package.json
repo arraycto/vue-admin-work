@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "deploy-to-gitee": "git add . && git commit -m '发布' && git push origin master",
+    "git-push": "read -p '请输入提交信息：' commit && git add . && git commit -m $commit && git push origin master",
     "lint": "vue-cli-service lint"
   },
   "gitHooks": {
