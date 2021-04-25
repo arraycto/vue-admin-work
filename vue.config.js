@@ -6,7 +6,7 @@ function resolve(dir) {
 
 module.exports = {
   publicPath: '/',
-  outputDir: '../qingqingxuan',
+  outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: true,
   devServer: {
