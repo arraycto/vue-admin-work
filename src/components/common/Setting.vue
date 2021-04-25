@@ -2,9 +2,15 @@
   <div class="set-container">
     <div
       class="tip-wrapper flex justify-center align-center"
+      @click="$emit('show-notice')"
+    >
+      <i class="el-icon-service"></i>
+    </div>
+    <div
+      class="tip-wrapper1 flex justify-center align-center"
       @click="openDrawer"
     >
-      <i class="el-icon-setting"></i>
+      <i class="el-icon-s-tools"></i>
     </div>
     <el-drawer
       :visible.sync="opened"
@@ -254,23 +260,35 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$width: 60px;
 .set-container {
   position: fixed;
   right: 0;
   top: 0;
-  margin-top: calc(50vh - 25px);
+  margin-top: calc(50vh - 50px);
   z-index: 9999;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+  padding: 5px;
   .tip-wrapper {
-    width: 50px;
-    height: 50px;
-    border: 1px solid #409eff;
-    background-color: #409eff;
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    width: $width;
+    height: $width;
+    background-color: #67c23a;
+    border-radius: 4px;
+    opacity: 0.8;
+    font-size: 30px;
+    color: #fff;
+  }
+  .tip-wrapper1 {
+    width: $width;
+    height: $width;
+    margin-top: 10px;
+    background-color: #047fff;
+    opacity: 0.8;
+    border-radius: 4px;
     font-size: 30px;
     color: #fff;
   }
@@ -291,7 +309,7 @@ export default {
       box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     }
     .circle::after {
-      content: "";
+      content: '';
       display: block;
       margin: 0 auto;
       margin-top: 25px;

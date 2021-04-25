@@ -149,7 +149,7 @@ export default {
       width: 50px;
     }
     & img::after {
-      content: "欢迎来到vue-admin-work";
+      content: '欢迎来到vue-admin-work';
     }
   }
   .footer-wrapper {
@@ -262,7 +262,7 @@ export default {
         justify-content: center;
         flex-direction: column;
         .my-width {
-          width: 100%;
+          width: 48%;
         }
         .title {
           display: block;

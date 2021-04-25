@@ -1,17 +1,17 @@
 <template>
   <div
     class="my-notice-container"
-    :class="{ 'tran-wrapper': show }"
+    :class="{ 'tran-wrapper': isShow }"
   >
     <div class="flex justify-between title-wrapper">
       <span class="title text-bold">提示</span>
       <span
-        class="el-icon-close"
-        @click="show = false"
+        class="el-icon-close text-lg"
+        @click="close"
       ></span>
     </div>
     <div class="content-wrapper">
-      您当前正在浏览 vue admin word 的示例，可能需要以下服务：
+      您当前正在浏览 vue admin work 的示例，可能需要以下服务：
     </div>
     <div class="padding-tb">
       <el-button
@@ -21,24 +21,52 @@
       >购买授权</el-button>
       <el-button
         size="mini"
+        type="danger"
+        icon="el-icon-setting"
+        @click="showProjectInfo"
+      >项目信息</el-button>
+      <el-button
+        size="mini"
         icon="el-icon-chat-dot-square"
+        @click="showProjectInfo"
       >咨询</el-button>
     </div>
+    <Dialog
+      ref="projectInfoDialog"
+      title="vue-admin-work项目基本配置信息"
+    >
+      <template>
+        <ProjectInfo />
+      </template>
+    </Dialog>
   </div>
 </template>
 
 <script>
+import ProjectInfo from './ProjectInfo'
 export default {
   name: 'MyNotice',
+  components: { ProjectInfo },
   data() {
     return {
-      show: false
+      isShow: false
     }
   },
   mounted() {
-    setTimeout(_ => {
-      this.show = true
+    setTimeout((_) => {
+      this.isShow = true
     }, 1500)
+  },
+  methods: {
+    showProjectInfo() {
+      this.$refs.projectInfoDialog.show()
+    },
+    show() {
+      this.isShow = true
+    },
+    close() {
+      this.isShow = false
+    }
   }
 }
 </script>
@@ -47,9 +75,9 @@ export default {
 .my-notice-container {
   position: fixed;
   top: 20px;
-  right: -280px;
+  right: -320px;
   z-index: 9999;
-  width: 280px;
+  width: 320px;
   border-radius: 5px;
   padding: 0 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);

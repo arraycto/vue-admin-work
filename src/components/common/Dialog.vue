@@ -1,8 +1,9 @@
 <template>
   <el-dialog
-    :title="title"
+    :title="innerTitle"
     :visible.sync="dialogVisible"
-    width="40%"
+    :top="isMobileScreen ? '25vh' : '15vh'"
+    :width="isMobileScreen ? '85%' : '40%'"
   >
     <slot></slot>
     <span
@@ -23,6 +24,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   props: {
     title: {
@@ -32,14 +34,21 @@ export default {
   },
   data() {
     return {
-      dialogVisible: false
+      dialogVisible: false,
+      innerTitle: this.title
     }
   },
+  computed: {
+    ...mapGetters({
+      isMobileScreen: 'app/isMobileScreen'
+    })
+  },
   methods: {
-    show({ autoClose = false, beforeShowAction, onConfirmCallback }) {
-      beforeShowAction && beforeShowAction()
-      this.autoClose = autoClose
-      this.onConfirmCallback = onConfirmCallback
+    show(config = {}) {
+      config.beforeShowAction && config.beforeShowAction()
+      this.autoClose = config.autoClose || false
+      this.innerTitle = config.innerTitle || this.title || '提示'
+      this.onConfirmCallback = config.onConfirmCallback
       this.dialogVisible = true
     },
     close(afterAction) {

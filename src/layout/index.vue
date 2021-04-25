@@ -38,8 +38,8 @@
         <AppMain />
       </section>
     </div>
-    <Setting />
-    <MyNotice />
+    <Setting @show-notice="$refs.myNotice.show()" />
+    <MyNotice ref="myNotice" />
   </div>
 </template>
 
@@ -137,7 +137,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/variables.scss";
+@import '~@/styles/variables.scss';
 .app-container {
   box-sizing: border-box;
   position: relative;
