@@ -5,8 +5,8 @@ function resolve(dir) {
 }
 
 module.exports = {
-  publicPath: '/vue-admin-work',
-  outputDir: 'dist',
+  publicPath: '/',
+  outputDir: '../qingqingxuan',
   assetsDir: 'static',
   lintOnSave: true,
   devServer: {
