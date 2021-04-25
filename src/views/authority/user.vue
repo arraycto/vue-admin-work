@@ -48,7 +48,7 @@
             <template slot-scope="scope">
               <div class="avatar-container">
                 <el-image
-                  :src="scope.row.avatar"
+                  :src="require('@/assets/img_avatar_01.jpeg')"
                   class="avatar"
                   :class="{'avatar-vip' : scope.row.vip === 1}"
                 />
@@ -151,6 +151,9 @@ export default {
       },
       onResult: (res) => {
         this.handleSuccess(res)
+      },
+      afterAction: (res) => {
+        console.log(res)
       }
     }).then((_) => {
       this.getData()

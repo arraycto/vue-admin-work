@@ -3,12 +3,12 @@ import { isFunction, isOjbect } from '@/utils/utils'
 
 function handleResult(model, res) {
   model.onResult && model.onResult(res)
-  model.afterAction && model.afterAction()
+  model.afterAction && model.afterAction(res)
 }
 
 function handleError(model, error) {
   model.onError && model.onError(error)
-  model.afterAction && model.afterAction()
+  model.afterAction && model.afterAction(error)
 }
 
 function checkParams(model) {

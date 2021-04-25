@@ -228,7 +228,7 @@ export default {
 }
 .stack-avatar-wrapper {
   position: absolute;
-  right: 2%;
+  right: -2%;
   top: 10%;
 }
 </style>

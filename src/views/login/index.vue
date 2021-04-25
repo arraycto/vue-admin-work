@@ -9,10 +9,7 @@
     <div class="flex form-wrapper">
       <div class="left"></div>
       <div class="right">
-        <div
-          class="flex-sub flex justify-center align-center"
-          style="width: 48%;"
-        >
+        <div class="my-width flex-sub flex justify-center align-center">
           <div class="logo-wrapper">
             <img :src="require('@/assets/work_logo.png')" />
           </div>
@@ -47,10 +44,7 @@
             </el-button>
           </div>
         </div>
-        <div
-          class="flex-sub margin-top"
-          style="width: 48%;"
-        >
+        <div class="my-width flex-sub margin-top">
           <div class="flex justify-between">
             <el-checkbox v-model="autoLogin">自动登录</el-checkbox>
             <el-link
@@ -185,21 +179,19 @@ export default {
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
+        .my-width {
+          width: 80%;
+        }
         .title {
           display: block;
           text-align: center;
           font-size: 20px;
           font-weight: bold;
           color: #5497ff;
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          width: 100%;
         }
         .form-container {
           width: 80%;
           height: 60%;
-          margin-bottom: 10%;
           text-align: center;
           background: rgba(183, 183, 183, 0.2);
           padding: 5%;
@@ -227,6 +219,9 @@ export default {
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
+        .my-width {
+          width: 48%;
+        }
         .title {
           display: block;
           text-align: center;
@@ -266,6 +261,9 @@ export default {
         display: flex;
         justify-content: center;
         flex-direction: column;
+        .my-width {
+          width: 100%;
+        }
         .title {
           display: block;
           font-size: 24px;

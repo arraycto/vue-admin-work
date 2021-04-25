@@ -39,6 +39,7 @@
       </section>
     </div>
     <Setting />
+    <MyNotice />
   </div>
 </template>
 
@@ -48,6 +49,7 @@ import NavBar from './components/NavBar'
 import TagView from './components/TagView'
 import AppMain from './components/AppMain'
 import Setting from '../components/common/Setting'
+import MyNotice from '../components/common/MyNotice'
 import { mapGetters, mapState } from 'vuex'
 import { toggleClass } from '@/utils/utils'
 export default {
@@ -57,7 +59,8 @@ export default {
     NavBar,
     TagView,
     AppMain,
-    Setting
+    Setting,
+    MyNotice
   },
   data() {
     return {
@@ -134,7 +137,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/styles/variables.scss';
+@import "~@/styles/variables.scss";
 .app-container {
   box-sizing: border-box;
   position: relative;

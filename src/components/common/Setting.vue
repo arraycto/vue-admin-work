@@ -12,7 +12,7 @@
       direction="rtl"
       :size="isMobileScreen ? '75%' : '280px'"
     >
-      <div class="padding margin-top">
+      <div class="wrapper padding margin-top">
         <div
           class="close-wrapper"
           @click="opened = false"
@@ -72,7 +72,7 @@
           <el-switch v-model="showFullScreenBar" />
         </div>
         <el-divider />
-        <Contact />
+        <Contact style="margin-bottom: 25%" />
         <div class="footer">
           <PageFooter :show-logo="false" />
         </div>
@@ -274,35 +274,39 @@ export default {
     font-size: 30px;
     color: #fff;
   }
-  .close-wrapper {
-    position: absolute;
-    right: 5%;
-    top: 1%;
-    font-size: 20px;
-  }
-  .color-wrapper {
-    width: 20px;
-    height: 20px;
-    border-radius: 5px;
-    border: 1px solid #c1c1c1;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  }
-  .circle::after {
-    content: '';
-    display: block;
-    margin: 0 auto;
-    margin-top: 25px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: rgb(3, 190, 50);
-    text-align: center;
-  }
-  .footer {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
+  .wrapper {
+    height: 100vh;
+    overflow: auto;
+    .close-wrapper {
+      position: absolute;
+      right: 5%;
+      top: 1%;
+      font-size: 20px;
+    }
+    .color-wrapper {
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      border: 1px solid #c1c1c1;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    }
+    .circle::after {
+      content: "";
+      display: block;
+      margin: 0 auto;
+      margin-top: 25px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: rgb(3, 190, 50);
+      text-align: center;
+    }
+    .footer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
   }
 }
 .example-wrapper + .example-wrapper {
