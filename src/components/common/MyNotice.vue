@@ -44,7 +44,9 @@
       title="联系我们"
     >
       <template>
-        <Contact />
+        <div style="width: 60%; margin: 0 auto;">
+          <Contact />
+        </div>
       </template>
     </Dialog>
   </div>

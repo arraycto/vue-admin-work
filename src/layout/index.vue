@@ -137,7 +137,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/styles/variables.scss';
+@import "~@/styles/variables.scss";
 .app-container {
   box-sizing: border-box;
   position: relative;
@@ -146,7 +146,7 @@ export default {
   .side-bar-wrapper {
     height: 100%;
     width: $app-left-menu-width;
-    transition: width 0.3s;
+    transition: width 0.1s cubic-bezier(0.645, 0.045, 0.355, 1);
     position: fixed;
     top: 0;
     left: 0;
@@ -159,14 +159,14 @@ export default {
     position: relative;
     box-sizing: border-box;
     margin-left: $app-left-menu-width;
-    transition: margin-left 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: margin-left 0.1s cubic-bezier(0.645, 0.045, 0.355, 1);
     .header-layout-wrapper {
       position: fixed;
       top: 0;
       left: $app-left-menu-width;
       right: 0;
       z-index: 999;
-      transition: left 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      transition: left 0.1s cubic-bezier(0.645, 0.045, 0.355, 1);
     }
     .main-content-wrapper {
       width: 100%;

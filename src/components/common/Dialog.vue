@@ -5,7 +5,9 @@
     :top="isMobileScreen ? '15vh' : '15vh'"
     :width="isMobileScreen ? '85%' : '40%'"
   >
-    <slot></slot>
+    <div class="content-wrapper">
+      <slot></slot>
+    </div>
     <span
       slot="footer"
       class="dialog-footer"
@@ -67,3 +69,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.content-wrapper {
+  max-height: 50vh;
+  overflow: auto;
+}
+</style>

@@ -2,6 +2,14 @@
   <div class="project-container">
     <el-row class="row-wrapper">
       <el-col :span="6">
+        当前版本
+      </el-col>
+      <el-col :span="18">
+        {{ currentVersion }}
+      </el-col>
+    </el-row>
+    <el-row class="row-wrapper">
+      <el-col :span="6">
         vue
       </el-col>
       <el-col :span="6">
@@ -46,16 +54,18 @@
 </template>
 
 <script>
+import config from '../../../package.json'
 export default {
   name: 'ProjectInfo',
   data() {
     return {
-      vueVersion: '^' + require('vue/package.json').version,
-      vuexVersion: '^' + require('vuex/package.json').version,
-      vueRouterVersion: '^' + require('vue-router/package.json').version,
-      elementVersion: '^' + require('element-ui/package.json').version,
-      echartsVersion: '^' + require('echarts/package.json').version,
-      axiosVersion: '^' + require('axios/package.json').version
+      currentVersion: config.version,
+      vueVersion: config.dependencies.vue,
+      vuexVersion: config.dependencies.vuex,
+      vueRouterVersion: config.dependencies['vue-router'],
+      elementVersion: config.dependencies['element-ui'],
+      echartsVersion: config.dependencies['element-ui'],
+      axiosVersion: config.dependencies.axios
     }
   }
 }
@@ -67,7 +77,7 @@ export default {
   .row-wrapper {
     border-bottom: 1px solid #ececec;
     & > div {
-      height: 50px;
+      height: 45px;
       display: flex;
       justify-content: center;
       align-items: center;
