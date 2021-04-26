@@ -2,7 +2,7 @@
   <el-dialog
     :title="innerTitle"
     :visible.sync="dialogVisible"
-    :top="isMobileScreen ? '25vh' : '15vh'"
+    :top="isMobileScreen ? '15vh' : '15vh'"
     :width="isMobileScreen ? '85%' : '40%'"
   >
     <slot></slot>

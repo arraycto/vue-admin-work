@@ -28,7 +28,7 @@
       <el-button
         size="mini"
         icon="el-icon-chat-dot-square"
-        @click="showProjectInfo"
+        @click="showContact"
       >咨询</el-button>
     </div>
     <Dialog
@@ -39,14 +39,23 @@
         <ProjectInfo />
       </template>
     </Dialog>
+    <Dialog
+      ref="contactDialog"
+      title="联系我们"
+    >
+      <template>
+        <Contact />
+      </template>
+    </Dialog>
   </div>
 </template>
 
 <script>
 import ProjectInfo from './ProjectInfo'
+import Contact from './Contact'
 export default {
   name: 'MyNotice',
-  components: { ProjectInfo },
+  components: { ProjectInfo, Contact },
   data() {
     return {
       isShow: false
@@ -59,7 +68,12 @@ export default {
   },
   methods: {
     showProjectInfo() {
+      this.close()
       this.$refs.projectInfoDialog.show()
+    },
+    showContact() {
+      this.close()
+      this.$refs.contactDialog.show()
     },
     show() {
       this.isShow = true

@@ -1,16 +1,22 @@
 <template>
   <div class="set-container">
     <div
-      class="tip-wrapper flex justify-center align-center"
+      class="tip-wrapper bg1 flex flex-direction justify-center align-center"
       @click="$emit('show-notice')"
     >
       <i class="el-icon-service"></i>
+      <div>
+        获取源码
+      </div>
     </div>
     <div
-      class="tip-wrapper1 flex justify-center align-center"
+      class="tip-wrapper bg2 flex flex-direction justify-center align-center"
       @click="openDrawer"
     >
       <i class="el-icon-s-tools"></i>
+      <div>
+        应用配置
+      </div>
     </div>
     <el-drawer
       :visible.sync="opened"
@@ -276,21 +282,32 @@ $width: 60px;
   .tip-wrapper {
     width: $width;
     height: $width;
-    background-color: #67c23a;
     border-radius: 4px;
-    opacity: 0.8;
-    font-size: 30px;
-    color: #fff;
+    font-size: 10px;
+    transition: color 0.15s ease, background-color 0.15s ease;
+    & > i {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
   }
-  .tip-wrapper1 {
-    width: $width;
-    height: $width;
+  .tip-wrapper + .tip-wrapper {
     margin-top: 10px;
-    background-color: #047fff;
-    opacity: 0.8;
-    border-radius: 4px;
-    font-size: 30px;
-    color: #fff;
+  }
+  .bg1 {
+    background-color: #e8f9f8;
+    color: #1bc3bb;
+  }
+  .bg1:hover {
+    background-color: #1bc3bb;
+    color: #ffffff;
+  }
+  .bg2 {
+    background-color: #ebf5ff;
+    color: #3698fd;
+  }
+  .bg2:hover {
+    background-color: #3698fd;
+    color: #ffffff;
   }
   .wrapper {
     height: 100vh;
@@ -309,7 +326,7 @@ $width: 60px;
       box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     }
     .circle::after {
-      content: '';
+      content: "";
       display: block;
       margin: 0 auto;
       margin-top: 25px;
