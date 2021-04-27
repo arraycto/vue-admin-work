@@ -87,6 +87,10 @@ export default {
       color: #333;
       font-size: 14px;
     }
+    .theme-dark & > div:nth-child(odd) {
+      color: #ffffff;
+      background-color: rgb(51, 51, 51);
+    }
     & > div:nth-child(even) {
       color: #000;
       font-size: 14px;
@@ -94,6 +98,21 @@ export default {
   }
   & > div.row-wrapper:last-child {
     border: none;
+  }
+}
+.theme-dark {
+  .project-container {
+    border: 1px solid #858585;
+    .row-wrapper {
+      border-bottom: 1px solid #858585;
+      & > div:nth-child(odd) {
+        background-color: #333333;
+        color: #ffffff;
+      }
+      & > div:nth-child(even) {
+        color: #ffffff;
+      }
+    }
   }
 }
 </style>

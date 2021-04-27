@@ -25,6 +25,7 @@
       </div>
     </el-scrollbar> -->
     <el-tabs
+      id="tagViewTab"
       v-model="currentTab"
       type="card"
       class="padding-left-sm padding-right-sm"
@@ -189,29 +190,26 @@ export default {
       return this.visitedRoutes.indexOf(tempRoute) === this.visitedRoutes.length - 1
     },
     onContextMenu(item, ctx) {
-      this.selectRoute = null
       const { clientX, clientY } = ctx
-      console.log(clientX)
-      this.selectRoute = this.visitedRoutes.filter(it => {
+      const { x } = this.$el.getBoundingClientRect()
+      const parentElementRect = document.getElementById('tagViewTab')
+        .getElementsByClassName('el-tabs__nav is-top')[0].getBoundingClientRect()
+      if (clientX < parentElementRect.x) {
+        return
+      }
+      if (clientX > parentElementRect.x + parentElementRect.width) {
+        return
+      }
+      this.selectRoute = null
+      this.selectRoute = this.visitedRoutes.find(it => {
         const { x, width } = document.getElementById('tab-' + it.path).getBoundingClientRect()
-        const parentElementRect = document.getElementById('tab-' + it.path).parentElement.getBoundingClientRect()
-        console.log(parentElementRect)
-        if (clientX < parentElementRect.x) {
-          return
-        }
-        if (clientX > parentElementRect.width) {
-          return
-        }
-        if (clientX < (x + width)) {
-          console.log(it)
+        if (x < clientX && clientX < (x + width)) {
           return it
         }
       })
-      console.log(this.selectRoute)
       if (this.selectRoute) {
         this.showLeftMenu = this.isLeftLast(this.selectRoute)
         this.showRightMenu = this.isRightLast(this.selectRoute)
-        const { x } = this.$el.getBoundingClientRect()
         const screenWidth = document.body.clientWidth
         this.contextMenuStyle.left = ((clientX + 130) > screenWidth ? clientX - 130 - x - 15 : clientX - x + 15) + 'px'
         this.contextMenuStyle.top = clientY + 'px'
