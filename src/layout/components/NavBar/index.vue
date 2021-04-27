@@ -265,7 +265,7 @@ export default {
 <style lang="scss" scoped>
 @import "~@/styles/variables.scss";
 ::v-deep .el-badge__content.is-fixed {
-  right: 80%;
+  right: 80% !important;
 }
 
 .nav-bar-container {

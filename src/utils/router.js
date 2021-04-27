@@ -55,7 +55,8 @@ function generatorRoutes(res) {
         title: it.menuName,
         affix: !!it.affix,
         cacheable: !!it.cacheable,
-        icon: it.icon || ''
+        icon: it.icon || '',
+        tip: it.tip
       }
     }
     if (it.children) {

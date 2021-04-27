@@ -70,7 +70,7 @@ export default {
       paddingTop:
         parseInt(this.$styleVariables.navBarHeight) +
         parseInt(this.$styleVariables.tagViewHeight) +
-        10
+        5
     }
   },
   computed: {

@@ -3,7 +3,7 @@
     ref="tagScollerContainer"
     class="tag-view-container tag-view-theme"
   >
-    <el-scrollbar
+    <!-- <el-scrollbar
       ref="scrollBar"
       style="width: 100%; min-height: 24px"
     >
@@ -23,7 +23,23 @@
           {{ item.meta.title }}
         </el-tag>
       </div>
-    </el-scrollbar>
+    </el-scrollbar> -->
+    <el-tabs
+      v-model="currentTab"
+      type="card"
+      class="padding-left-sm padding-right-sm"
+      @tab-click="clickRoute"
+      @tab-remove="removeRoute"
+      @contextmenu.native.prevent="onContextMenu(currentTab, $event)"
+    >
+      <el-tab-pane
+        v-for="item of visitedRoutes"
+        :key="item.path"
+        :label="item.meta.title"
+        :name="item.path"
+        :closable="!isAffix(item)"
+      />
+    </el-tabs>
     <ul
       v-show="showContextMenu"
       class="contex-menu-wrapper"
@@ -69,6 +85,7 @@ export default {
   name: 'TagView',
   data() {
     return {
+      currentTab: this.$route.path,
       contextMenuStyle: {
         left: 0,
         top: 0
@@ -129,22 +146,24 @@ export default {
       })
       return tmp
     },
-    clickRoute(tempRoute) {
-      this.$router.push({ path: tempRoute.path })
+    clickRoute(instance) {
+      this.$router.push({ path: instance.name })
     },
     addRoute() {
-      const { name } = this.$route
+      const { name, path } = this.$route
       if (name) {
+        this.currentTab = path
         this.$store.dispatch('CacheRoute/addRoute', this.$route)
         this.$nextTick((_) => {
-          this.$refs.scrollBar.$refs.wrap.scrollTo({
+          this.$refs.scrollBar && this.$refs.scrollBar.$refs.wrap.scrollTo({
             behavior: 'smooth',
             left: this.$refs[this.$route.path][0].$el.offsetLeft
           })
         })
       }
     },
-    removeRoute(tempRoute) {
+    removeRoute(name) {
+      const tempRoute = this.visitedRoutes.find(it => it.path === name)
       this.$store.dispatch('CacheRoute/removeRoute', tempRoute)
       this.$nextTick((_) => {
         const tmp = this.visitedRoutes.find((it) => {
@@ -170,15 +189,34 @@ export default {
       return this.visitedRoutes.indexOf(tempRoute) === this.visitedRoutes.length - 1
     },
     onContextMenu(item, ctx) {
-      this.selectRoute = item
-      this.showLeftMenu = this.isLeftLast(this.selectRoute)
-      this.showRightMenu = this.isRightLast(this.selectRoute)
-      const { x } = this.$el.getBoundingClientRect()
+      this.selectRoute = null
       const { clientX, clientY } = ctx
-      const screenWidth = document.body.clientWidth
-      this.contextMenuStyle.left = ((clientX + 130) > screenWidth ? clientX - 130 - x - 15 : clientX - x + 15) + 'px'
-      this.contextMenuStyle.top = clientY + 'px'
-      this.showContextMenu = true
+      console.log(clientX)
+      this.selectRoute = this.visitedRoutes.filter(it => {
+        const { x, width } = document.getElementById('tab-' + it.path).getBoundingClientRect()
+        const parentElementRect = document.getElementById('tab-' + it.path).parentElement.getBoundingClientRect()
+        console.log(parentElementRect)
+        if (clientX < parentElementRect.x) {
+          return
+        }
+        if (clientX > parentElementRect.width) {
+          return
+        }
+        if (clientX < (x + width)) {
+          console.log(it)
+          return it
+        }
+      })
+      console.log(this.selectRoute)
+      if (this.selectRoute) {
+        this.showLeftMenu = this.isLeftLast(this.selectRoute)
+        this.showRightMenu = this.isRightLast(this.selectRoute)
+        const { x } = this.$el.getBoundingClientRect()
+        const screenWidth = document.body.clientWidth
+        this.contextMenuStyle.left = ((clientX + 130) > screenWidth ? clientX - 130 - x - 15 : clientX - x + 15) + 'px'
+        this.contextMenuStyle.top = clientY + 'px'
+        this.showContextMenu = true
+      }
     },
     closeMenu() {
       this.showContextMenu = false
@@ -227,11 +265,38 @@ export default {
 <style lang="scss" scoped>
 @import "~@/styles/variables.scss";
 .tag-view-container {
-  padding: 5px 10px;
-  border-bottom: #f5f5f5 solid 1px;
   box-shadow: 0 10px 10px -10px #d0d0d0;
+  height: $tagViewHeight;
+  line-height: $tagViewHeight;
   white-space: nowrap;
   z-index: 10;
+  background-color: #f5f7f9;
+  ::v-deep {
+    .el-tabs__header {
+      margin: 0 !important;
+      border-bottom: none !important;
+    }
+    .el-tabs--card > .el-tabs__header {
+      .el-tabs__nav {
+        border: none !important;
+      }
+      .el-tabs__item {
+        border-left: none !important;
+        background-color: #ffffff;
+        height: calc(#{$tagViewHeight} - 10px);
+        line-height: calc(#{$tagViewHeight} - 10px);
+        border-radius: 2px;
+      }
+      .is-focus {
+        box-shadow: none !important;
+        border: none !important;
+      }
+    }
+
+    .el-tabs__item + .el-tabs__item {
+      margin-left: 5px;
+    }
+  }
   .tag-view-content {
     .tag-item {
       margin-right: 5px;

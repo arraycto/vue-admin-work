@@ -16,11 +16,28 @@
       popper-append-to-body
     >
       <template slot="title">
-        <svg-icon :icon-class="(routeItem.meta && routeItem.meta.icon) || 'menu'" />
-        <span
-          slot="title"
-          class="item-title"
-        >{{ routeItem.meta && routeItem.meta.title }}</span>
+        <div class="sub-menu-wrapper">
+          <svg-icon :icon-class="(routeItem.meta && routeItem.meta.icon) || 'menu'" />
+          <span
+            slot="title"
+            class="item-title"
+          >{{ routeItem.meta && routeItem.meta.title }}</span>
+          <div class="flex-sub"></div>
+          <div
+            v-if="routeItem.meta && routeItem.meta.tip"
+            class="tip-wrapper"
+            :class="{'new-wrapper-no' : isCollapse}"
+          >
+            <el-badge
+              v-if="isBadge"
+              :value="parseInt(routeItem.meta.tip)"
+            />
+            <span
+              v-else
+              :class="tipClass"
+            ></span>
+          </div>
+        </div>
       </template>
       <SideBarItem
         v-for="child of filterChildRoute(routeItem.children)"
@@ -62,13 +79,22 @@ export default {
     properties() {
       return this.isExtrenal
         ? {
-            href: this.resolvePath(this.routeItem.path),
-            target: '_blank',
-            rel: 'noopener'
-          }
+          href: this.resolvePath(this.routeItem.path),
+          target: '_blank',
+          rel: 'noopener'
+        }
         : {
-            to: this.resolvePath(this.routeItem.path)
-          }
+          to: this.resolvePath(this.routeItem.path)
+        }
+    },
+    tipClass() {
+      return {
+        'tip-circle': this.routeItem.meta.tip === 'circle',
+        'tip-new': this.routeItem.meta.tip === 'new'
+      }
+    },
+    isBadge() {
+      return !!parseInt(this.routeItem.meta.tip)
     }
   },
   methods: {
@@ -114,5 +140,40 @@ export default {
   .item-title {
     margin-left: 15px;
   }
+  .sub-menu-wrapper {
+    position: relative;
+    .tip-wrapper {
+      position: absolute;
+      top: 0;
+      right: 20px;
+      .tip-new::after {
+        content: "New";
+        font-size: 12px;
+        padding: 2px 5px;
+        border-radius: 10px;
+        color: #ffffff;
+        height: 20px;
+        background-color: #e6a23c;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+      }
+      .tip-circle::after {
+        content: "";
+        display: inline-block;
+        width: 8px !important;
+        height: 8px !important;
+        border-radius: 50%;
+        transform: translateY(-30%);
+        color: #ffffff;
+        background-color: #409eff;
+      }
+    }
+    .new-wrapper-no {
+      display: none;
+    }
+  }
+}
+.theme-blue .tip-circle::after {
+  background-color: #e6a23c !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
 }
 </style>

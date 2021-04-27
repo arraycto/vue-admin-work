@@ -212,10 +212,12 @@ export default {
 .avatar-container {
   position: relative;
   width: 30px;
+  height: 30px;
   margin: 0 auto;
   vertical-align: middle;
   .avatar {
     width: 100%;
+    height: 100%;
     border-radius: 50%;
   }
   .avatar-vip {

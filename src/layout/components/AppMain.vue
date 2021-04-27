@@ -22,19 +22,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '~@/styles/variables.scss';
-// .app-main {
-//   position: absolute;
-//   top: $top;
-//   left: 0;
-//   right: 0;
-//   overflow-y: hidden;
-//   height: calc(100vh - #{$top});
-//   width: 100%;
-//   // background-color: #f5f7f9;
-//   padding: 5px;
-//   overflow-x: hidden;
-// }
-</style>

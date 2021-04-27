@@ -7,6 +7,7 @@ export const adminRoutes = [
     menuUrl: '/authority',
     menuName: '系统管理',
     icon: 'system',
+    tip: 'new',
     children: [
       {
         menuUrl: '/authority/department',
@@ -48,6 +49,7 @@ export const adminRoutes = [
   {
     menuUrl: '/form',
     menuName: '表单页面',
+    tip: 'circle',
     icon: 'form',
     children: [
       {
@@ -107,6 +109,7 @@ export const adminRoutes = [
   {
     menuUrl: '/editor',
     menuName: '编辑器',
+    tip: '12',
     icon: 'editor',
     children: [
       {
