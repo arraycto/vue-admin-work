@@ -52,7 +52,7 @@
             <template slot-scope="scope">
               <div class="avatar-container">
                 <el-image
-                  :src="scope.row.avatar"
+                  :src="require('@/assets/img_avatar_default.png')"
                   class="avatar"
                   :class="{'avatar-vip' : scope.row.vip === 1}"
                 />

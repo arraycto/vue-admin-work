@@ -4,7 +4,7 @@
       <img :src="require('@/assets/qrcode.jpg')" />
     </div>
     <span>关注公众号<strong class="margin-left-xs">{{ officialAccount }}</strong></span>
-    <div class="margin-top-xs flex justify-center align-center">QQ群
+    <div class="margin-top-xs flex justify-center align-center">QQ客服
       <strong class="margin-left margin-right">{{ qq }}</strong>
       <span
         class="copy"
@@ -22,7 +22,7 @@ export default {
   name: 'Contact',
   data() {
     return {
-      qq: Setting.qq,
+      qq: Setting.customQQ,
       officialAccount: Setting.officialAccount
     }
   },

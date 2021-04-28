@@ -18,7 +18,8 @@
         size="mini"
         type="primary"
         icon="el-icon-shopping-cart-full"
-      >购买授权</el-button>
+        @click="showGetSource"
+      >获取源码</el-button>
       <el-button
         size="mini"
         type="danger"
@@ -49,15 +50,24 @@
         </div>
       </template>
     </Dialog>
+    <Dialog
+      ref="getSourceDialog"
+      title="关于源码"
+    >
+      <template>
+        <GetSource />
+      </template>
+    </Dialog>
   </div>
 </template>
 
 <script>
 import ProjectInfo from './ProjectInfo'
 import Contact from './Contact'
+import GetSource from './GetSource'
 export default {
   name: 'MyNotice',
-  components: { ProjectInfo, Contact },
+  components: { ProjectInfo, Contact, GetSource },
   data() {
     return {
       isShow: false
@@ -69,6 +79,10 @@ export default {
     }, 1500)
   },
   methods: {
+    showGetSource() {
+      this.close()
+      this.$refs.getSourceDialog.show()
+    },
     showProjectInfo() {
       this.close()
       this.$refs.projectInfoDialog.show()

@@ -2,8 +2,7 @@
   <el-dialog
     :title="innerTitle"
     :visible.sync="dialogVisible"
-    :top="isMobileScreen ? '15vh' : '15vh'"
-    :width="isMobileScreen ? '85%' : '40%'"
+    :width="isMobileScreen ? '85%' : '45%'"
   >
     <div class="content-wrapper">
       <slot></slot>
@@ -73,6 +72,7 @@ export default {
 <style lang="scss" scoped>
 .content-wrapper {
   max-height: 50vh;
+  padding: 0 10px;
   overflow: auto;
 }
 </style>
