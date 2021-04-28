@@ -133,6 +133,10 @@ export const adminRoutes = [
       {
         menuUrl: 'http://www.baidu.com',
         menuName: '外链'
+      },
+      {
+        menuUrl: '/other/qrcode',
+        menuName: '二维码'
       }
     ]
   }
