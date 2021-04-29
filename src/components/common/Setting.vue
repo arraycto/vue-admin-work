@@ -31,7 +31,7 @@
         >
           <i class="el-icon-close"></i>
         </div>
-        <el-divider content-position="center">主题风格设置</el-divider>
+        <el-divider content-position="center">主题风格</el-divider>
         <el-row :gutter="5">
           <el-col
             v-for="(item, index) of styleExampleList"
@@ -58,7 +58,7 @@
             @click="colorClick(item)"
           ></div>
         </div>
-        <el-divider content-position="center">内容区域设置</el-divider>
+        <el-divider content-position="center">内容区域</el-divider>
         <div class="flex justify-between padding-tb-sm">
           <span class="text-black">头部LOGO</span>
           <el-switch v-model="showLogo" />

@@ -175,7 +175,6 @@ import { mapGetters, mapState } from 'vuex'
 import screenfull from 'screenfull'
 import ResetPasswordMixin from '@/mixins/ResetPasswordMixin'
 import MessageContent from '@/views/message/TopMessageContent'
-import Cookies from 'js-cookie'
 export default {
   name: 'NavBar',
   components: {
@@ -239,8 +238,9 @@ export default {
         this.$router.push({ name: 'personalCenter' })
       } else if (type === 'logout') {
         this.$showConfirmDialog('确定要退出当前账号吧？').then((result) => {
-          Cookies.remove('admin-token')
-          this.$router.replace('/login')
+          this.$store.dispatch('user/logout').then(_ => {
+            this.$router.replace('/login')
+          })
         })
       } else if (type === 'resetPassword') {
         this.$refs.resetPasswordDialog.show().then((_) => {

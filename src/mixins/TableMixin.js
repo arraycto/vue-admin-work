@@ -55,7 +55,7 @@ export default {
         headerCellStyle: this.$store.getters['app/getTheme'] === 'dark' ? {
           color: '#ffffff'
         } : {
-          backgroundColor: 'rgb(236, 245, 255)',
+          backgroundColor: 'rgb(255, 255, 255)',
           color: '#333333'
         },
         height: '100%'

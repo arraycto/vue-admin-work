@@ -73,30 +73,16 @@ Mock.mock(RegExp(getRoleList), function () {
     'data': [
       {
         'id': 1,
-        'name': '管理员',
-        'roleCode': 'ROLE_manager',
-        'description': '管理员',
+        'name': '超级管理员',
+        'roleCode': 'ROLE_admin',
+        'description': '超级管理员',
         'createTime': Random.now('yyyy-MM-dd HH:mm:ss')
       },
       {
-        'id': 1,
-        'name': '教研员',
-        'roleCode': 'ROLE_teacher',
-        'description': '教研员',
-        'createTime': Random.now('yyyy-MM-dd HH:mm:ss')
-      },
-      {
-        'id': 1,
-        'name': '市场运营',
-        'roleCode': 'ROLE_market',
-        'description': '市场运营',
-        'createTime': Random.now('yyyy-MM-dd HH:mm:ss')
-      },
-      {
-        'id': 1,
-        'name': '技术开发',
-        'roleCode': 'ROLE_dev',
-        'description': '技术开发',
+        'id': 2,
+        'name': '编辑员',
+        'roleCode': 'ROLE_editor',
+        'description': '编辑员',
         'createTime': Random.now('yyyy-MM-dd HH:mm:ss')
       }
     ]

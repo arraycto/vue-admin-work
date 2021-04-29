@@ -17,6 +17,7 @@
           ref="table"
           v-loading="tableLoading"
           :data="dataList"
+          :header-cell-style="tableConfig.headerCellStyle"
           :size="tableConfig.size"
           :stripe="tableConfig.stripe"
           :border="false"

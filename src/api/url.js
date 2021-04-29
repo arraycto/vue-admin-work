@@ -8,6 +8,10 @@ export const updateUserInfo = '/updateUser'
 
 export const addUserInfo = '/addUser'
 
+export const getMenuListByRoleId = '/getMenuListByRoleId'
+
+export const getAllMenuByRoleId = '/getAllMenuByRoleId'
+
 export const deleteUserById = '/deleteUserById'
 
 export const getDepartmentList = '/getDepartmentList'

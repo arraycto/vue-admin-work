@@ -99,7 +99,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      visitedRoutes: 'CacheRoute/getVisistedRoute',
+      visitedRoutes: 'router/getVisistedRoute',
       allRoutes: 'user/getRoutes'
     })
   },
@@ -123,7 +123,7 @@ export default {
     initRoute() {
       const affixRoutes = this.filterAffixRoute(this.allRoutes, '/')
       affixRoutes.forEach((it) => {
-        this.$store.dispatch('CacheRoute/addRoute', it)
+        this.$store.dispatch('router/addRoute', it)
       })
     },
     filterAffixRoute(tempRoute, basePath) {
@@ -154,7 +154,7 @@ export default {
       const { name, path } = this.$route
       if (name) {
         this.currentTab = path
-        this.$store.dispatch('CacheRoute/addRoute', this.$route)
+        this.$store.dispatch('router/addRoute', this.$route)
         this.$nextTick((_) => {
           this.$refs.scrollBar && this.$refs.scrollBar.$refs.wrap.scrollTo({
             behavior: 'smooth',
@@ -165,7 +165,7 @@ export default {
     },
     removeRoute(name) {
       const tempRoute = this.visitedRoutes.find(it => it.path === name)
-      this.$store.dispatch('CacheRoute/removeRoute', tempRoute)
+      this.$store.dispatch('router/removeRoute', tempRoute)
       this.$nextTick((_) => {
         const tmp = this.visitedRoutes.find((it) => {
           return it.path === this.$route.path
@@ -226,7 +226,7 @@ export default {
       if (!this.selectRoute) {
         return
       }
-      this.$store.dispatch('CacheRoute/delLeftRoute', this.selectRoute)
+      this.$store.dispatch('router/delLeftRoute', this.selectRoute)
         .then(_ => {
           this.$nextTick(_ => {
             if (!this.isActive(this.selectRoute)) {
@@ -239,7 +239,7 @@ export default {
       if (!this.selectRoute) {
         return
       }
-      this.$store.dispatch('CacheRoute/delRightRoute', this.selectRoute)
+      this.$store.dispatch('router/delRightRoute', this.selectRoute)
         .then(_ => {
           this.$nextTick(_ => {
             if (!this.isActive(this.selectRoute)) {
@@ -249,7 +249,7 @@ export default {
         })
     },
     closeAll() {
-      this.$store.dispatch('CacheRoute/delAllRoute', this.selectRoute)
+      this.$store.dispatch('router/delAllRoute', this.selectRoute)
         .then(_ => {
           this.$nextTick(_ => {
             this.$router.push({ path: this.visitedRoutes[0].path })

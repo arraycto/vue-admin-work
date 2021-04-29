@@ -1,6 +1,7 @@
 {
   "name": "vue-admin-work",
   "version": "v0.1.0-rc",
+  "author": "qingqingxunan <596484713@qq.com>",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

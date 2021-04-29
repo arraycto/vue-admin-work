@@ -4,7 +4,7 @@ import 'nprogress/nprogress.css'
 import store from '@/store'
 import service from '@/api/axios'
 import Layout from '@/layout'
-import { baseAddress, getMenuList } from '@/api/url'
+import { baseAddress, getMenuListByRoleId } from '@/api/url'
 
 import Cookies from 'js-cookie'
 
@@ -12,11 +12,11 @@ NProgress.configure({ showSpinner: false })
 
 function getRoutes() {
   return service({
-    url: baseAddress + getMenuList,
+    url: baseAddress + getMenuListByRoleId,
     method: 'POST',
     data: {
-      userId: 1,
-      roleId: 1
+      userId: store.state.user.userId,
+      roleId: store.state.user.roleId
     }
   }).then(res => {
     return generatorRoutes(res.data)
@@ -85,10 +85,11 @@ router.beforeEach((to, from, next) => {
       const isEmptyRoute = store.getters['user/isEmptyRoutes']
       if (isEmptyRoute) {
         // 加载路由
+        const accessRoutes = []
         getRoutes().then(async routes => {
-          asyncRoutes.push(...routes)
-          await store.dispatch('user/saveRoutes', asyncRoutes)
-          router.addRoutes(asyncRoutes)
+          accessRoutes.push(...asyncRoutes, ...routes)
+          await store.dispatch('user/saveRoutes', accessRoutes)
+          router.addRoutes(accessRoutes)
           next({ ...to, replace: true })
         })
       } else {

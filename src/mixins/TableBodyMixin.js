@@ -8,7 +8,7 @@ export default {
   },
   mounted() {
     this.$parent.$on('tableHeightChanged', (height) => {
-      this.cardStyle.top = height + 5 + 'px'
+      this.cardStyle.top = height + 10 + 'px'
     })
   }
 }

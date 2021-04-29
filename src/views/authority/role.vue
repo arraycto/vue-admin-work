@@ -61,15 +61,23 @@
           >
             <template slot-scope="scope">
               <el-link
+                :disabled="scope.row.roleCode === 'ROLE_admin'"
                 type="primary"
                 :underline="false"
                 @click="onUpdateItem(scope.row)"
               >编辑</el-link>
               <el-link
+                :disabled="scope.row.roleCode === 'ROLE_admin'"
                 type="danger"
                 :underline="false"
                 @click="onDeleteItems(scope.row)"
               >删除</el-link>
+              <el-link
+                :disabled="scope.row.roleCode === 'ROLE_admin'"
+                type="warning"
+                :underline="false"
+                @click="showMenu(scope.row)"
+              >菜单权限</el-link>
             </template>
           </el-table-column>
         </el-table>
@@ -80,6 +88,22 @@
         <BaseForm
           ref="baseForm"
           :form-items="formItems"
+        />
+      </template>
+    </Dialog>
+    <Dialog
+      ref="menuDialog"
+      title="菜单权限"
+      :submit-button="true"
+    >
+      <template>
+        <el-tree
+          :data="menuData"
+          show-checkbox
+          node-key="menuUrl"
+          :default-expanded-keys="defaultExpandedKeys"
+          :default-checked-keys="defaultCheckedKeys"
+          :props="defaultProps"
         />
       </template>
     </Dialog>
@@ -105,7 +129,14 @@ export default {
         roleCode: '',
         description: '',
         createTime: ''
-      }
+      },
+      menuData: [],
+      defaultProps: {
+        children: 'children',
+        label: 'menuName'
+      },
+      defaultCheckedKeys: [],
+      defaultExpandedKeys: []
     }
   },
   computed: {
@@ -253,6 +284,41 @@ export default {
         this.$successMsg('角色模拟删除失败')
       }
     })
+  },
+  methods: {
+    showMenu(item) {
+      this.$post({
+        url: this.$urlPath.getAllMenuByRoleId,
+        data: {
+          roleId: item.id
+        }
+      }).then(res => {
+        this.menuData = res.data
+        this.defaultCheckedKeys = []
+        this.defaultExpandedKeys = []
+        this.handleRoleMenusSelected(this.menuData)
+        this.$refs.menuDialog.show({
+          onConfirmCallback: (cb) => {
+            cb && cb()
+            this.$successMsg('模拟菜单修改成功')
+            this.$refs.menuDialog.close()
+          }
+        })
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    handleRoleMenusSelected(menus) {
+      menus.forEach(it => {
+        if (it.isSelect) {
+          this.defaultCheckedKeys.push(it.menuUrl)
+        }
+        if (it.children) {
+          this.defaultExpandedKeys.push(it.menuUrl)
+          this.handleRoleMenusSelected(it.children)
+        }
+      })
+    }
   }
 }
 </script>

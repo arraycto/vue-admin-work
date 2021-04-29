@@ -69,8 +69,7 @@ export default {
       },
       paddingTop:
         parseInt(this.$styleVariables.navBarHeight) +
-        parseInt(this.$styleVariables.tagViewHeight) +
-        5
+        parseInt(this.$styleVariables.tagViewHeight)
     }
   },
   computed: {
@@ -93,7 +92,7 @@ export default {
         const tagViewHeight = this.$refs.tagView
           ? this.$refs.tagView.$el.getBoundingClientRect().height
           : 0
-        this.paddingTop = navBarHeight + tagViewHeight + 10
+        this.paddingTop = navBarHeight + tagViewHeight
       }, 0)
     },
     showTagView(newVal) {
@@ -104,7 +103,7 @@ export default {
         const tagViewHeight = this.$refs.tagView
           ? this.$refs.tagView.$el.getBoundingClientRect().height
           : 0
-        this.paddingTop = navBarHeight + tagViewHeight + 10
+        this.paddingTop = navBarHeight + tagViewHeight
       }, 0)
     },
     hiddenSideBar(newVal) {

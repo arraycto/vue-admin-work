@@ -11,26 +11,44 @@
       slot="footer"
       class="dialog-footer"
     >
+      <slot name="footer-button">
+      </slot>
       <el-button
+        v-if="showCancel"
         size="mini"
         @click="dialogVisible = false"
       >取 消</el-button>
       <el-button
+        v-if="!submitButton"
         type="primary"
         size="mini"
         @click="onConfirm"
       >确 定</el-button>
+      <submit-button
+        v-else
+        :on-submit="onConfirm"
+      />
     </span>
   </el-dialog>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import SubmitButton from './SubmitButton.vue'
 export default {
+  components: { SubmitButton },
   props: {
     title: {
       type: String,
       default: '提示'
+    },
+    showCancel: {
+      type: Boolean,
+      default: true
+    },
+    submitButton: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -42,7 +60,10 @@ export default {
   computed: {
     ...mapGetters({
       isMobileScreen: 'app/isMobileScreen'
-    })
+    }),
+    button() {
+      return this.submitButton ? 'SubmitButton' : 'el-button'
+    }
   },
   methods: {
     show(config = {}) {
@@ -59,10 +80,11 @@ export default {
     toggle() {
       this.dialogVisible = !this.dialogVisible
     },
-    onConfirm() {
+    onConfirm(callback) {
       if (this.autoClose) {
         this.dialogVisible = false
       }
+      callback && callback()
       this.onConfirmCallback && this.onConfirmCallback()
     }
   }

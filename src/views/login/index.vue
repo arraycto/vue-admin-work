@@ -66,8 +66,6 @@ import ImageBg1 from '@/assets/img_login_bg_01.jpg'
 import ImageBg2 from '@/assets/img_login_bg_02.jpg'
 import ImageBg3 from '@/assets/img_login_bg_03.jpg'
 import ImageMobileBg1 from '@/assets/img_login_mobile_bg_01.jpg'
-import Cookies from 'js-cookie'
-import { randomString } from '@/utils/utils'
 import PageFooter from '@/layout/components/Footer'
 export default {
   name: 'Login',
@@ -109,17 +107,19 @@ export default {
         url: this.$urlPath.login,
         data: {
           username: this.username,
-          password: this.password
+          password: this.password,
+          authLogin: this.authLogin ? '1' : '0'
         }
       })
         .then((res) => {
-          Cookies.set('admin-token', randomString(100), {
-            expires: 1
+          this.$store.dispatch('user/saveUserInfo', res.data).then(_ => {
+            this.$router.push({ path: this.redirect || '/index/main' })
+          }).catch(error => {
+            this.$errorMsg(error.message || '登录失败，未知异常')
           })
-          this.$router.push({ path: this.redirect || '/index/main' })
         })
         .catch((error) => {
-          console.log(error)
+          this.$errorMsg(error.message || '登录失败，未知异常')
         })
     }
   }
@@ -149,7 +149,7 @@ export default {
       width: 50px;
     }
     & img::after {
-      content: '欢迎来到vue-admin-work';
+      content: "欢迎来到vue-admin-work";
     }
   }
   .footer-wrapper {
