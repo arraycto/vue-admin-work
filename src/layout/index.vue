@@ -32,8 +32,7 @@
       <section
         class="main-content-wrapper"
         :style="{'background-color': $styleVariables[`theme_${themeId}_mainBg`],
-                 'padding-top': paddingTop + 'px'
-        }"
+                 'padding-top': paddingTop + 'px'}"
       >
         <AppMain />
       </section>

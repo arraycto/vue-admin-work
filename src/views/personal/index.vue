@@ -23,7 +23,7 @@
               </div>
             </div>
             <div class="text-xl">
-              admin
+              {{ nickName }}
             </div>
             <div class="des-wrapper">
               <i class="el-icon-edit"></i>
@@ -252,7 +252,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      avatar: 'user/getAvatar'
+      avatar: 'user/getAvatar',
+      nickName: 'user/geNickName'
     })
   },
   methods: {
@@ -275,7 +276,6 @@ export default {
   margin-top: 10px;
 }
 .box-wrapper {
-  padding: 1rem;
   .personal-box {
     width: 30%;
     .info-wrapper {

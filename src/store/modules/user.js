@@ -1,4 +1,5 @@
 import { routes as constantRoutes } from '@/router'
+import { resetRouter } from '@/router/index'
 import Cookies from 'js-cookie'
 
 const userInfoString = localStorage.getItem('userInfo')
@@ -25,6 +26,9 @@ const getters = {
     return state.avatar || require('@/assets/img_avatar_example.gif')
   },
   getUserName(state) {
+    return state.userName
+  },
+  geNickName(state) {
     return state.userNickName
   },
   getRoles(state) {
@@ -77,6 +81,7 @@ const mutations = {
     state.routes = constantRoutes.concat(routes)
   },
   LOGOUT(state) {
+    // 这里只是在本地模拟删除了用户信息，在真实场景下需要 调后台登出接口 来真正实现登出功能
     state.userId = ''
     state.userName = ''
     state.userNickName = ''
@@ -85,8 +90,9 @@ const mutations = {
     state.avatar = ''
     state.routes = []
     state.token = ''
+    resetRouter()
     Cookies.remove('admin-token')
-    localStorage.clear()
+    localStorage.removeItem('userInfo')
   }
 }
 

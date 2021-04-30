@@ -107,6 +107,9 @@ export default {
     $route(newVal) {
       this.addRoute()
     },
+    visitedRoutes() {
+      this.$store.dispatch('router/persistentVisitedRoutes')
+    },
     showContextMenu(val) {
       if (val) {
         document.body.addEventListener('click', this.closeMenu)
@@ -125,6 +128,7 @@ export default {
       affixRoutes.forEach((it) => {
         this.$store.dispatch('router/addRoute', it)
       })
+      this.$store.dispatch('router/restoreVisitedRoutes')
     },
     filterAffixRoute(tempRoute, basePath) {
       const tmp = []
@@ -155,12 +159,12 @@ export default {
       if (name) {
         this.currentTab = path
         this.$store.dispatch('router/addRoute', this.$route)
-        this.$nextTick((_) => {
-          this.$refs.scrollBar && this.$refs.scrollBar.$refs.wrap.scrollTo({
-            behavior: 'smooth',
-            left: this.$refs[this.$route.path][0].$el.offsetLeft
-          })
-        })
+        // this.$nextTick((_) => {
+        //   this.$refs.scrollBar && this.$refs.scrollBar.$refs.wrap.scrollTo({
+        //     behavior: 'smooth',
+        //     left: this.$refs[this.$route.path][0].$el.offsetLeft
+        //   })
+        // })
       }
     },
     removeRoute(name) {

@@ -63,19 +63,21 @@ export const routes = [
     children: [
       {
         path: 'main',
-        name: 'main',
+        name: 'Main',
         component: () => import('@/views/index'),
         meta: {
           title: '主控台',
-          affix: true
+          affix: true,
+          cacheable: true
         }
       },
       {
         path: 'workplace',
-        name: 'workPlace',
+        name: 'WorkPlace',
         component: () => import('@/views/index/work-place'),
         meta: {
-          title: '工作台'
+          title: '工作台',
+          cacheable: true
         }
       }
     ]
@@ -91,9 +93,17 @@ export const asyncRoutes = [
   { path: '*', redirect: '/404', hidden: true }
 ]
 
-const router = new VueRouter({
+const createRouter = () => new VueRouter({
   mode: 'hash',
   scrollBehavior: () => ({ y: 0 }),
   routes
 })
+
+const router = createRouter()
+
+export function resetRouter() {
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher
+}
+
 export default router

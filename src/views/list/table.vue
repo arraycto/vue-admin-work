@@ -4,6 +4,7 @@
       <template slot="right">
         <el-button
           v-if="isInited('addItemModel')"
+          v-permission="['admin', 'editor']"
           type="primary"
           size="mini"
           icon="el-icon-plus"

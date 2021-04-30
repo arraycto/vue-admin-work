@@ -131,7 +131,7 @@ import FullYearSalesChart from './components/chart/FullYearSalesChart'
 import StackAvatar from '@/components/common/StackAvatar'
 import ResizeMixin from '@/mixins/ResizeMixin'
 export default {
-  name: 'Index',
+  name: 'Main',
   components: {
     DataItem,
     OrderChart,
