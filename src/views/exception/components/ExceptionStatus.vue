@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     backHome() {
-      this.$router.replace({ path: '/index' })
+      this.$router.replace({ path: '/index/main' })
     }
   }
 }

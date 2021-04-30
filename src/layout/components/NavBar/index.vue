@@ -195,7 +195,7 @@ export default {
     ...mapGetters({
       collapse: 'app/isCollapseSideBar',
       avatar: 'user/getAvatar',
-      userName: 'user/getUserName'
+      userName: 'user/getNickName'
     }),
     ...mapState({
       showSearchBar: (state) => state.app.showSearchBar,

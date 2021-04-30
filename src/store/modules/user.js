@@ -28,7 +28,7 @@ const getters = {
   getUserName(state) {
     return state.userName
   },
-  geNickName(state) {
+  getNickName(state) {
     return state.userNickName
   },
   getRoles(state) {

@@ -253,7 +253,7 @@ export default {
   computed: {
     ...mapGetters({
       avatar: 'user/getAvatar',
-      nickName: 'user/geNickName'
+      nickName: 'user/getNickName'
     })
   },
   methods: {
