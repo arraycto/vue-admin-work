@@ -129,7 +129,9 @@ Mock.mock(RegExp(getCardList), function ({ body }) {
     totalSize,
     [`data|${size}`]: [
       {
-        'id|+1': 1,
+        'id': function () {
+          return Random.string(10)
+        },
         'image': Random.image('300x600', '#50B347', '#FFF', 'vue-admin-work'),
         'description': function () {
           return Random.csentence(50, 200)
@@ -148,7 +150,9 @@ Mock.mock(RegExp(getCommentList), function ({ body }) {
     totalSize,
     [`data|${size}`]: [
       {
-        'id|+1': 1,
+        'id': function () {
+          return Random.string(10)
+        },
         'avatar': Random.image('100x100', '#50B347', '#FFF', 'vue-admin-work'),
         'nickName': function () {
           return Random.cname()
@@ -158,9 +162,9 @@ Mock.mock(RegExp(getCommentList), function ({ body }) {
         },
         'rate|1-5': 5,
         'images|0-1': [
-          'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fa0.att.hudong.com%2F52%2F62%2F31300542679117141195629117826.jpg&refer=http%3A%2F%2Fa0.att.hudong.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1614997807&t=e4575554687c70298c5eaa1c44d7e39a',
-          'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fa2.att.hudong.com%2F27%2F81%2F01200000194677136358818023076.jpg&refer=http%3A%2F%2Fa2.att.hudong.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1614997807&t=9e2da5ff5bfc30d8de5374a3beebe493',
-          'https://ss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/9c16fdfaaf51f3de9ba8ee1194eef01f3a2979a8.jpg'
+          Random.image('300x600', '#50B347', '#FFF', 'vue'),
+          Random.image('300x600', '#409EFF', '#FFF', 'vue-admin-work'),
+          Random.image('300x600', '#F56C6C', '#FFF', '前端')
         ],
         'status|0-1': 1 // 对外展示状态 0 不展示，1 展示
       }

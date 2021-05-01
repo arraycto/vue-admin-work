@@ -1,47 +1,48 @@
 <template>
-  <div class="goods-list-container">
-    <div class="goods-wrapper">
-      <el-row :gutter="10">
-        <el-col
-          v-for="item of dataList"
-          :key="item.id"
-          :xs="24"
-          :sm="12"
-          :md="6"
-          class="col-item"
+  <div
+    v-infinite-scroll="load"
+    class="goods-wrapper goods-scroll__wrapper"
+    :infinite-scroll-disabled="disabled"
+  >
+    <el-row :gutter="10">
+      <el-col
+        v-for="item of dataList"
+        :key="item.id"
+        :xs="24"
+        :sm="12"
+        :md="6"
+        class="col-item"
+      >
+        <el-card
+          :body-style="{ padding: '0px' }"
+          shadow="hover"
         >
-          <el-card
-            :body-style="{ padding: '0px' }"
-            shadow="hover"
-          >
-            <div class="padding text-center">
-              <el-image
-                style="width: 90%; height: 180px"
-                :src="item.image"
-                fit="cover"
-              />
+          <div class="padding text-center">
+            <el-image
+              style="width: 90%; height: 180px"
+              :src="item.image"
+              fit="cover"
+            />
+          </div>
+          <div style="padding: 14px">
+            <div class="goods-title text-cut-l2">
+              {{ item.description }}
             </div>
-            <div style="padding: 14px">
-              <div class="goods-title text-cut-l2">
-                {{ item.description }}
-              </div>
-              <div class="flex justify-between align-center margin-top-xs">
-                <span class="text-price text-red text-df">
-                  {{ Number(item.price).toFixed(2) }}
-                </span>
-              </div>
+            <div class="flex justify-between align-center margin-top-xs">
+              <span class="text-price text-red text-df">
+                {{ Number(item.price).toFixed(2) }}
+              </span>
             </div>
-          </el-card>
-        </el-col>
-      </el-row>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+    <div class="text-center margin-top">
+      <div v-if="loading">
+        加载中...
+      </div>
+      <div v-if="noMore">没有更多了</div>
     </div>
-    <TableFooter
-      :current-page="pageModel.currentPage"
-      :page-size="pageModel.pageSize"
-      :total-size="pageModel.totalSize"
-      @pageSizeChanged="pageSizeChanged"
-      @currentChanged="currentChanged"
-    />
   </div>
 </template>
 
@@ -51,6 +52,17 @@ import { GetDataMixin } from '@/mixins/ActionMixin'
 export default {
   name: 'GoodsList',
   mixins: [TableMixin, PageModelMixin, GetDataMixin],
+  data() {
+    return {
+      loading: false,
+      noMore: false
+    }
+  },
+  computed: {
+    disabled() {
+      return this.loading
+    }
+  },
   mounted() {
     this.initGetData({
       url: this.$urlPath.getCardList,
@@ -59,11 +71,21 @@ export default {
         pageSize: this.pageModel.pageSize
       },
       onResult: (res) => {
-        this.handleSuccess(res)
+        this.loading = false
+        this.dataList.push(...res.data)
+        this.noMore = this.dataList.length === res.totalSize
       }
-    }).then(_ => {
-      this.getData()
     })
+  },
+  methods: {
+    load() {
+      if (this.noMore) return
+      this.pageModel.currentPage += 1
+      this.loading = true
+      setTimeout(_ => {
+        this.getData()
+      }, 1000)
+    }
   }
 }
 </script>
@@ -72,21 +94,12 @@ export default {
 .col-item + .col-item {
   margin-bottom: 10px;
 }
-.goods-list-container {
-  height: calc(100vh - 130px);
-  overflow-x: hidden;
-  overflow-y: auto;
-  .goods-wrapper {
-    padding: 5px 10px;
-    margin-bottom: 40px;
-    .goods-title {
-      color: #666666;
-      font-size: 12px;
-      line-height: 16px;
-    }
-  }
-  ::v-deep .table-footer-container {
-    margin: 0 5px;
+.goods-wrapper {
+  padding: 5px 10px;
+  .goods-title {
+    color: #666666;
+    font-size: 12px;
+    line-height: 16px;
   }
 }
 </style>

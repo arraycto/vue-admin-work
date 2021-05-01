@@ -1,13 +1,11 @@
 <template>
   <div class="main-container">
-    <el-tabs
-      v-model="activeName"
-      class="wrapper"
-    >
+    <el-tabs v-model="activeName">
       <el-tab-pane
         label="商品管理"
         name="first"
         lazy
+        class="wrapper"
       >
         <GoodsList />
       </el-tab-pane>
@@ -38,7 +36,6 @@ export default {
 
 <style lang="scss" scoped>
 ::v-deep .el-tabs__header {
-  background-color: #fff;
   margin-bottom: 5px;
   padding: 0 10px;
 }
