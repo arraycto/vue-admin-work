@@ -1,4 +1,4 @@
-<img src="/Users/mac/Desktop/WechatIMG2475.png" style="zoom:20%;" />
+<img src="/Users/mac/Desktop/WechatIMG2475.png" align="center" style="zoom:20%;" />
 
 <h1 align = "center">vue-admin-work</h1>
 
@@ -8,11 +8,11 @@
 
 ## 项目演示地址：
 
-------
+----
 
-+ [vue-admin-work演示地址]: http://qingqingxuan.gitee.io/vue-admin-work
++ [Vue-admin-work](http://qingqingxuan.gitee.io/vue-admin-work )
 
-  
+
 
 ## vue-admin-work联系方式：
 
