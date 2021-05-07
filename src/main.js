@@ -7,11 +7,7 @@ import './utils'
 import '@/styles/index.scss'
 import './api/http'
 
-import './mock'
-// import '@/assets/theme/black/index.css'
-// import '@/assets/theme/red/index.css'
-// import '@/assets/theme/cyan/index.css'
-// import '@/assets/theme/purple/index.css'
+import '../mock'
 import '@/assets/theme/blue/index.css'
 
 Vue.config.productionTip = false

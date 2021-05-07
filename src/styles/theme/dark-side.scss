@@ -20,6 +20,10 @@ $theme_dark-side_activeColor: #ffffff;
     background-color: $theme_dark-side_menuBg;
   }
 
+  .el-submenu__title i{
+    color: #ffffff;
+  }
+
   .is-opened .el-menu-item.is-active {
     color: $activeColor;
   }

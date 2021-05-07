@@ -33,6 +33,12 @@
               prefix-icon="el-icon-lock"
             />
           </div>
+          <div class="item-wrapper">
+            <VawVerify
+              class="margin-top-lg"
+              @verify-success="onVerifySuccess"
+            />
+          </div>
           <div class="flex-sub"></div>
           <div class="margin-top-lg">
             <el-button
@@ -67,9 +73,11 @@ import ImageBg2 from '@/assets/img_login_bg_02.jpg'
 import ImageBg3 from '@/assets/img_login_bg_03.jpg'
 import ImageMobileBg1 from '@/assets/img_login_mobile_bg_01.jpg'
 import PageFooter from '@/layout/components/Footer'
+import VawVerify from 'vaw-verify'
+import 'vaw-verify/lib/vaw-verify.css'
 export default {
   name: 'Login',
-  components: { PageFooter },
+  components: { PageFooter, VawVerify },
   data() {
     return {
       username: 'admin',
@@ -79,7 +87,8 @@ export default {
       ImageBg3,
       ImageMobileBg1,
       redirect: '',
-      autoLogin: true
+      autoLogin: true,
+      verifyState: false
     }
   },
   watch: {
@@ -103,6 +112,10 @@ export default {
         this.$errorMsg('请输入密码')
         return
       }
+      if (!this.verifyState) {
+        this.$errorMsg('滑动验证失败')
+        return
+      }
       this.$post({
         url: this.$urlPath.login,
         data: {
@@ -121,6 +134,9 @@ export default {
         .catch((error) => {
           this.$errorMsg(error.message || '登录失败，未知异常')
         })
+    },
+    onVerifySuccess() {
+      this.verifyState = true
     }
   }
 }

@@ -6,8 +6,25 @@
       v-bind="properties"
     >
       <el-menu-item :index="resolvePath(routeItem.path)">
-        <svg-icon :icon-class="(routeItem.meta && routeItem.meta.icon) || 'sub-menu'" />
-        <span class="item-title">{{ routeItem.meta && routeItem.meta.title }}</span>
+        <div class="sub-menu-wrapper">
+          <svg-icon :icon-class="(routeItem.meta && routeItem.meta.icon) || 'sub-menu'" />
+          <span class="item-title">{{ routeItem.meta && routeItem.meta.title }}</span>
+          <div
+            v-if="routeItem.meta && routeItem.meta.tip"
+            class="tip-wrapper"
+            style="right: -20px"
+            :class="{'new-wrapper-no' : isCollapse}"
+          >
+            <el-badge
+              v-if="isBadge"
+              :value="parseInt(routeItem.meta.tip)"
+            />
+            <span
+              v-else
+              :class="tipClass"
+            ></span>
+          </div>
+        </div>
       </el-menu-item>
     </component>
     <el-submenu
@@ -22,7 +39,6 @@
             slot="title"
             class="item-title"
           >{{ routeItem.meta && routeItem.meta.title }}</span>
-          <div class="flex-sub"></div>
           <div
             v-if="routeItem.meta && routeItem.meta.tip"
             class="tip-wrapper"
