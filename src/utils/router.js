@@ -1,4 +1,4 @@
-import router, { asyncRoutes } from '@/router'
+import router from '@/router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import store from '@/store'
@@ -87,7 +87,7 @@ router.beforeEach((to, from, next) => {
         // 加载路由
         const accessRoutes = []
         getRoutes().then(async routes => {
-          accessRoutes.push(...asyncRoutes, ...routes)
+          accessRoutes.push(...routes)
           await store.dispatch('user/saveRoutes', accessRoutes)
           router.addRoutes(accessRoutes)
           next({ ...to, replace: true })

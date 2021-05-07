@@ -230,5 +230,284 @@ SPA的是全称是：**Single Page Application** 中文意思是：单页面应�
 
   当匹配到了 **'/index'** 路径是的时候，会加载对应的**Layout**组件，Layout组件中有一个AppMain组件，里面又包含了一个 <router-view />，同时可以看到路由表配置还有一个 **children**属性，完全匹配到**'/index/main'**路径的时候，path为'main'所对应的component组件被加载。
 
-  大体就是这么一个匹配过程，具体的可以看 **[Vue Router](https://router.vuejs.org)**官网中嵌套路由**[部分文档](https://router.vuejs.org/zh/guide/essentials/nested-routes.html)**
+  大体就是这么一个匹配过程，具体的可以看 **[Vue Router](https://router.vuejs.org)**官网中[**嵌套路由文档**](https://router.vuejs.org/zh/guide/essentials/nested-routes.html)
+
+### 路由
+
+路由和侧边栏是一个后台管理项目的重点，也是一个比较难理解的地方
+
+#### 知识准备
+
++ **Vue Router知识**
++ **element-ui 中的 NavMenu组件和ElScrollbar组件**
++ **router-link和router-view组件**
+
+#### 说明 
+
+本项目路由生成的思路如下：
+
+1. 用户登录成功之后获取**token**和**role**
+2. 通过后台接口查询该用户所对应角色的菜单列表
+3. 前端处理获取到的菜单列表，按一定的规则动态生成路由表
+4. 通过**vue-router**实例的**.addRoutes()**方法动态添加路由
+
+#### 原始路由信息
+
+以**editor**角色为例，从后台获取的原始路由信息如下：
+
+```js
+[
+  {
+    // 菜单地址
+    menuUrl: '/list',
+    // 菜单名称
+    menuName: '列表页面',
+    // 菜单图图标
+    icon: 'list',
+    // 所包含的子菜单
+    children: [
+      {
+        menuUrl: '/list/table',
+        menuName: '表格操作'
+      },
+      {
+        menuUrl: '/list/table-with-search',
+        menuName: '表格搜索'
+      },
+      {
+        menuUrl: '/list/grid-list',
+        menuName: '卡片列表'
+      }
+    ]
+  },
+  {
+    menuUrl: '/form',
+    menuName: '表单页面',
+    // 菜单提示信息
+    tip: 'circle',
+    icon: 'form',
+    children: [
+      {
+        menuUrl: '/form/base-form-view',
+        menuName: '表单操作',
+        cacheable: true
+      },
+      {
+        menuUrl: '/form/advance-form',
+        menuName: '高级表单',
+        cacheable: true
+      },
+      {
+        menuUrl: '/form/step-form',
+        menuName: '分步表单'
+      },
+      {
+        menuUrl: '/form/tip',
+        menuName: '通知提示'
+      }
+    ]
+  },
+  {
+    menuUrl: '/editor',
+    menuName: '编辑器',
+    tip: '12',
+    icon: 'editor',
+    children: [
+      {
+        menuUrl: '/editor/rich-text',
+        menuName: '富文本'
+      },
+      {
+        menuUrl: '/editor/markdown',
+        menuName: 'markdown'
+      }
+    ]
+  },
+  {
+    menuUrl: '/other',
+    menuName: '其它功能',
+    children: [
+      {
+        menuUrl: '/other/print',
+        menuName: '打印'
+      },
+      {
+        menuUrl: 'http://www.baidu.com',
+        menuName: '外链'
+      },
+      {
+        menuUrl: '/other/qrcode',
+        menuName: '二维码'
+      }
+    ]
+  }
+]
+```
+
+#### 前端路由信息配置项
+
+从后台获取到的原始路由信息经过如下函数处理，最终生成我们所需要的路由信息：
+
+```js
+
+function generatorRoutes(res) {
+  const tempRoutes = []
+  res.forEach(it => {
+    const route = {
+      //url 信息
+      path: it.menuUrl,
+      // 设定路由的名字，建议一定要设置此name，因为有可能根据此配置跳转页面，在缓存页面的时候本项目也是采用此配置来保存的
+      name: getNameByUrl(it.menuUrl),
+      // 当设置 true 的时候该路由不会在侧边栏出现，如login 404 等页面
+      hidden: !!it.hidden,
+      // 对应的vue组件
+      component: isMenu(it.menuUrl) ? Layout : getComponent(it.menuUrl),
+      meta: {
+        // 路由标签名字，主要用在 快捷标签 栏和导航栏中
+        title: it.menuName,
+        // 设置为true，标识着在 快捷标签 中不会有关闭按钮
+        affix: !!it.affix,
+        // 设置为true，标识着可以被<router-view/>组件缓存
+        cacheable: !!it.cacheable,
+        // 路由的图标信息
+        icon: it.icon || '',
+        // 路由的提示信息，目前有三种提示方式：new、小圆点、数字，对应的 tip：new、circle、12（具体的数字）
+        tip: it.tip
+      }
+    }
+    if (it.children) {
+      // 子路由
+      route.children = generatorRoutes(it.children)
+    }
+    tempRoutes.push(route)
+  })
+  return tempRoutes
+}
+```
+
+> TIP
+>
+> <router-view />通过include缓存的时候是根据组件的name字段来缓存，所以最好是给每一个组件都设置一下name属性，而且要和route配置项中的name保持一致，因为在保存name的时候是根据route.name配置项来保存的
+
+#### 最终路由表
+
+经过上两步动态生成的路由表还不够，有一些页面是不需要动态生成的，也就是说是**不需要权限**的，如：**login页面** 、**404、500**等页面，当然本项目为了演示把**主页和工作页**也做成了固定页面，在实际项目根据需要自行添加删除。
+
+在 **src/router/index.js**文件中所有的固定路由如下：
+
+```js
+export const routes = [
+  {
+    path: '/redirect',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '/redirect/:path(.*)',
+        component: () => import('@/views/redirect/index')
+      }
+    ]
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/login'),
+    hidden: true
+  },
+  {
+    path: '/personal',
+    name: 'personal',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: 'index',
+        name: 'personalCenter',
+        component: () => import('@/views/personal'),
+        meta: {
+          title: '个人中心'
+        }
+      }
+    ]
+  },
+  {
+    path: '/',
+    name: 'root',
+    redirect: '/index/main',
+    hidden: true
+  },
+  {
+    path: '/index',
+    name: 'index',
+    component: Layout,
+    hidden: false,
+    meta: {
+      title: 'Dashboard',
+      icon: 'dashboard'
+    },
+    children: [
+      {
+        path: 'main',
+        name: 'Main',
+        component: () => import('@/views/index'),
+        meta: {
+          title: '主控台',
+          affix: true,
+          cacheable: true
+        }
+      },
+      {
+        path: 'workplace',
+        name: 'WorkPlace',
+        component: () => import('@/views/index/work-place'),
+        meta: {
+          title: '工作台',
+          cacheable: true
+        }
+      }
+    ]
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/exception/404'),
+    hidden: true
+  },
+  {
+    path: '*',
+    redirect: '/404',
+    hidden: true
+  }
+]
+```
+
+再把动态生成的路由信息通过 **.addRoutes()**方法添加到路由实例中就形成了本项目中所需要的所有路由信息表
+
+```js
+router.beforeEach((to, from, next) => {
+  NProgress.start()
+  if (to.name === 'login') {
+    next()
+    NProgress.done()
+  } else {
+    if (!isTokenExpired()) {
+      next(`/login?redirect=${to.path}`)
+      NProgress.done()
+    } else {
+      const isEmptyRoute = store.getters['user/isEmptyRoutes']
+      if (isEmptyRoute) {
+        // 加载路由
+        const accessRoutes = []
+        getRoutes().then(async routes => {
+          accessRoutes.push(...routes)
+          await store.dispatch('user/saveRoutes', accessRoutes)
+          router.addRoutes(accessRoutes)
+          next({ ...to, replace: true })
+        })
+      } else {
+        next()
+      }
+    }
+  }
+})
+```
 
