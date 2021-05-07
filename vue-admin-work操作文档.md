@@ -239,7 +239,7 @@ SPA的是全称是：**Single Page Application** 中文意思是：单页面应�
 #### 知识准备
 
 + **Vue Router知识**
-+ **element-ui 中的 NavMenu组件和ElScrollbar组件**
++ **element-ui 中的 ElMenu组件和ElScrollbar组件**
 + **router-link和router-view组件**
 
 #### 说明 
@@ -510,4 +510,105 @@ router.beforeEach((to, from, next) => {
   }
 })
 ```
+
+### 侧边栏
+
+#### 知识准备
+
+- **[element-ui](https://element.eleme.cn/) 框架中的ElMenu组件**
+- **[Vuex](https://vuex.vuejs.org/)**
+
+#### 数据来源
+
+通过上面的分析说明，当不同用户登录成功之后，会通过**role**来动态加载菜单，从而生成路由表。然后我们把生成的路由表信息存储到 **vuex** 中
+
+#### 嵌套路由
+
+本框架**通过递归的方式**支持多级路由的形式，不过为了用户的体验最好是不要超过三级路由，两级路由就已经满足了大部分的需求。如果在实际开发中真的需要三级路由，请不忘记在二级的页面中加入<router-view/>，如：
+
+```vue
+<template>
+	<router-view />
+</template>
+```
+
+#### 外链
+
+通过配置路由项中的 **path** 属性来实现外链功能，本框架通过判断 **path** 属性值是否以 **https://** 或者 **http://** 开头，如果是以两种情况下开头，则会认为是外链，在点击菜单的时候就会打开一个新的页面打开链接
+
+```js
+{
+  "path": "external-link",
+  "component": Layout,
+  "children": [
+    {
+      "path": "http://qingqingxuan.gitee.io/vue-admin-work/",
+    }
+  ]
+}
+```
+
+#### 默认展开菜单
+
+本框架并没有加入此功能，如果想要实现此功能，也很简单，只需要配置 **el-menu** 组件的 **default-openeds** 属性就好。具体参考 **[element-ui 中的 NavMenu 导航菜单](https://element.eleme.cn/#/zh-CN/component/menu)**
+
+### 面包屑
+
+#### 知识准备
+
++ **Element-ui 中 Breadcrumb 组件**
++ **Vue 中的 watch 用法**
+
+#### 实现思路
+
+通过 vue 组件中的 watch 监听 $route 变化来动态生成。部分源码如下：
+
+```js
+data() {
+  return {
+    breadcrumbs: []
+  }
+},
+watch: {
+  $route() {
+    this.generateBreadcrumb()
+  }
+},
+methods: {
+  generateBreadcrumb() {
+    this.breadcrumbs = xxxxx
+  },
+}
+```
+
+### 快捷标签
+
+#### 知识准备
+
++ **element-ui 中 Tabs 组件**
++ **Vuex**
+
+效果如下图：
+
+![](./images/QQ20210507-212737.png)
+
+![](./images/QQ20210507-214015.png)
+
+此页面比较简单，但是所需要的技术含量还是比较多的。如下：
+
++ **需要定制 tabs 的样式**
++ **需要理解 Vuex 几个特性**
++ **需要点右键弹出上下文菜单**
++ **可以刷新当前页面**
++ **刷新页面的时候，访问过的页面信息可以保留，也就是可以持久化**
+
+#### 实现思路
+
+通过监听 $route 动态变化 把当前的路由信息保存，然后通过 tabs 展示形式显示出已经保存的页面信息
+
+#### 右键弹出上下文菜单
+
+#### 刷新当前页面
+
+#### 持久化路由信息
 

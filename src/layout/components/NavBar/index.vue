@@ -238,7 +238,7 @@ export default {
         this.$router.push({ name: 'personalCenter' })
       } else if (type === 'logout') {
         this.$showConfirmDialog('确定要退出当前账号吧？').then((result) => {
-          this.$store.dispatch('user/logout').then(_ => {
+          this.$store.dispatch('user/logout').then((_) => {
             this.$router.replace('/login')
           })
         })
@@ -255,7 +255,7 @@ export default {
 }
 </script>
 <style lang="scss">
-@import "~@/styles/variables.scss";
+@import '~@/styles/variables.scss';
 .theme-dark {
   .el-input__inner {
     background-color: $theme_dark_menuDarkBg !important;
@@ -263,7 +263,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-@import "~@/styles/variables.scss";
+@import '~@/styles/variables.scss';
 ::v-deep .el-badge__content.is-fixed {
   right: 80% !important;
 }
