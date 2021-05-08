@@ -60,7 +60,7 @@ export const GetDataMixin = {
     getData() {
       const data = checkParams(this.getDataModel)
       if (!data) {
-        throw new Error('please set update param')
+        throw new Error('please set get param')
       }
       this.getDataModel.beforeAction && this.getDataModel.beforeAction()
       loadData.call(this, {

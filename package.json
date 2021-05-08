@@ -6,6 +6,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:report": "vue-cli-service build --report",
     "git-push": "read -p '请输入提交信息：' commit && git add . && git commit -m $commit && git push origin master",
     "lint": "vue-cli-service lint"
   },

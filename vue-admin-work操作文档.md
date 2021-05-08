@@ -1,4 +1,4 @@
-<div align="center"><img src="/Users/mac/Desktop/vue-admin-work/logo/WechatIMG9744.png" style="zoom:20%;" /></div>
+<div align="center"><img src="./images/WechatIMG2475.png" style="zoom:20%;" /></div>
 <h1 align="center">vue-admin-work说明文档</h1>
 <h6 align="right">版本：v0.1.0-rc</h6>
 
@@ -114,7 +114,7 @@
   npm install
   // 运行项目
   npm run serve
-  ```
+```
 
 + 通过压缩文件，直接把文件解压出来，然后
 
@@ -965,3 +965,79 @@ new Vue({
 这种方式只需要前端人员配置就好，如：webpack 中 proxy，但是这种方式只能在开发阶段使用，正式环境下不可以使用，其实本质就是在本地开启了一个代理服务器，所有的请求都转发到这个代理服务器，保持同源，从而不会产生跨域的问题。另外也可以在正式的环境下通过配置 **nginx** 来实现代理服务器的功能。两种方式的原理基本相同
 
 个人更推荐 **cors**这种方式，无论是开发阶段还是正式环境下都可以使用，最重要的是我们前端不需要做任何东西就可以使用。
+
+#### 常用功能
+
+本框架中封装了很多的常用的操作，以及业务逻辑和常用的组件，正是因为有了这些小的功能单元才组成了这样复杂的逻辑
+
+##### Mixin
+
++ 网络操作相关
+
+  - **GetDataMixin**
+
+    普通的加载接口数据，在使用时首页要通过 `import` 引入，如: 
+
+    ```js
+    import {  GetDataMixin } from '@/mixins/ActionMixin'
+    ```
+
+    然后可以在 `mounted`生命周期函数中初始化，如:
+
+    ```js
+    mounted() {
+        this.initGetData({
+          url: this.$urlPath.getTableList,
+          params: () => this.withPageInfoData(),
+          beforeAction: () => {
+            this.tableLoading = true
+          },
+          afterAction: () => {
+            this.tableLoading = false
+          },
+          onResult: (res) => {
+            this.handleSuccess(res)
+          }
+        }).then(() => {
+          this.getData()
+        })
+     }
+    ```
+
+    `this.initGetData()`方法在返回一个 `Promise`对象，这样做的目地是方便，在初始化配置之后可以加载接口数据。
+
+    下面分析一下 `initGetData`方法的参数信息：
+
+    ```js
+    function initGetData({ url, method, params, beforeAction, onResult, onError, afterAction }) : Promise 
+    ```
+
+    该方法接收一个对象类型的参数，该对象可以配置的属性有：
+
+    + url：必填，否则会抛出异常，`throw new Error('please init url')`，该参数对应的是要加载的接口信息
+
+    + method：请求方法，一般是 `GET` 或者是 `POST`
+
+    + params：请求参数，该参数可以是一个对象类型，也可以是一个函数类型，这取决于要传递的参数是不是动态的。如：参数就是固定值，`{articleId: 1}`，多次请求都是一样的值，则可以写成对象类型；相反，如果每次请求的参数是动态变化的，如：分页信息，就可以写成函数类型并且一定要返回一个对象类型的数据。如下：
+
+      ```js
+      params: () => {
+        return {
+          pageNum: this.pageNum
+        }
+      }
+      ```
+
+      如果不需要传递任何参数，则不用写此属性
+
+    + beforeAction：函数类型，在真正发起请求之前要做的一些操作，如打开加载状态等前置操作
+
+    + onResult：函数类型，只有请求状态码返回200的情况下才会被调用，用于处理返回来的数据
+
+    + onError：函数类型，当请求状态码返回不是200的情况下会被调用，用于处理错误状态
+
+    + afterAction：函数类型，在真正发起请求之后要做的一些操作，如关闭加载状态等后置操作，但不要在这里处理请求到的数据，因为有专门处理数据的方法：onResult。这个函数无论是请求成功还是失败都会被调用
+
++ 表格操作相关
+
+  
