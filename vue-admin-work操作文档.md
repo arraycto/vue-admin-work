@@ -1,5 +1,8 @@
 <div align="center"><img src="/Users/mac/Desktop/vue-admin-work/logo/WechatIMG9744.png" style="zoom:20%;" /></div>
-<h1 align="center">vue-admin-work操作文档</h1>
+<h1 align="center">vue-admin-work说明文档</h1>
+<h6 align="right">版本：v0.1.0-rc</h6>
+
+
 
 ###  介绍
 
@@ -54,6 +57,43 @@
   - 自适应收缩侧边栏
 	- 系统配置
 ```
+
+#### 项目目录
+
+```shell
+├── README.md
+├── babel.config.js
+├── jest.config.js
+├── jsconfig.json
+├── mock
+│   ├── base.js
+│   ├── index.js
+│   ├── list
+│   ├── router
+│   └── user
+├── package-lock.json
+├── package.json
+├── public
+│   ├── favicon.ico
+│   ├── index.html
+│   └── static
+├── src
+│   ├── App.vue
+│   ├── main.js
+│   ├── api
+│   ├── assets
+│   ├── components
+│   ├── directive
+│   ├── icons
+│   ├── layout
+│   ├── mixins
+│   ├── model
+│   ├── router
+│   ├── store
+│   ├── styles
+│   ├── utils
+│   └── views
+└── vue.config.js
 
 #### 获取源码
 
@@ -608,7 +648,320 @@ methods: {
 
 #### 右键弹出上下文菜单
 
+如要在**PC**端弹出上下文菜单，可以通过**@contextmenu.native.prevent=""**事件来实现，代码如下：
+
+```vue
+<el-tabs
+   id="tagViewTab"
+   v-model="currentTab"
+   type="card"
+   class="padding-left-sm padding-right-sm"
+   @tab-click="clickRoute"
+   @tab-remove="removeRoute"
+   @contextmenu.native.prevent="onContextMenu(currentTab, $event)"
+  >
+  <el-tab-pane
+   v-for="item of visitedRoutes"
+   :key="item.path"
+   :label="item.meta.title"
+   :name="item.path"
+   :closable="!isAffix(item)"
+   />
+</el-tabs>
+```
+
+> TIP
+>
+> @contextmenu.native.prevent 是写在 el-tabs 组件上面的，而不是写在 el-tab-pane 组件上面，如果写在子组件上不会有效果
+
+```js
+onContextMenu(item, ctx) {
+      const { clientX, clientY } = ctx
+      const { x } = this.$el.getBoundingClientRect()
+      const parentElementRect = document.getElementById('tagViewTab')
+        .getElementsByClassName('el-tabs__nav is-top')[0].getBoundingClientRect()
+      if (clientX < parentElementRect.x) {
+        return
+      }
+      if (clientX > parentElementRect.x + parentElementRect.width) {
+        return
+      }
+      this.selectRoute = null
+      this.selectRoute = this.visitedRoutes.find(it => {
+        const { x, width } = document.getElementById('tab-' + it.path).getBoundingClientRect()
+        if (x < clientX && clientX < (x + width)) {
+          return it
+        }
+      })
+      if (this.selectRoute) {
+        this.showLeftMenu = this.isLeftLast(this.selectRoute)
+        this.showRightMenu = this.isRightLast(this.selectRoute)
+        const screenWidth = document.body.clientWidth
+        this.contextMenuStyle.left = ((clientX + 130) > screenWidth ? clientX - 130 - x - 15 : clientX - x + 15) + 'px'
+        this.contextMenuStyle.top = clientY + 'px'
+        this.showContextMenu = true
+      }
+    },
+```
+
 #### 刷新当前页面
+
+本框架采用的刷新方式是通过 **redirect** 的页面，当做中间页面，当刷新页面的时候，就加载 **redirect** 页面，
+
+当加载完成 **redirect** 页面的时候，在 **created** 生命周期函数中再**replace** 跳转回来。
+
+实现方法还有好多种，可以按自己的喜好实现就好，如果不想自己实现用本框架的也可以
 
 #### 持久化路由信息
 
+用过vuex的人都知道，vuex中保存的信息是放在内存中的，当刷新浏览器的时候，内存的数据也会清空，就导致vuex保存的信息会丢失。体现到页面中就是已经访问过的页面，在刷新一下浏览器的时候，页面信息会丢失。
+
+所以本框架采用的把 vuex 中的数据持久化到 **localStorage** 中，在合适的时机再把数据从 **localStorage** 中恢复出来，这样就可以实现已经访问过的页面在刷新浏览器的时候不会丢失。
+
+```js
+PERSISTENT_VISITED_ROUTES(state, rootState) {
+const tempPersistendRoutes = state.visitedRoute.map(it => {
+      return {
+        fullPath: it.fullPath,
+        meta: it.meta,
+        name: it.name,
+        params: it.params,
+        path: it.path,
+        query: it.query
+      }
+    })
+    localStorage.setItem(rootState.user.userName + '_visited', JSON.stringify(tempPersistendRoutes))
+  },
+```
+
+#### 固定页面
+
+有些页面是不可以删除的，如本框架中：工作台页面。这就需要在 路由配置项中的 **meta** 中配置一个属性: **affix** 设置为 **true** 就可以了
+
+### 新增页面
+
+#### 需要权限
+
+1. 在 **菜单管理** 中添加一个菜单
+2. 在项目中**views**目录添加对应的 **.vue** 组件，如果添加的是一个二级页面，则只需要找到一级页面的目录，新增一个 **.vue** 文件；如果是添加的是一个一级页面，则需要在 **views** 目录下创建对应的目录，然后再在该目录 里面创建对应的 **.vue** 文件
+3. 再给某个**角色**分配这个页面
+
+<img src="./images/QQ20210508-105417@2x.png" style="zoom:50%;" />
+
+<img src="./images/QQ20210508-105448@2x.png" style="zoom:50%;" />
+
+#### 不需要权限
+
+有些页面不需要在侧边栏显示，如 **文章详情** 页面，可以按以下步骤添加一个新页面
+
+1. 在 **src/router/index.js**中的 **routes** 常量中添加一个路由配置，如添加**个人中心**页面
+
+   ```js
+   {
+       path: '/personal',
+       name: 'personal',
+       component: Layout,
+       // 一定要把 hidden 属性设置成 true，否则就会在侧边栏中显示出来了 
+       hidden: true,
+       children: [
+         {
+           path: 'index',
+           name: 'personalCenter',
+           component: () => import('@/views/personal'),
+           meta: {
+             title: '个人中心'
+           }
+         }
+       ]
+     }
+   ```
+
+> TIP
+>
+> 1. 在不在侧边栏显示是根据  路由配置项 是的 hidden 属性来控制的
+> 2. 本框架中所有的数据都是通过  mock 中来的，并没有一个真正的后台环境，所以很多情况都是模拟的，只是演示出效果。
+
+### 其它
+
+#### 网络请求
+
+网络请求一直都是前后端分享项目的重中之重，真实环境下一个后台管理系统不可能离开后台接口而独自运行，否则没有实际意义。
+
+前端对接后台接口的几个步骤：
+
+1. 前端 UI 组件产生交互操作；
+2. 发起网络请求，可以是 **ajax** 也可以是 **fetch**；
+3. 获取服务端返回的数据，并处理数据；
+4. 更新页面显示；
+
+本框架采用的的请求框架是 **[axios](http://www.axios-js.com/)**，是一款非常优秀的网张请求框架，也是对原生的**XHR**的封装，支持很多特性，如：**promise**
+
+为了更好，更方便的使用，本框架对网络请求这块做了大量的工作，对于一般的 **CRUD** 操作都做了封装，只需要简单的配置就可以，下面看一下项目的网张整体架构图：
+
+![image-20210508135733410](./images/image-20210508135733410.png)
+
+分析一下这张图：
+
++ 最底层是**axios**的配置文件，里面封装了 **basURL、interceptors.request、interceptors.response** 等一些信息，我们所有的网络请求最终都会调用 **axios** 的方法
+
++ 再往上一层是框架自己封装的 **http** 常用操作，包含了 **get** 和 **post** 两种请求方法，并且放在了 Vue函数的原型链上，方便了组件的灵活调用
+
++ 再上一层是业务逻辑方法的封装，包括 **查询、模糊查询、增加、删除、修改、更新**等操作，是以**Vue**框架中的**Mixins**的形式存在，方便注入调用
+
++ 最上面的是平时用的组件页面，如：最常用表格页面，表单页面，这些**Vue**组件可以按需引入不同的**Mixin**，如一个表格页面只用到了查询功能，那在配置**Vue**的时候只要混入**GetDataMixin**就好，如下：
+
+  ```js
+  import {GetDataMixin} from '@/mixins/ActionMixin'
+  export default {
+    mixins: [ GetDataMixin ],
+  }
+  ```
+
+  
+
+#### 请求具体流程
+
+在实际开发过程中，我们需要和后台开发人员一起配合对接接口。
+
+1. 配置 **axios** 的 **baseURL**
+
+2. 在 **src/api/url.js** 文件中添加请求路径，如下：
+
+   ```js
+   export const getArticleList = '/article/getList'
+   ```
+
+   一定要通过 export 把接口名显露出去，否则在别的文件中不能获取到
+
+3. 在 **ArticleList.vue** 文件中添加加载数据功能，如下：
+
+   ```js
+   import {GetDataMixin} from '@/mixins/ActionMixin'
+   export default {
+   	name: 'ArticleList',
+     mixins: [ GetDataMixin ],
+   	data() {
+       return {
+         articleList: []
+       }
+     },
+     mounted(){
+       // 初始化加载请求功能
+       this.initGetData({
+         // 通过 $urlPath 获取 之前已经配置好了的 getArticleList 路径
+         url: this.$urlPath.getArticleList,
+         params: () => this.withPageInfoData(),
+         beforeAction: () => {
+           this.tableLoading = true
+         },
+         afterAction: () => {
+           this.tableLoading = false
+         },
+         onResult: (res) => {
+           this.articleList = res.list
+         }
+       }).then(() => {
+         this.getData()
+       })
+     }
+   } 
+   ```
+
+#### MockJs
+
+因为本框架是一个纯前端的项目，并没有真正的对接后台接口，所以使用 [mockjs](https://github.com/nuysoft/Mock)来模拟数据。其原理如下：
+
+**拦截了所有的请求并代理到本地，然后进行数据模拟**
+
+##### 添加新的数据
+
+1. 在项目的 **mock** 文件夹下面添加想要模拟的**js**文件，如：**article.js**， 里面添加要请求的地址如:
+
+   ```js
+   Mock.mock(RegExp(getArticleList), function ({ body }) {
+     const { page, pageSize = 10 } = JSON.parse(body)
+     const size = computePageSize(totalSize, page, pageSize)
+     return Mock.mock({
+       ...baseData,
+       totalSize,
+       [`data|${size}`]: [
+         {
+           'id': function () {
+             return Random.string(10)
+           },
+           'image': Random.image('300x600', '#50B347', '#FFF', 'vue-admin-work'),
+           'description': function () {
+             return Random.csentence(50, 200)
+           },
+           'price|1000-9999.2': 100
+         }
+       ]
+     })
+   })
+   ```
+
+2. 在 **mock** 文件下面引入刚才添加的 **article.js**文件：
+
+   ```js
+   import './article.js'
+   ```
+
+   这样就可以了
+
+##### 移除Mock数据
+
+如果后台人员开完了某个接口，需要对接正式的接口了，只需要把对就的 **mock** 下对应的接口删除了即可
+
+如果后台人员把所有的接口都开发完了，不需要本地模拟了，只需要在 **main.js** 中把对应的 **mock** 有关依赖删除了就好，如：
+
+```js
+import Vue from 'vue'
+import App from './App.vue'
+import router from './router'
+import store from './store'
+import './icons'
+import './utils'
+import '@/styles/index.scss'
+import './api/http'
+
+// 不需要 mock 只需要把下面代码注释了即可
+// import '../mock'
+import '@/assets/theme/blue/index.css'
+
+Vue.config.productionTip = false
+
+new Vue({
+  router,
+  store,
+  render: h => h(App)
+}).$mount('#app')
+
+```
+
+#### 跨域问题
+
+##### 产生原因
+
+跨域问题真的是在前端开发中最常见，问的最多的问题，很多人根本不明白倒底什么是跨域。其实跨域是浏览器的一种行为，是为了保护网站的一种方式，首先肯定的一点是出于安全的角度才设计出来的这样一种同源策略。同源策略会阻止一个域的javascript脚本和另外一个域的内容进行交互。所谓同源（即指在同一个域）就是两个页面具有相同的协议（protocol），主机（host）和端口号（port）
+
+产生的原因也很简单，只要当一个请求url的**协议、域名、端口**三者之间任意一个与当前页面url不同即为跨域
+
+| **当前页面url**          | **被请求页面url**               | **是否跨域** | **原因**   |
+| ------------------------ | ------------------------------- | ------------ | ---------- |
+| http://www.xxx.com/      | http://www.xxxx.com/index.html  | 否           | 同源       |
+| http://www.xxx.com/      | https://www.xxxx.com/index.html | 是           | 协议不同   |
+| http://www.xxx.com/      | http://www.yyy.com/             | 是           | 主机不同   |
+| http://www.xxx.com/      | http://test.xxx.com/            | 是           | 子域名不同 |
+| http://www.xxx.com:8080/ | http://www.xxx.com:80/          | 是           | 端口不同   |
+
+##### 解决办法
+
+###### cors
+
+**cors** ：全称 Cross Origin Resource Sharing（跨域资源共享），前端基本不需要做什么配置，和原来的写法基本一样，主要是后台人员得配置一些东西。更多的内容请参考 **[阮一峰的《跨域资源共享 CORS 详解》](https://www.ruanyifeng.com/blog/2016/04/cors.html)**介绍的非常清楚
+
+###### 代理
+
+这种方式只需要前端人员配置就好，如：webpack 中 proxy，但是这种方式只能在开发阶段使用，正式环境下不可以使用，其实本质就是在本地开启了一个代理服务器，所有的请求都转发到这个代理服务器，保持同源，从而不会产生跨域的问题。另外也可以在正式的环境下通过配置 **nginx** 来实现代理服务器的功能。两种方式的原理基本相同
+
+个人更推荐 **cors**这种方式，无论是开发阶段还是正式环境下都可以使用，最重要的是我们前端不需要做任何东西就可以使用。

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import request from './axios'
+import request from './axios.config'
 
 Vue.prototype.$http = function ({ url, data, method = 'GET', headers, beforeRequest, afterRequest }) {
   const successHandler = res => {

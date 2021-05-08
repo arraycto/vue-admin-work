@@ -2,7 +2,7 @@ import router from '@/router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import store from '@/store'
-import service from '@/api/axios'
+import service from '@/api/axios.config'
 import Layout from '@/layout'
 import { baseAddress, getMenuListByRoleId } from '@/api/url'
 
