@@ -24,12 +24,12 @@ function checkParams(model) {
 export const MultiSelection = {
   data() {
     return {
-      items: []
+      selectedItems: []
     }
   },
   methods: {
-    handleSelectionChange(items) {
-      this.items = items
+    handleSelectionChange(selectedItems) {
+      this.selectedItems = selectedItems
     }
   }
 }
@@ -154,7 +154,7 @@ export const DeleteItemsMixin = {
     }
   },
   methods: {
-    initDeleteItems({ url, method, params, multiParams, onDeleteItems, beforeAction, onResult, onError, afterAction }) {
+    initDeleteItem({ url, method, params, multiParams, onDeleteItem, onDeleteMultiItem, beforeAction, onResult, onError, afterAction }) {
       if (!url) {
         throw new Error('please init url')
       }
@@ -166,28 +166,40 @@ export const DeleteItemsMixin = {
       this.deleteItemsModel.afterAction = afterAction
       this.deleteItemsModel.params = params
       this.deleteItemsModel.multiParams = multiParams
-      this.deleteItemsModel.onDeleteItems = onDeleteItems
+      this.deleteItemsModel.onDeleteItem = onDeleteItem
+      this.deleteItemsModel.onDeleteMultiItem = onDeleteMultiItem
       this.deleteItemsModel.init = true
     },
-    onDeleteItems(item) {
-      if (!this.deleteItemsModel.onDeleteItems) {
-        throw new Error('please init onDeleteItems')
+    onDeleteItem(item) {
+      if (!this.deleteItemsModel.onDeleteItem) {
+        throw new Error('please init onDeleteItem')
       }
-      if (!(this.deleteItemsModel.onDeleteItems instanceof Function)) {
-        throw new Error('onDeleteItems must be Function')
+      if (!(this.deleteItemsModel.onDeleteItem instanceof Function)) {
+        throw new Error('onDeleteItem must be Function')
       }
-      this.deleteItemsModel.onDeleteItems(item)
+      this.deleteItemsModel.onDeleteItem(item)
     },
-    doDeleteItems(item) {
+    onDeleteMultiItem() {
+      if (!this.deleteItemsModel.onDeleteMultiItem) {
+        throw new Error('please init onDeleteMultiItem')
+      }
+      if (!(this.deleteItemsModel.onDeleteMultiItem instanceof Function)) {
+        throw new Error('onDeleteMultiItem must be Function')
+      }
+      this.deleteItemsModel.onDeleteMultiItem()
+    },
+    doDeleteItem(mode = 'single') {
       if (!this.deleteItemsModel.init) {
         throw new Error('please init deleteItemsModel first')
       }
       let data = {}
-      if (item) {
+      if (mode === 'single') {
         data = checkParams(this.deleteItemsModel)
-      } else if (this.items) {
+      } else if (mode === 'multi') {
         if (this.deleteItemsModel.multiParams && isFunction(this.deleteItemsModel.multiParams)) {
-          data = this.deleteItemsModel.multiParams(this.items)
+          data = this.deleteItemsModel.multiParams(this.selectedItems)
+        } else {
+          throw new Error('please set multi params and `multiParams` must be Function type')
         }
       } else {
         throw new Error('only support delete single or multi')

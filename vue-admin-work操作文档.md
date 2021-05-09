@@ -1037,7 +1037,106 @@ new Vue({
     + onError：函数类型，当请求状态码返回不是200的情况下会被调用，用于处理错误状态
 
     + afterAction：函数类型，在真正发起请求之后要做的一些操作，如关闭加载状态等后置操作，但不要在这里处理请求到的数据，因为有专门处理数据的方法：onResult。这个函数无论是请求成功还是失败都会被调用
+    
+  - AddItemMixin
+
+    用于添加一条数据，同样，在使用的时候需要先`import` 引入，如：
+
+    ```js
+    import { AddItemMixin } from '@/mixins/ActionMixin'
+    ```
+
+    > TIP
+    >
+    > 对于 **增加、删除、更新、模糊查询** 这些操作，都是需要用户点击某个按钮才能触发的操作，不像 **查询** 那样，可以一进入页面在适当的生命周期如，**created、mounted** 生命周期方法直接调用。所以，这类操作提供了两个函数，以 **AddItemMixin**为例，有：**onAddItem**，**doAddItem** 两个函数，
+    >
+    > **onAddItem** 函数可以响应按钮操作，**doAddItem** 是直接执行操作的函数
+
+    看一下 `AddItemMixin`的源码：
+
+    ```js
+    export const AddItemMixin = {
+      methods: {
+        initAddItem({ url, method, params, onAddItem, beforeAction, onResult, onError, afterAction }) {
+          if (!url) {
+            throw new Error('please init url')
+          }
+          this.addItemModel.url = url
+          this.addItemModel.method = method
+          this.addItemModel.params = params
+          this.addItemModel.onResult = onResult
+          this.addItemModel.onError = onError
+          this.addItemModel.beforeAction = beforeAction
+          this.addItemModel.afterAction = afterAction
+          this.addItemModel.onAddItem = onAddItem
+          this.addItemModel.init = true
+        },
+        onAddItem() {
+          if (!this.addItemModel.onAddItem) {
+            throw new Error('please init onAddItem')
+          }
+          if (!(this.addItemModel.onAddItem instanceof Function)) {
+            throw new Error('onAddItem must be Function')
+          }
+          this.addItemModel.onAddItem()
+        },
+        doAddItem() {
+          if (!this.addItemModel.init) {
+            throw new Error('please init addItemModel first')
+          }
+          const data = checkParams(this.addItemModel)
+          if (!data) {
+            throw new Error('please set add param')
+          }
+          addItem.call(this, {
+            url: this.addItemModel.url,
+            method: this.addItemModel.method || 'post',
+            data
+          }).then((res) => {
+            handleResult.call(this, this.addItemModel, res)
+          }).catch((error) => {
+            handleError.call(this, this.addItemModel, error)
+          })
+        }
+      }
+    }
+    ```
+
+    值得说一下 `initAddItem`方法参数中的 `onAddItem`属性，可以看做是 点击 某个按钮时的响应函数。
+
+    其它的参数都与 `GetDateMixin` 中的 `initGetData`函数参数一样。
+
+  - **UpdateItemMixin**
+
+    用于更新一条记录，同样，在使用的时候需要先`import` 引入，如：
+
+    ```js
+    import { UpdateItemMixin } from '@/mixins/ActionMixin'
+    ```
+
+    用法与 `AddItemMixin` 一样，`initUpdateItem`方法参数也与 `AddItemMixin` 的 `initAddItem` 方法参数一样
+
+  - **DeleteItemsMixin**
+    用于删除一条或者多条记录，同样，在使用的时候需要先`import` 引入，如：
+
+    ```js
+    import { UpdateItemMixin } from '@/mixins/ActionMixin'
+    ```
+
+    与其它操作不同的是：删除操作可以针对一条记录，也可以针对多条记录，即：批量删除。因此在初始化的时候就分成了两种情况。先看下与其它不一样的初始化参数：
+
+    + url：必填，否则会抛出异常，`throw new Error('please init url')`，该参数对应的是要加载的接口信息
+    + method：请求方法，一般是 `GET` 或者是 `POST`
+    + params：请求参数，该参数可以是一个对象类型，也可以是一个函数类型，如果是函数类型则需要返回一个对象类型的数据，<font color=#ff0000> **这个属性用于删除单条记录** </font>   
+    + multiParams：请求参数，该参数可以是一个对象类型，也可以是一个函数类型，如果是函数类型则需要返回一个对象类型的数据，<font color=#ff0000> **这个属性用于删除多条记录** </font>   
+    + onDeleteItem：**当单击删除按钮时的回调函数**，接收一个参数，就是要删除的记录对象
+    + onDeleteMultiItem：**当单击 批量删除 按钮时的回调函数**
+    + beforeAction：函数类型，在真正发起请求之前要做的一些操作，如打开加载状态等前置操作
+    + onResult：函数类型，只有请求状态码返回200的情况下才会被调用，用于处理返回来的数据
+    + onError：函数类型，当请求状态码返回不是200的情况下会被调用，用于处理错误状态
+    + afterAction：函数类型，在真正发起请求之后要做的一些操作，如关闭加载状态等后置操作，但不要在这里处理请求到的数据，因为有专门处理数据的方法：onResult。这个函数无论是请求成功还是失败都会被调用
 
 + 表格操作相关
 
   
+

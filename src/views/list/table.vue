@@ -16,6 +16,7 @@
           type="danger"
           size="mini"
           icon="el-icon-delete"
+          @click="onDeleteMultiItem"
         >删除
         </el-button>
       </template>
@@ -31,7 +32,12 @@
           :stripe="tableConfig.stripe"
           :border="tableConfig.border"
           :height="tableConfig.height"
+          @selection-change="handleSelectionChange"
         >
+          <el-table-column
+            type="selection"
+            width="45"
+          />
           <el-table-column
             align="center"
             label="序号"
@@ -124,7 +130,7 @@
                 v-if="isInited('deleteItemsModel')"
                 type="danger"
                 :underline="false"
-                @click="onDeleteItems(scope.row)"
+                @click="onDeleteItem(scope.row)"
               >删除</el-link>
             </template>
           </el-table-column>
@@ -295,7 +301,7 @@ export default {
     })
     this.initAddItem({
       url: this.$urlPath.getTableList,
-      paras: () => {
+      params: () => {
         return this.$refs.baseForm.generatorParams()
       },
       onAddItem: () => {
@@ -368,18 +374,36 @@ export default {
         this.$refs.dialog.close()
       }
     })
-    this.initDeleteItems({
+    this.initDeleteItem({
       url: this.$urlPath.getTableList,
-      params: () => { },
-      onDeleteItems: (item) => {
-        this.$showConfirmDialog('确定要删除此用户信息吗？')
-          .then(_ => {
-            this.$successMsg('用户模拟删除成功')
-            this.dataList.splice(this.dataList.indexOf(item), 1)
-          })
+      params: () => {
+        return {
+          ids: this.tempItem.id
+        }
       },
-      onResult: () => { },
-      onError: () => { }
+      multiParams: () => {
+        return {
+          ids: this.selectedItems.map((it) => it.id).join(',')
+        }
+      },
+      onDeleteItem: (item) => {
+        this.tempItem = item
+        this.$showConfirmDialog('确定要删除此用户信息吗？').then((_) => {
+          this.$successMsg('用户模拟删除成功')
+          // 纯前端环境下，可以使用这种方式模拟，真实的环境下，要替换成 this.doDeleteItem('single')
+          this.dataList = this.dataList.filter((it) => it.id !== item.id)
+        })
+      },
+      onDeleteMultiItem: () => {
+        this.$showConfirmDialog('确定要删除这些用户信息吗？').then((_) => {
+          this.$successMsg('用户模拟删除成功')
+          // 纯前端环境下，可以使用这种方式模拟，真实的环境下，要替换成 this.doDeleteItem('multi')
+          const tempIds = this.selectedItems.map((it) => it.id)
+          this.dataList = this.dataList.filter((it) => !tempIds.includes(it.id))
+        })
+      },
+      onResult: () => {},
+      onError: () => {}
     })
   },
   methods: {

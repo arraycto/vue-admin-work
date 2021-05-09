@@ -88,6 +88,11 @@ router.beforeEach((to, from, next) => {
         const accessRoutes = []
         getRoutes().then(async routes => {
           accessRoutes.push(...routes)
+          accessRoutes.push({
+            path: '*',
+            redirect: '/404',
+            hidden: true
+          })
           await store.dispatch('user/saveRoutes', accessRoutes)
           router.addRoutes(accessRoutes)
           next({ ...to, replace: true })
