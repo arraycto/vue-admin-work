@@ -147,6 +147,7 @@
     <Dialog
       ref="dialog"
       :auto-close="false"
+      :submit-button="true"
     >
       <template>
         <BaseForm
@@ -223,14 +224,14 @@ export default {
           maxLength: 50,
           inputType: 'text',
           placeholder: '请输入用户名称',
-          associateName: 'address',
+          associatedOption: 'address',
           validator: ({ value, placeholder }, { value: assValue }) => {
             if (!value) {
               this.$errorMsg(placeholder)
               return false
             }
             if (!assValue) {
-              this.$errorMsg('地址不行')
+              this.$errorMsg('地址不正确')
               return false
             }
             return true
@@ -401,8 +402,8 @@ export default {
           this.dataList = this.dataList.filter((it) => !tempIds.includes(it.id))
         })
       },
-      onResult: () => { },
-      onError: () => { }
+      onResult: () => {},
+      onError: () => {}
     })
   },
   methods: {

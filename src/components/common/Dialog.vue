@@ -60,10 +60,7 @@ export default {
   computed: {
     ...mapGetters({
       isMobileScreen: 'app/isMobileScreen'
-    }),
-    button() {
-      return this.submitButton ? 'SubmitButton' : 'el-button'
-    }
+    })
   },
   methods: {
     show(config = {}) {
@@ -84,7 +81,7 @@ export default {
       if (this.autoClose) {
         this.dialogVisible = false
       }
-      callback && callback()
+      callback && callback instanceof Function && callback()
       this.onConfirmCallback && this.onConfirmCallback()
     }
   }

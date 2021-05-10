@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="exception-container">
     <div class="img-wrapper">
       <img :src="statusImage" />
     </div>
@@ -66,8 +66,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.exception-container {
   text-align: center;
+  height: 100%;
   .img-wrapper {
     width: 80%;
     margin: 0 auto;

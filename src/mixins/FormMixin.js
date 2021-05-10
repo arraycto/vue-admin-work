@@ -11,7 +11,7 @@ export default {
     },
     checkParams() {
       return this.innerFormItems.every(it => {
-        return it.validator ? (it.validator.call(this, it, this.innerFormItems.find(item => it.associateName === item.name))) : true
+        return it.validator ? (it.validator.call(this, it, this.innerFormItems.find(item => it.associatedOption === item.name))) : true
       })
     },
     generatorParams() {

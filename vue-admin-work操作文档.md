@@ -1529,3 +1529,413 @@ new Vue({
 
 ##### 表单
 
+关于表单的功能，本框架提供了提供了一个`BaseForm.vue`简单组件，和 **模糊搜索** 的表单项功能差不多，也是由表单项生成相应的表单组件。看一下源码：
+
+```vue
+<template>
+  <div class="base-form-container">
+    <el-form
+      ref="form"
+      :label-position="config.labelPosition || 'right' "
+      :label-width="(config.labelWidth || 80) + 'px'"
+      :size="config.size || 'small'"
+    >
+      <el-form-item
+        v-for="(item, i) of innerFormItems"
+        :key="i"
+        :label="item.label"
+      >
+        <el-col :span="24">
+          <el-input
+            v-if="item.type === 'input'"
+            v-model="item.value"
+            :placeholder="item.placeholder || '请输入内容'"
+            :size="config.size || 'small'"
+            clearable
+            :type="item.inputType || ''"
+            :maxlength="item.maxLength"
+            :rows="item.rows || 5"
+            class="form-item"
+          />
+          <el-select
+            v-else-if="item.type === 'select'"
+            v-model="item.value"
+            :placeholder="item.placeholder || '请选择条目'"
+            :size="config.size || 'small'"
+            :filterable="item.filterable ? true : false"
+            clearable
+            style="width: 100%"
+            class="form-item"
+            @change="item.onChange ? item.onChange(item.value, item.associatedOption || '') : (() => {})"
+          >
+            <el-option
+              v-for="optionItem in item.selectOptions"
+              :key="optionItem.value"
+              :value="optionItem.value"
+              :label="optionItem.label"
+            />
+          </el-select>
+          <el-date-picker
+            v-else-if="item.type === 'date-range'"
+            v-model="item.value"
+            type="daterange"
+            range-separator="-"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            class="form-item"
+            style="width: 100%"
+            :size="config.size || 'small'"
+          />
+          <el-date-picker
+            v-else-if="item.type === 'date'"
+            v-model="item.value"
+            type="date"
+            range-separator="-"
+            :placeholder="item.placeholder || '请选择日期'"
+            class="form-item"
+            :size="config.size || 'small'"
+          />
+          <el-date-picker
+            v-else-if="item.type === 'datetime'"
+            v-model="item.value"
+            type="datetime"
+            :placeholder="item.placeholder || '请选择日期'"
+            class="form-item"
+            :size="config.size || 'small'"
+          />
+          <el-time-picker
+            v-else-if="item.type === 'time'"
+            v-model="item.value"
+            arrow-control
+            :picker-options="{
+              selectableRange: '00:00:00 - 23:59:59'
+            }"
+            :placeholder="item.placeholder || '请选择时间'"
+            class="form-item"
+            :size="config.size || 'small'"
+          />
+          <el-radio-group
+            v-if="item.type === 'radio-group'"
+            v-model="item.value"
+            :size="config.size || 'small'"
+          >
+            <component
+              :is="item.style === 'button' ? 'el-radio-button' : 'el-radio'"
+              v-for="optionItem of item.radioOptions"
+              :key="optionItem.value"
+              :label="optionItem.value"
+            >{{ optionItem.label }}</component>
+          </el-radio-group>
+          <el-checkbox-group
+            v-if="item.type === 'check-group'"
+            v-model="item.value"
+            :size="config.size || 'small'"
+          >
+            <component
+              :is="item.style === 'button' ? 'el-checkbox-button' : 'el-checkbox'"
+              v-for="optionItem of item.checkOptions"
+              :key="optionItem.value"
+              :label="optionItem.value"
+            >{{ optionItem.label }}</component>
+          </el-checkbox-group>
+        </el-col>
+      </el-form-item>
+      <slot name="extra"></slot>
+    </el-form>
+  </div>
+</template>
+
+<script>
+import FormMixin from '@/mixins/FormMixin'
+export default {
+  name: 'BaseForm',
+  mixins: [FormMixin],
+  props: {
+    config: {
+      type: Object,
+      default: function () {
+        return {
+          size: 'small',
+          labelWidth: '80',
+          labelPosition: 'right'
+        }
+      }
+    },
+    formItems: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    }
+  },
+  watch: {
+    formItems: {
+      handler() {
+        this.refreshItems()
+      },
+      deep: true
+    }
+  },
+  mounted() {
+    this.refreshItems()
+  }
+}
+</script>
+```
+
+同样的，该组件也提供了几种表单类型：
+
++ input
++ select
++ date-range
++ date
++ datetime
++ time
++ radio-group
++ check-group
+
+另外，该组件还支持 `slot`功能，以防止在以上类型不够用的时候，可以自己定义不同的类型，如上传图片功能
+
+看一下表单项的属性：
+
+```js
+data() {
+    return {
+      formItems: [
+        {
+          label: '会议名称：',
+          type: 'input',
+          name: 'name',
+          value: '',
+          maxLength: 50,
+          inputType: 'text',
+          placeholder: '请输入会议名称',
+          // 表单校验规
+          validator: ({ value, placeholder }) => {
+            if (!value) {
+              this.$errorMsg(placeholder)
+              return false
+            }
+            return true
+          }
+        },
+        {
+          label: '会议内容：',
+          type: 'input',
+          name: 'content',
+          value: '',
+          maxLength: 10,
+          inputType: 'text',
+          placeholder: '请输入会议内容',
+          // 表单校验规
+          validator: ({ value, placeholder }) => {
+            if (!value) {
+              this.$errorMsg(placeholder)
+              return false
+            }
+            return true
+          }
+        },
+        {
+          label: '起止时间：',
+          type: 'date-range',
+          name: 'startEndTime',
+          placeholder: '请选择会议起止时间',
+          value: '',
+          validator: ({ value, placeholder }) => {
+            if (!value) {
+              this.$errorMsg(placeholder)
+              return false
+            }
+            return true
+          }
+        },
+        {
+          label: '起止地点：',
+          type: 'select',
+          name: 'address',
+          value: '',
+          placeholder: '请选择会议地点',
+          selectOptions: [
+            {
+              label: '会议一室',
+              value: 1
+            },
+            {
+              label: '会议二室',
+              value: 2
+            },
+            {
+              label: '会议三室',
+              value: 3
+            },
+            {
+              label: '会议四室',
+              value: 4
+            }
+          ],
+          validator: ({ value, placeholder }) => {
+            if (!value) {
+              this.$errorMsg(placeholder)
+              return false
+            }
+            return true
+          }
+        }
+      ]
+    }
+  }
+```
+
+> TIP
+>
+> 重要提醒：如果表单数据依赖外部的数据或者说表单有默认的值，如在编辑某一个条数据的时候，需要把原始的数据回显出来。当遇到这种场景，要把表单项写在 ` computed `中，这样可以保证数据刷新。如下：
+>
+> ```js
+> computed: {
+>     formItems() {
+>       return formBuilder()
+>         .formItem({
+>           label: '用户名称',
+>           type: 'input',
+>           name: 'nickName',
+>           value: this.userModel.nickName,
+>           maxLength: 50,
+>           inputType: 'text',
+>           placeholder: '请输入用户名称',
+>         	// 关联属性
+>           associatedOption: 'address',
+>           validator: ({ value, placeholder }, { value: assValue }) => {
+>             if (!value) {
+>               this.$errorMsg(placeholder)
+>               return false
+>             }
+>             if (!assValue) {
+>               this.$errorMsg('地址不行')
+>               return false
+>             }
+>             return true
+>           }
+>         })
+>         .formItem({
+>           label: '用户性别',
+>           type: 'radio-group',
+>           name: 'gender',
+>           style: 'button',
+>           value: this.userModel.gender,
+>           radioOptions: [
+>             {
+>               label: '男',
+>               value: 0
+>             },
+>             {
+>               label: '女',
+>               value: 1
+>             }
+>           ]
+>         })
+>         .formItem({
+>           label: '联系地址',
+>           type: 'input',
+>           name: 'address',
+>           value: this.userModel.address,
+>           maxLength: 50,
+>           inputType: 'textarea',
+>           row: 5,
+>           placeholder: '请输入联系地址'
+>         })
+>         .formItem({
+>           label: '用户状态',
+>           type: 'radio-group',
+>           name: 'status',
+>           value: this.userModel.status,
+>           radioOptions: [
+>             {
+>               label: '正常',
+>               value: 1
+>             },
+>             {
+>               label: '禁用',
+>               value: 0
+>             }
+>           ]
+>         })
+>         .build().formItems
+>     }
+>   }
+> ```
+>
+> 可以通过一个`构造模式` 动态生成表单项
+
+具体用法，如下：
+
+```vue
+<template>
+  <div class="main-container flex flex-direction">
+    <el-card
+      :body-style="{padding: '15px'}"
+      shadow="hover"
+    >
+      <el-link :underline="false">请填写会议基本信息</el-link>
+    </el-card>
+    <el-card
+      :body-style="{padding: '10px'}"
+      shadow="nerve"
+      class="margin-top-xs flex-sub"
+    >
+      <div class="form-wrapper padding-top">
+        <BaseForm
+          ref="baseForm"
+          :form-items="formItems"
+          :config="formConfig"
+        >
+          <!-- 插槽，以便更好的处理一些类型 -->
+          <template #extra>
+            <el-form-item
+              label="与会人员："
+              class="form-item"
+            >
+              <el-select
+                v-model="joinMemeber.value"
+                multiple
+                placeholder="请选择与会人员"
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="item in joinMemeber.options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item
+              label="备注："
+              class="form-item"
+            >
+              <el-input
+                v-model="remark.value"
+                placeholder="请输入备注信息（选填）"
+                type="textarea"
+                :rows="3"
+                style="width: 100%"
+              />
+            </el-form-item>
+            <el-form-item>
+              <div class="text-center">
+                <el-button
+                  type="warning"
+                  size="small"
+                  @click="save"
+                >保存</el-button>
+                <submit-button :on-submit="submit" />
+              </div>
+            </el-form-item>
+          </template>
+        </BaseForm>
+      </div>
+    </el-card>
+  </div>
+</template>
+```
+

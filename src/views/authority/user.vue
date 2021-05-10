@@ -153,9 +153,7 @@ export default {
       onResult: (res) => {
         this.handleSuccess(res)
       },
-      afterAction: (res) => {
-        console.log(res)
-      }
+      afterAction: (res) => {}
     }).then((_) => {
       this.getData()
     })
@@ -173,7 +171,7 @@ export default {
         this.userMode = item
         this.$showConfirmDialog('确定要删用户信息吗？').then((_) => {
           // 真实环境下了要调用此方法进行删除 this.doDeleteItem('single')
-          this.dataList = this.dataList.filter(it => it.id !== item.id)
+          this.dataList = this.dataList.filter((it) => it.id !== item.id)
         })
       },
       onDeleteMultiItem: () => {
