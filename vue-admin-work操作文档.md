@@ -970,173 +970,562 @@ new Vue({
 
 本框架中封装了很多的常用的操作，以及业务逻辑和常用的组件，正是因为有了这些小的功能单元才组成了这样复杂的逻辑
 
-##### Mixin
+##### 表格
 
-+ 网络操作相关
+一个后台管理系统大部分的功能，可以说80%的逻辑功能是由<font color=#ff0000>**表格和表单**</font>支撑起来的，所以本框架也对<font color=#ff0000>**表格和表单**</font>做了大量的封装。当然，如果你不喜欢作者封装的这些功能，也可以自己的方式书写，总之，能把功能实现出来就好
 
-  - **GetDataMixin**
+###### **网络（CRUD）Mixin**
 
-    普通的加载接口数据，在使用时首页要通过 `import` 引入，如: 
+- **GetDataMixin**
 
-    ```js
-    import {  GetDataMixin } from '@/mixins/ActionMixin'
-    ```
+  普通的加载接口数据，在使用时首页要通过 `import` 引入，如: 
 
-    然后可以在 `mounted`生命周期函数中初始化，如:
+  ```js
+  import {  GetDataMixin } from '@/mixins/ActionMixin'
+  ```
 
-    ```js
-    mounted() {
-        this.initGetData({
-          url: this.$urlPath.getTableList,
-          params: () => this.withPageInfoData(),
-          beforeAction: () => {
-            this.tableLoading = true
-          },
-          afterAction: () => {
-            this.tableLoading = false
-          },
-          onResult: (res) => {
-            this.handleSuccess(res)
-          }
-        }).then(() => {
-          this.getData()
-        })
-     }
-    ```
+  然后可以在 `mounted`生命周期函数中初始化，如:
 
-    `this.initGetData()`方法在返回一个 `Promise`对象，这样做的目地是方便，在初始化配置之后可以加载接口数据。
-
-    下面分析一下 `initGetData`方法的参数信息：
-
-    ```js
-    function initGetData({ url, method, params, beforeAction, onResult, onError, afterAction }) : Promise 
-    ```
-
-    该方法接收一个对象类型的参数，该对象可以配置的属性有：
-
-    + url：必填，否则会抛出异常，`throw new Error('please init url')`，该参数对应的是要加载的接口信息
-
-    + method：请求方法，一般是 `GET` 或者是 `POST`
-
-    + params：请求参数，该参数可以是一个对象类型，也可以是一个函数类型，这取决于要传递的参数是不是动态的。如：参数就是固定值，`{articleId: 1}`，多次请求都是一样的值，则可以写成对象类型；相反，如果每次请求的参数是动态变化的，如：分页信息，就可以写成函数类型并且一定要返回一个对象类型的数据。如下：
-
-      ```js
-      params: () => {
-        return {
-          pageNum: this.pageNum
-        }
-      }
-      ```
-
-      如果不需要传递任何参数，则不用写此属性
-
-    + beforeAction：函数类型，在真正发起请求之前要做的一些操作，如打开加载状态等前置操作
-
-    + onResult：函数类型，只有请求状态码返回200的情况下才会被调用，用于处理返回来的数据
-
-    + onError：函数类型，当请求状态码返回不是200的情况下会被调用，用于处理错误状态
-
-    + afterAction：函数类型，在真正发起请求之后要做的一些操作，如关闭加载状态等后置操作，但不要在这里处理请求到的数据，因为有专门处理数据的方法：onResult。这个函数无论是请求成功还是失败都会被调用
-    
-  - AddItemMixin
-
-    用于添加一条数据，同样，在使用的时候需要先`import` 引入，如：
-
-    ```js
-    import { AddItemMixin } from '@/mixins/ActionMixin'
-    ```
-
-    > TIP
-    >
-    > 对于 **增加、删除、更新、模糊查询** 这些操作，都是需要用户点击某个按钮才能触发的操作，不像 **查询** 那样，可以一进入页面在适当的生命周期如，**created、mounted** 生命周期方法直接调用。所以，这类操作提供了两个函数，以 **AddItemMixin**为例，有：**onAddItem**，**doAddItem** 两个函数，
-    >
-    > **onAddItem** 函数可以响应按钮操作，**doAddItem** 是直接执行操作的函数
-
-    看一下 `AddItemMixin`的源码：
-
-    ```js
-    export const AddItemMixin = {
-      methods: {
-        initAddItem({ url, method, params, onAddItem, beforeAction, onResult, onError, afterAction }) {
-          if (!url) {
-            throw new Error('please init url')
-          }
-          this.addItemModel.url = url
-          this.addItemModel.method = method
-          this.addItemModel.params = params
-          this.addItemModel.onResult = onResult
-          this.addItemModel.onError = onError
-          this.addItemModel.beforeAction = beforeAction
-          this.addItemModel.afterAction = afterAction
-          this.addItemModel.onAddItem = onAddItem
-          this.addItemModel.init = true
+  ```js
+  mounted() {
+      this.initGetData({
+        url: this.$urlPath.getTableList,
+        params: () => this.withPageInfoData(),
+        beforeAction: () => {
+          this.tableLoading = true
         },
-        onAddItem() {
-          if (!this.addItemModel.onAddItem) {
-            throw new Error('please init onAddItem')
-          }
-          if (!(this.addItemModel.onAddItem instanceof Function)) {
-            throw new Error('onAddItem must be Function')
-          }
-          this.addItemModel.onAddItem()
+        afterAction: () => {
+          this.tableLoading = false
         },
-        doAddItem() {
-          if (!this.addItemModel.init) {
-            throw new Error('please init addItemModel first')
-          }
-          const data = checkParams(this.addItemModel)
-          if (!data) {
-            throw new Error('please set add param')
-          }
-          addItem.call(this, {
-            url: this.addItemModel.url,
-            method: this.addItemModel.method || 'post',
-            data
-          }).then((res) => {
-            handleResult.call(this, this.addItemModel, res)
-          }).catch((error) => {
-            handleError.call(this, this.addItemModel, error)
-          })
+        onResult: (res) => {
+          this.handleSuccess(res)
         }
+      }).then(() => {
+        this.getData()
+      })
+   }
+  ```
+
+  `this.initGetData()`方法在返回一个 `Promise`对象，这样做的目地是方便，在初始化配置之后可以加载接口数据。
+
+  下面分析一下 `initGetData`方法的参数信息：
+
+  ```js
+  function initGetData({ url, method, params, beforeAction, onResult, onError, afterAction }) : Promise 
+  ```
+
+  该方法接收一个对象类型的参数，该对象可以配置的属性有：
+
+  + url：必填，否则会抛出异常，`throw new Error('please init url')`，该参数对应的是要加载的接口信息
+
+  + method：请求方法，一般是 `GET` 或者是 `POST`
+
+  + params：请求参数，该参数可以是一个对象类型，也可以是一个函数类型，这取决于要传递的参数是不是动态的。如：参数就是固定值，`{articleId: 1}`，多次请求都是一样的值，则可以写成对象类型；相反，如果每次请求的参数是动态变化的，如：分页信息，就可以写成函数类型并且一定要返回一个对象类型的数据。如下：
+
+    ```js
+    params: () => {
+      return {
+        pageNum: this.pageNum
       }
     }
     ```
 
-    值得说一下 `initAddItem`方法参数中的 `onAddItem`属性，可以看做是 点击 某个按钮时的响应函数。
+    如果不需要传递任何参数，则不用写此属性
 
-    其它的参数都与 `GetDateMixin` 中的 `initGetData`函数参数一样。
+  + beforeAction：函数类型，在真正发起请求之前要做的一些操作，如打开加载状态等前置操作
 
-  - **UpdateItemMixin**
+  + onResult：函数类型，只有请求状态码返回200的情况下才会被调用，用于处理返回来的数据
 
-    用于更新一条记录，同样，在使用的时候需要先`import` 引入，如：
+  + onError：函数类型，当请求状态码返回不是200的情况下会被调用，用于处理错误状态
 
-    ```js
-    import { UpdateItemMixin } from '@/mixins/ActionMixin'
-    ```
-
-    用法与 `AddItemMixin` 一样，`initUpdateItem`方法参数也与 `AddItemMixin` 的 `initAddItem` 方法参数一样
-
-  - **DeleteItemsMixin**
-    用于删除一条或者多条记录，同样，在使用的时候需要先`import` 引入，如：
-
-    ```js
-    import { UpdateItemMixin } from '@/mixins/ActionMixin'
-    ```
-
-    与其它操作不同的是：删除操作可以针对一条记录，也可以针对多条记录，即：批量删除。因此在初始化的时候就分成了两种情况。先看下与其它不一样的初始化参数：
-
-    + url：必填，否则会抛出异常，`throw new Error('please init url')`，该参数对应的是要加载的接口信息
-    + method：请求方法，一般是 `GET` 或者是 `POST`
-    + params：请求参数，该参数可以是一个对象类型，也可以是一个函数类型，如果是函数类型则需要返回一个对象类型的数据，<font color=#ff0000> **这个属性用于删除单条记录** </font>   
-    + multiParams：请求参数，该参数可以是一个对象类型，也可以是一个函数类型，如果是函数类型则需要返回一个对象类型的数据，<font color=#ff0000> **这个属性用于删除多条记录** </font>   
-    + onDeleteItem：**当单击删除按钮时的回调函数**，接收一个参数，就是要删除的记录对象
-    + onDeleteMultiItem：**当单击 批量删除 按钮时的回调函数**
-    + beforeAction：函数类型，在真正发起请求之前要做的一些操作，如打开加载状态等前置操作
-    + onResult：函数类型，只有请求状态码返回200的情况下才会被调用，用于处理返回来的数据
-    + onError：函数类型，当请求状态码返回不是200的情况下会被调用，用于处理错误状态
-    + afterAction：函数类型，在真正发起请求之后要做的一些操作，如关闭加载状态等后置操作，但不要在这里处理请求到的数据，因为有专门处理数据的方法：onResult。这个函数无论是请求成功还是失败都会被调用
-
-+ 表格操作相关
-
+  + afterAction：函数类型，在真正发起请求之后要做的一些操作，如关闭加载状态等后置操作，但不要在这里处理请求到的数据，因为有专门处理数据的方法：onResult。这个函数无论是请求成功还是失败都会被调用
   
+- AddItemMixin
+
+  用于添加一条数据，同样，在使用的时候需要先`import` 引入，如：
+
+  ```js
+  import { AddItemMixin } from '@/mixins/ActionMixin'
+  ```
+
+  > TIP
+  >
+  > 对于 **增加、删除、更新、模糊查询** 这些操作，都是需要用户点击某个按钮才能触发的操作，不像 **查询** 那样，可以一进入页面在适当的生命周期如，**created、mounted** 生命周期方法直接调用。所以，这类操作提供了两个函数，以 **AddItemMixin**为例，有：**onAddItem**，**doAddItem** 两个函数，
+  >
+  > **onAddItem** 函数可以响应按钮操作，**doAddItem** 是直接执行操作的函数
+
+  看一下 `AddItemMixin`的源码：
+
+  ```js
+  export const AddItemMixin = {
+    methods: {
+      initAddItem({ url, method, params, onAddItem, beforeAction, onResult, onError, afterAction }) {
+        if (!url) {
+          throw new Error('please init url')
+        }
+        this.addItemModel.url = url
+        this.addItemModel.method = method
+        this.addItemModel.params = params
+        this.addItemModel.onResult = onResult
+        this.addItemModel.onError = onError
+        this.addItemModel.beforeAction = beforeAction
+        this.addItemModel.afterAction = afterAction
+        this.addItemModel.onAddItem = onAddItem
+        this.addItemModel.init = true
+      },
+      onAddItem() {
+        if (!this.addItemModel.onAddItem) {
+          throw new Error('please init onAddItem')
+        }
+        if (!(this.addItemModel.onAddItem instanceof Function)) {
+          throw new Error('onAddItem must be Function')
+        }
+        this.addItemModel.onAddItem()
+      },
+      doAddItem() {
+        if (!this.addItemModel.init) {
+          throw new Error('please init addItemModel first')
+        }
+        const data = checkParams(this.addItemModel)
+        if (!data) {
+          throw new Error('please set add param')
+        }
+        addItem.call(this, {
+          url: this.addItemModel.url,
+          method: this.addItemModel.method || 'post',
+          data
+        }).then((res) => {
+          handleResult.call(this, this.addItemModel, res)
+        }).catch((error) => {
+          handleError.call(this, this.addItemModel, error)
+        })
+      }
+    }
+  }
+  ```
+
+  值得说一下 `initAddItem`方法参数中的 `onAddItem`属性，可以看做是 点击 某个按钮时的响应函数。
+
+  其它的参数都与 `GetDateMixin` 中的 `initGetData`函数参数一样。
+
+- **UpdateItemMixin**
+
+  用于更新一条记录，同样，在使用的时候需要先`import` 引入，如：
+
+  ```js
+  import { UpdateItemMixin } from '@/mixins/ActionMixin'
+  ```
+
+  用法与 `AddItemMixin` 一样，`initUpdateItem`方法参数也与 `AddItemMixin` 的 `initAddItem` 方法参数一样
+
+- **DeleteItemsMixin**
+  用于删除一条或者多条记录，同样，在使用的时候需要先`import` 引入，如：
+
+  ```js
+  import { UpdateItemMixin } from '@/mixins/ActionMixin'
+  ```
+
+  与其它操作不同的是：删除操作可以针对一条记录，也可以针对多条记录，即：批量删除。因此在初始化的时候就分成了两种情况。先看下与其它不一样的初始化参数：
+
+  + url：必填，否则会抛出异常，`throw new Error('please init url')`，该参数对应的是要加载的接口信息
+  + method：请求方法，一般是 `GET` 或者是 `POST`
+  + params：请求参数，该参数可以是一个对象类型，也可以是一个函数类型，如果是函数类型则需要返回一个对象类型的数据，<font color=#ff0000> **这个属性用于删除单条记录** </font>   
+  + multiParams：请求参数，该参数可以是一个对象类型，也可以是一个函数类型，如果是函数类型则需要返回一个对象类型的数据，<font color=#ff0000> **这个属性用于删除多条记录** </font>   
+  + onDeleteItem：**当单击删除按钮时的回调函数**，接收一个参数，就是要删除的记录对象
+  + onDeleteMultiItem：**当单击 批量删除 按钮时的回调函数**
+  + beforeAction：函数类型，在真正发起请求之前要做的一些操作，如打开加载状态等前置操作
+  + onResult：函数类型，只有请求状态码返回200的情况下才会被调用，用于处理返回来的数据
+  + onError：函数类型，当请求状态码返回不是200的情况下会被调用，用于处理错误状态
+  + afterAction：函数类型，在真正发起请求之后要做的一些操作，如关闭加载状态等后置操作，但不要在这里处理请求到的数据，因为有专门处理数据的方法：onResult。这个函数无论是请求成功还是失败都会被调用
+  
+  > TIP
+  >
+  > 本框架是一个纯属前端的项目，并没有真正对接后台接口，所有的数据和行为都是通过 MockJs模拟或者本地模拟，所以在实际开发环境下一定要对接真正的后台接口
+
+真实场景开发步骤如下：
+
+1. 引入 `import { DeleteItemsMixin } from '@/mixins/ActionMixin'`
+
+2. 配置组件的 `mixins`选项，如下：
+
+   ```js
+   export default {
+     name: 'UserList',
+     mixins: [ DeleteItemsMixin ]
+   }
+   ```
+
+3. 在 `mounted`生命周期函数中初始化操作，如下：
+
+   ```js
+   export default {
+     name: 'UserList',
+     mixins: [ DeleteItemsMixin ],
+     mounted() {
+       this.initDelteItem({
+         url: xxxxx,
+         // 当删除一条记录的时候调用，以方便生成接口所需要的参数
+         params: () => {
+           // 返回的参数要结合后台所提供的接口情况而定，这里只是演示
+           return {
+             ids: this.tempItem.id
+           }
+         },
+         // 当批量删除多条记录的时候调用，以方便生成接口所需要的参数
+         multiParams: () => {
+           // 返回的参数要结合后台所提供的接口情况而定，这里只是演示
+           return {
+             ids: this.selectedItems.map(it=> it.id).join(',)
+           }
+         },
+        // 当要删除某一条记录的时候，执行此方法
+        onDeleteItem: (item) => {
+           this.tempItem = item
+           this.$showConfirmDialog('确定要删除此信息吗？').then((_) => {
+             // 调用真正执行删除的操作，'single'参数是方便区分是删除单条记录还是删除多条记录
+             this.doDeleteItem('sinlge')
+           })
+         },
+         // 当要批量删除多条记录的时候，执行此方法
+         onDeleteMultiItem: () => {
+           this.$showConfirmDialog('确定要删除这些信息吗？').then((_) => {
+             // 调用真正执行删除的操作，'multi'参数是方便区分是删除单条记录还是删除多条记录
+             this.doDeleteItem('multi')
+           })
+         },
+         // 操作执行成功之后的回调方法
+         onResult: () => { },
+         // 操作执行失败之后的回调方法
+         onError: () => { }
+       })
+     }
+   }
+   ```
+
+4. 在`<template><div></div></template>`视图中给`删除按钮`添加监听事件，如下：
+
+   ```vue
+   <template>
+     <div class="main-container">
+       <TableHeader :can-collapsed="false">
+         <template slot="right">
+          // 删除多条记录
+           <el-button
+             type="danger"
+             size="mini"
+             icon="el-icon-delete"
+             @click="onDeleteMultiItem"
+           >批量删除
+           </el-button>
+         </template>
+       </TableHeader>
+       <TableBody ref="tableBody">
+         <template slot="table">
+           <el-table
+             ref="table"
+             v-loading="tableLoading"
+             :data="dataList"
+             :header-cell-style="tableConfig.headerCellStyle"
+             :size="tableConfig.size"
+             :stripe="tableConfig.stripe"
+             :border="tableConfig.border"
+             :height="tableConfig.height"
+             row-key="id"
+             :tree-props="{children: 'children'}"
+           >
+             <el-table-column
+               align="center"
+               label="序号"
+               fixed="left"
+               width="80"
+             >
+               <template slot-scope="scope">
+                 {{ scope.$index + 1 }}
+               </template>
+             </el-table-column>
+             <el-table-column
+               align="center"
+               label="部门名称"
+               prop="name"
+             />
+             <el-table-column
+               align="center"
+               label="部门编号"
+               prop="depCode"
+             />
+   					......
+             <el-table-column
+               align="center"
+               label="操作"
+             >
+               <template slot-scope="scope">
+                 <el-link
+                   type="primary"
+                   :underline="false"
+                   @click="onUpdateItem(scope.row)"
+                 >编辑</el-link>
+   
+   
+   
+   							// 删除单条记录
+                 <el-link
+                   type="danger"
+                   :underline="false"
+                   @click="onDeleteItem(scope.row)"
+                 >删除</el-link>
+               </template>
+             </el-table-column>
+           </el-table>
+         </template>
+       </TableBody>
+     </div>
+   </template>
+   ```
+
++ **LikeSearchMixin**
+
+  这个功能是单单为 **表格类型的页面** 模糊搜索而制定的，局限性比较大，而且还得配合其它的功能才能实现。所以在项目中如果不需要，可以不引入。详细文档放到后面和其它功能一起讲解
+
++ **PageModelMixin**
+
+  该功能主要是为了表格的分页功能，先看一下源码：
+
+  ```js
+  export const PageModelMixin = {
+    data() {
+      return {
+        // 分页模型
+        pageModel: {
+          // 当前页数，从1开始
+          currentPage: 1,
+          // 每页的条数，默认是10条
+          pageSize: 10,
+          // 总页数
+          totalSize: 0
+        }
+      }
+    },
+    methods: {
+      // 当 每页的条数 改变的时候，回调的方法
+      pageSizeChanged(pageSize) {
+        this.pageModel.pageSize = pageSize
+        this.pageModel.currentPage = 1
+        this.publishEvent('pageChanged', this.pageModel)
+      },
+      // 当 当前页数 改变的时候，回调的方法
+      currentChanged(currentPage) {
+        this.pageModel.currentPage = currentPage
+        this.publishEvent('pageChanged', this.pageModel)
+      },
+      // 用于把分页信息和其它参数一起封装成一个对象，传给后台接口
+      withPageInfoData(otherParams = {}) {
+        return {
+          ...otherParams,
+          page: this.pageModel.currentPage,
+          pageSize: this.pageModel.pageSize
+        }
+      }
+    },
+    created() {
+      this.registeEvent(pageEvents)
+    }
+  } 
+  ```
+
+###### 组件
+
+先来看一下本框架设计的表格页面的组成部分：
+
+![](./images/QQ20210510-141859@2x.png)
+
++ **TableHeader.vue**
+
+  表头主要放置的信息是标题，常用操作按钮，如添加，删除，可以根据自己的业务逻辑添加相关的按钮。
+
+  一个重要的功能就是：**模糊搜索**，有些表格页面是带有模糊搜索功能的，有的没有此功能。如果想要在添加**搜索**功能，则需要设置几个属性：
+
+  - **canCollapsed**：此属性默认值是 **false**，请设置成 **true** 
+  - **searchModel**：搜索模型，（后面会具体讲到详细用法）**一定要设置成一个非空的数组**
+  - **defaultCollapsedState**：默认展开状态，**true** 为展开，默认是 **true**，可以不用设置，除非想设置成默认是关闭状态
+
+  说这里，就详细说一下上面一个没有细说的Mixin-----`LikeSearchMixin`，这个模型就是专门为此功能而开发，讲解一下源码：
+
+  ```js
+  export const LikeSearchMixin = {
+    data() {
+      return {
+        // 搜索模型
+        likeSearchModel: {
+          init: false,
+          // 搜索的表单项集合
+          conditionItems: []
+        }
+      }
+    },
+    methods: {
+      // 初始化搜索功能，重点讲一下几个参数的
+      initLikeSearch({ url, method, conditionItems, extraParams, beforeAction, onResult, onError, afterAction }) {
+        if (!url) {
+          throw new Error('please init url')
+        }
+        if (!onResult) {
+          throw new Error('please init onSearchResult function')
+        }
+        if (!(onResult instanceof Function)) {
+          throw new Error('onSearchResult must be Function type')
+        }
+        this.likeSearchModel.url = url
+        this.likeSearchModel.method = method
+        this.likeSearchModel.conditionItems = conditionItems
+        this.likeSearchModel.extraParams = extraParams
+        this.likeSearchModel.onResult = onResult
+        this.likeSearchModel.onError = onError
+        this.likeSearchModel.beforeAction = beforeAction
+        this.likeSearchModel.afterAction = afterAction
+        this.likeSearchModel.init = true
+      },
+      // 执行搜索的方法
+      doSearch() {
+        if (!this.likeSearchModel.init) {
+          throw new Error('please init likeSearchModel first')
+        }
+        let searchParams = this.generatorSearchParams()
+        if (isOjbect(this.likeSearchModel.extraParams)) {
+          searchParams = { ...searchParams, ...this.likeSearchModel.extraParams }
+        } else if (isFunction(this.likeSearchModel.extraParams)) {
+          searchParams = { ...searchParams, ...this.likeSearchModel.extraParams() }
+        }
+        likeSearch.call(this, {
+          url: this.likeSearchModel.url,
+          method: this.likeSearchModel.method || 'post',
+          data: searchParams
+        }).then((res) => {
+          handleResult.call(this, this.likeSearchModel, res)
+        }).catch((error) => {
+          handleError.call(this, this.likeSearchModel, error)
+        })
+      },
+      // 重置搜索表单项
+      resetSearch() {
+        this.likeSearchModel.conditionItems && this.likeSearchModel.conditionItems.forEach(it => { it.value = '' })
+      },
+      // 判断表单项是否有值
+      hasSearchParams() {
+        return this.likeSearchModel.conditionItems.some(it => it.value !== '')
+      },
+      // 把表单项转成普通对象
+      generatorSearchParams() {
+        if (this.likeSearchModel.conditionItems && this.likeSearchModel.conditionItems.length !== 0) {
+          return this.likeSearchModel.conditionItems.reduce((pre, cur) => {
+            pre[cur.name] = cur.value
+            return pre
+          }, {})
+        }
+        return {}
+      }
+    }
+  }
+  ```
+
+  重点看一下`initLikeSearch`方法中的几个函数：
+
+  + **conditionItems：**表单项数组，这个参数的用处就是最后在执行搜索的时候，收集表单项中的值，然后生成，提交到后台接口的参数。后面会详细讲解表单项的生成过程和一些属性
+  + **extraParams：**额外的参数，**可以是一个对象类型，也可以是函数类型**，**函数类型要返回一个对象类型的值**。这个参数的意义是，当表单项数组中的数据不满足后台接口需要的参数的时候，就通过这个参数的值和表单项的值组合在一起，最终生成后台接口所需要的参数。**最常见的例子就是：额外的添加分页信息。**如果表单项中的数据完全满足后台接口所需要的参数，那么这个参数可以不指定。
+
+  **表单项：**
+
+  目前框架支持的表单类型有：`input`、`select`、`date-range`、`date`、`datetime`、`time`。以后可能会添加更多的表单类型。看一个表单项的配置：
+
+  ```js
+  conditionItems: [
+    {
+      name: 'name', // 必填，当前表单项的名称，和后台接口的参数名对应
+      label: '用户姓名',// 必填，当前表单项的标题
+      value: '', // 必填，当前表单项的值
+      type: 'input', // 必填，当前表单项的类型
+      placeholder: '请输入用户姓名', // 选填，input 类型的默认提示语
+      span: 8 // 选填，当前表单项在一行中所占权重，默认就是 8 
+    },
+    {
+      name: 'sex',
+      label: '用户姓别',
+      value: '',
+      type: 'select', // 必填，当前表单项的类型
+      placeholder: '请选择用户姓别',
+      selectOptions: [ // 必填，当前表单项的类型是 `select`的时候，选项的数据
+        {
+          label: '男', // 选项标题
+          value: 0 // 选项值
+        },
+        {
+          label: '女',
+          value: 1
+        }
+      ],
+      span: 8
+    }
+  ]
+
+  **事件：**
+
+  **TableHeader**中有两个事件：**doSearch，resetSearch**，分别对应着，**搜索和重置**两个按钮的点击事件
+
++ **TableBody.vue**
+
+  具体的表格内容，很简单，源码如下:
+
+  ```vue
+  <template>
+    <el-card
+      :body-style="{padding: 0}"
+      class="table-container"
+      :style="cardStyle"
+      shadow="never"
+    >
+      <slot name="table"></slot>
+    </el-card>
+  </template>
+  
+  <script>
+  import TableBodyMixin from '@/mixins/TableBodyMixin'
+  export default {
+    name: 'TableBody',
+    mixins: [TableBodyMixin]
+  }
+  </script>
+  ```
+
+  详情可以看具体的源码。
+
++ **TableFooter.vue**
+
+  表尾主要的功能是：分页和刷新。分页没什么好讲的，和 `element-ui`加的 `el-pagination`用法一致。如不清楚， 可以看一下 **element-ui** 文档。
+
+  这里需要注意一个地方就是：**刷新**
+
+  因为表格页面有两个加载数据的地方：普通加载  和 模糊搜索。当点击刷新按钮的时候容易出现混乱，所以框架规定了 模糊搜索 优先，即，当表头的搜索表单项有值的时候，就优先执行 模糊搜索，如果没有就执行 普通的加载 方法。框架也提供了一个 `mixin`来应对这种场景：
+
+  ```js
+  export const RefreshActionMixin = {
+    methods: {
+      doRefresh() {
+        if (this.isInited('likeSearchModel')) {
+          if (this.hasSearchParams()) { // 搜索有值，优先执行模糊搜索的方法
+            this.doSearch()
+          } else { // 执行普通的列表查询
+            this.getData()
+          }
+        } else if (this.isInited('getDataModel')) { // 执行普通的列表查询
+          this.getData()
+        } else { // 如果都没有设置就报错
+          throw new Error('can`t exec doRefresh function')
+        }
+      }
+    }
+  }
+  ```
+
+  当引入 `PageModelMixin`的时候， 就自动引入了 `RefreshActionMixin`
+
+##### 表单
 

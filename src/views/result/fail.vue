@@ -41,7 +41,6 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  height: calc(100vh - 49px - 55px);
   padding: 50px;
   .icon {
     color: #ed4014;

@@ -138,7 +138,6 @@
       </template>
     </TableBody>
     <TableFooter
-      :current-page="pageModel.currentPage"
       :page-size="pageModel.pageSize"
       :total-size="pageModel.totalSize"
       @pageSizeChanged="pageSizeChanged"
@@ -402,8 +401,8 @@ export default {
           this.dataList = this.dataList.filter((it) => !tempIds.includes(it.id))
         })
       },
-      onResult: () => {},
-      onError: () => {}
+      onResult: () => { },
+      onError: () => { }
     })
   },
   methods: {

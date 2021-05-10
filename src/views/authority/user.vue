@@ -6,7 +6,7 @@
           type="danger"
           size="mini"
           icon="el-icon-delete"
-          @click="onDeleteItems(null)"
+          @click="onDeleteMultiItem"
         >删除
         </el-button>
       </template>
@@ -113,7 +113,7 @@
               <el-link
                 type="danger"
                 :underline="false"
-                @click="onDeleteItems(scope.row)"
+                @click="onDeleteItem(scope.row)"
               >删除</el-link>
             </template>
           </el-table-column>
@@ -159,7 +159,7 @@ export default {
     }).then((_) => {
       this.getData()
     })
-    this.initDeleteItems({
+    this.initDeleteItem({
       url: this.$urlPath.getTableList,
       params: () => {
         return { id: this.userMode.id }
@@ -169,14 +169,22 @@ export default {
           ids: items.map((it) => it.id).join(',')
         }
       },
-      onDeleteItems: (item) => {
-        if (!item && +this.items === 0) {
-          this.$errorMsg('请选择要删除的元素')
-          return
-        }
+      onDeleteItem: (item) => {
         this.userMode = item
         this.$showConfirmDialog('确定要删用户信息吗？').then((_) => {
-          this.doDeleteItems(item)
+          // 真实环境下了要调用此方法进行删除 this.doDeleteItem('single')
+          this.dataList = this.dataList.filter(it => it.id !== item.id)
+        })
+      },
+      onDeleteMultiItem: () => {
+        if (this.selectedItems.length === 0) {
+          this.$errorMsg('请选择要删除的用户')
+          return
+        }
+        this.$showConfirmDialog('确定要删这些用户信息吗？').then((_) => {
+          // 纯前端环境下，可以使用这种方式模拟，真实的环境下，要替换成 this.doDeleteItem('multi')
+          const tempIds = this.selectedItems.map((it) => it.id)
+          this.dataList = this.dataList.filter((it) => !tempIds.includes(it.id))
         })
       },
       onResult: (res) => {

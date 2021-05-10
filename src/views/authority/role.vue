@@ -70,7 +70,7 @@
                 :disabled="scope.row.roleCode === 'ROLE_admin'"
                 type="danger"
                 :underline="false"
-                @click="onDeleteItems(scope.row)"
+                @click="onDeleteItem(scope.row)"
               >删除</el-link>
               <el-link
                 :disabled="scope.row.roleCode === 'ROLE_admin'"
@@ -267,19 +267,18 @@ export default {
         this.$refs.dialog.close()
       }
     })
-    this.initDeleteItems({
+    this.initDeleteItem({
       url: this.$urlPath.getRoleList,
       params: {},
-      onDeleteItems: (item) => {
+      onDeleteItem: (item) => {
         this.roleModel = item
         this.$showConfirmDialog('确定要删除此角色信息吗？').then((_) => {
-          this.doDeleteItems()
+          // 真实环境下了要调用此方法进行删除 this.doDeleteItem('single')
+          this.dataList = this.dataList.filter(it => it.id !== item.id)
+          this.$successMsg('角色模拟删除成功')
         })
       },
-      onResult: () => {
-        this.dataList.splice(this.dataList.indexOf(this.roleModel), 1)
-        this.$successMsg('角色模拟删除成功')
-      },
+      onResult: () => { },
       onError: () => {
         this.$successMsg('角色模拟删除失败')
       }

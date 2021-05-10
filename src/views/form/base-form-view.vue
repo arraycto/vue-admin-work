@@ -1,5 +1,5 @@
 <template>
-  <div class="main-contianer">
+  <div class="main-container flex flex-direction">
     <el-card
       :body-style="{padding: '15px'}"
       shadow="hover"
@@ -9,7 +9,7 @@
     <el-card
       :body-style="{padding: '10px'}"
       shadow="nerve"
-      class="margin-top-xs"
+      class="margin-top-xs flex-sub"
     >
       <div class="form-wrapper padding-top">
         <BaseForm

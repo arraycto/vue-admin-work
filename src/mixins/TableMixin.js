@@ -1,4 +1,5 @@
 
+import { RefreshActionMixin } from './ActionMixin.js'
 const pageEvents = {
   setTotalSize(size) {
     this.pageModel.totalSize = size
@@ -6,6 +7,7 @@ const pageEvents = {
 }
 
 export const PageModelMixin = {
+  mixins: [RefreshActionMixin],
   data() {
     return {
       pageModel: {
@@ -40,7 +42,7 @@ export const PageModelMixin = {
 
 const tableEvents = {
   pageChanged() {
-    this.getData()
+    this.doRefresh()
   }
 }
 
@@ -60,8 +62,7 @@ export default {
         },
         height: '100%'
       },
-      tableLoading: false,
-      actionModel: null
+      tableLoading: false
     }
   },
   mounted() {

@@ -68,7 +68,7 @@
               <el-link
                 type="danger"
                 :underline="false"
-                @click="onDeleteItems(scope.row)"
+                @click="onDeleteItem(scope.row)"
               >删除</el-link>
             </template>
           </el-table-column>
@@ -219,12 +219,12 @@ export default {
       },
       onError: () => { }
     })
-    this.initDeleteItems({
+    this.initDeleteItem({
       url: this.$urlPath.getMenuList,
       params: {
         id: this.menuModel.id
       },
-      onDeleteItems: (item) => {
+      onDeleteItem: (item) => {
         this.menuModel.id = item.id
         if (item.children && item.children.length > 0) {
           this.$errorMsg('当前菜单包含有子菜单，不可删除，请先删除子菜单')

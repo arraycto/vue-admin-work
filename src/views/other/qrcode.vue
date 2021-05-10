@@ -115,13 +115,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep {
-  .el-card__body {
-    height: 100%;
-  }
-}
 .content-wrappar {
-  height: 100%;
   .canvas {
     width: 250px !important;
     height: 250px !important;
