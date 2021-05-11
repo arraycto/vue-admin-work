@@ -128,7 +128,7 @@ export const adminRoutes = [
   {
     menuUrl: '/excel',
     menuName: 'Excel',
-    icon: 'editor',
+    icon: 'excel',
     children: [
       {
         menuUrl: '/excel/export-excel',
