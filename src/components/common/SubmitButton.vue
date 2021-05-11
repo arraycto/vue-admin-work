@@ -37,6 +37,9 @@ export default {
     }
   },
   methods: {
+    closeLoading() {
+      this.loadingStatus = false
+    },
     submit() {
       this.loadingStatus = true
       const result = this.onSubmit(() => {

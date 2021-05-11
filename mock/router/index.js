@@ -37,7 +37,7 @@ export const adminRoutes = [
     children: [
       {
         menuUrl: '/list/table',
-        menuName: '表格操作'
+        menuName: '表格'
       },
       {
         menuUrl: '/list/table-with-search',
@@ -57,7 +57,7 @@ export const adminRoutes = [
     children: [
       {
         menuUrl: '/form/base-form-view',
-        menuName: '表单操作',
+        menuName: '基本表单',
         cacheable: true
       },
       {
@@ -126,6 +126,21 @@ export const adminRoutes = [
     ]
   },
   {
+    menuUrl: '/excel',
+    menuName: 'Excel',
+    icon: 'editor',
+    children: [
+      {
+        menuUrl: '/excel/export-excel',
+        menuName: '导出Excel'
+      },
+      {
+        menuUrl: '/excel/export-rows-excel',
+        menuName: '导出选中行'
+      }
+    ]
+  },
+  {
     menuUrl: '/other',
     menuName: '其它功能',
     children: [
@@ -152,7 +167,7 @@ export const editorRoutes = [
     children: [
       {
         menuUrl: '/list/table',
-        menuName: '表格操作'
+        menuName: '表格'
       },
       {
         menuUrl: '/list/table-with-search',
@@ -172,7 +187,7 @@ export const editorRoutes = [
     children: [
       {
         menuUrl: '/form/base-form-view',
-        menuName: '表单操作',
+        menuName: '基本表单',
         cacheable: true
       },
       {

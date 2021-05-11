@@ -12,7 +12,7 @@
       </template>
     </TableHeader>
     <TableBody ref="tableBody">
-      <template slot="table">
+      <template>
         <el-table
           ref="table"
           v-loading="tableLoading"
@@ -153,7 +153,7 @@ export default {
       onResult: (res) => {
         this.handleSuccess(res)
       },
-      afterAction: (res) => {}
+      afterAction: (res) => { }
     }).then((_) => {
       this.getData()
     })

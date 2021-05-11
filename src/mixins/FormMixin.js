@@ -7,7 +7,7 @@ export default {
   methods: {
     refreshItems() {
       this.innerFormItems = []
-      this.innerFormItems.push(...this.formItems)
+      this.innerFormItems.push(...this.formItems.filter(it => !it.hidden))
     },
     checkParams() {
       return this.innerFormItems.every(it => {

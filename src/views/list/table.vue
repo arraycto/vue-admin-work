@@ -22,7 +22,7 @@
       </template>
     </TableHeader>
     <TableBody ref="tableBody">
-      <template slot="table">
+      <template>
         <el-table
           ref="table"
           v-loading="tableLoading"
@@ -402,8 +402,8 @@ export default {
           this.dataList = this.dataList.filter((it) => !tempIds.includes(it.id))
         })
       },
-      onResult: () => {},
-      onError: () => {}
+      onResult: () => { },
+      onError: () => { }
     })
   },
   methods: {

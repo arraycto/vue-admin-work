@@ -5,7 +5,7 @@
     :style="cardStyle"
     shadow="never"
   >
-    <slot name="table"></slot>
+    <slot></slot>
   </el-card>
 </template>
 

@@ -50,11 +50,6 @@
             </el-form-item>
             <el-form-item>
               <div class="text-center">
-                <el-button
-                  type="warning"
-                  size="small"
-                  @click="save"
-                >保存</el-button>
                 <submit-button :on-submit="submit" />
               </div>
             </el-form-item>
@@ -91,6 +86,27 @@ export default {
               return false
             }
             return true
+          }
+        },
+        {
+          label: '会议类型：',
+          type: 'radio-group',
+          name: 'meetType',
+          associatedOption: 'address',
+          value: 0,
+          radioOptions: [
+            {
+              label: '普通',
+              value: 0
+            },
+            {
+              label: '紧急',
+              value: 1
+            }
+          ],
+          onChange: (value, assName) => {
+            const assObj = this.formItems.find(it => it.name === assName)
+            this.$set(assObj, 'hidden', value === 1)
           }
         },
         {
@@ -187,19 +203,11 @@ export default {
     }
   },
   methods: {
-    save() {
+    submit(callback) {
       if (this.$refs.baseForm.checkParams()) {
         if (!this.joinMemeber.value || this.joinMemeber.value.length === 0) {
           this.$errorMsg('请选择与会人员')
-          return
-        }
-        this.$successMsg('保存成功')
-      }
-    },
-    submit() {
-      if (this.$refs.baseForm.checkParams()) {
-        if (!this.joinMemeber.value || this.joinMemeber.value.length === 0) {
-          this.$errorMsg('请选择与会人员')
+          callback && callback instanceof Function && callback()
           return false
         }
         return new Promise((resolve) => {
@@ -208,6 +216,8 @@ export default {
             resolve()
           }, 1000)
         })
+      } else {
+        callback && callback instanceof Function && callback()
       }
     }
   }

@@ -13,7 +13,7 @@
       </template>
     </TableHeader>
     <TableBody ref="tableBody">
-      <template slot="table">
+      <template>
         <el-table
           ref="table"
           v-loading="tableLoading"

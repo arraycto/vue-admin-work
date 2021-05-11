@@ -13,7 +13,7 @@
       >
         <el-col :span="24">
           <el-input
-            v-if="item.type === 'input'"
+            v-if="item.type === 'input' && !item.hidden"
             v-model="item.value"
             :placeholder="item.placeholder || '请输入内容'"
             :size="config.size || 'small'"
@@ -24,7 +24,7 @@
             class="form-item"
           />
           <el-select
-            v-else-if="item.type === 'select'"
+            v-else-if="item.type === 'select' && !item.hidden"
             v-model="item.value"
             :placeholder="item.placeholder || '请选择条目'"
             :size="config.size || 'small'"
@@ -42,7 +42,7 @@
             />
           </el-select>
           <el-date-picker
-            v-else-if="item.type === 'date-range'"
+            v-else-if="item.type === 'date-range' && !item.hidden"
             v-model="item.value"
             type="daterange"
             range-separator="-"
@@ -53,7 +53,7 @@
             :size="config.size || 'small'"
           />
           <el-date-picker
-            v-else-if="item.type === 'date'"
+            v-else-if="item.type === 'date' && !item.hidden"
             v-model="item.value"
             type="date"
             range-separator="-"
@@ -62,7 +62,7 @@
             :size="config.size || 'small'"
           />
           <el-date-picker
-            v-else-if="item.type === 'datetime'"
+            v-else-if="item.type === 'datetime' && !item.hidden"
             v-model="item.value"
             type="datetime"
             :placeholder="item.placeholder || '请选择日期'"
@@ -70,7 +70,7 @@
             :size="config.size || 'small'"
           />
           <el-time-picker
-            v-else-if="item.type === 'time'"
+            v-else-if="item.type === 'time' && !item.hidden"
             v-model="item.value"
             arrow-control
             :picker-options="{
@@ -81,9 +81,10 @@
             :size="config.size || 'small'"
           />
           <el-radio-group
-            v-if="item.type === 'radio-group'"
+            v-if="item.type === 'radio-group' && !item.hidden"
             v-model="item.value"
             :size="config.size || 'small'"
+            @change="item.onChange ? item.onChange(item.value, item.associatedOption || '') : (() => {})"
           >
             <component
               :is="item.style === 'button' ? 'el-radio-button' : 'el-radio'"
@@ -93,9 +94,10 @@
             >{{ optionItem.label }}</component>
           </el-radio-group>
           <el-checkbox-group
-            v-if="item.type === 'check-group'"
+            v-if="item.type === 'check-group' && !item.hidden"
             v-model="item.value"
             :size="config.size || 'small'"
+            @change="item.onChange ? item.onChange(item.value, item.associatedOption || '') : (() => {})"
           >
             <component
               :is="item.style === 'button' ? 'el-checkbox-button' : 'el-checkbox'"
