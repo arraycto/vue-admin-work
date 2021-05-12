@@ -1,3 +1,4 @@
+import { toHump } from '@/utils/utils'
 
 const state = {
   visitedRoute: [],
@@ -132,19 +133,19 @@ const mutations = {
       if (!state.cachedRoute) {
         state.cachedRoute = []
       }
-      if (!state.cachedRoute.includes(route.name)) {
-        state.cachedRoute.push(route.name)
+      if (!state.cachedRoute.includes(toHump(route.name))) {
+        state.cachedRoute.push(toHump(route.name))
       }
     }
   },
   REMOVE_CACHE_ROUTE(state, route) {
-    const index = state.cachedRoute.indexOf(route.name)
+    const index = state.cachedRoute.indexOf(toHump(route.name))
     if (index !== -1) {
       state.cachedRoute.splice(index, 1)
     }
   },
   REMOVE_CACHE_LEFT_ROUTE(state, route) {
-    const selectIndex = state.cachedRoute.indexOf(route.name)
+    const selectIndex = state.cachedRoute.indexOf(toHump(route.name))
     if (selectIndex !== -1) {
       state.cachedRoute = state.cachedRoute.filter((it, index) => {
         return it.meta.affix || index >= selectIndex
@@ -152,7 +153,7 @@ const mutations = {
     }
   },
   REMOVE_CACHE_RIGHT_ROUTE(state, route) {
-    const selectIndex = state.cachedRoute.indexOf(route.name)
+    const selectIndex = state.cachedRoute.indexOf(toHump(route.name))
     if (selectIndex !== -1) {
       state.cachedRoute = state.cachedRoute.filter((it, index) => {
         return it.meta.affix || index <= selectIndex

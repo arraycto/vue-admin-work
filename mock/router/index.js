@@ -151,7 +151,8 @@ export const adminRoutes = [
       },
       {
         menuUrl: '/draggable/card-draggable',
-        menuName: '卡片拖拽'
+        menuName: '卡片拖拽',
+        cacheable: true
       }
     ]
   },
@@ -170,6 +171,10 @@ export const adminRoutes = [
       {
         menuUrl: '/other/qrcode',
         menuName: '二维码'
+      },
+      {
+        menuUrl: '/other/css-animation',
+        menuName: 'Css动画'
       }
     ]
   }
@@ -251,6 +256,10 @@ export const editorRoutes = [
       {
         menuUrl: '/other/qrcode',
         menuName: '二维码'
+      },
+      {
+        menuUrl: '/other/css-animation',
+        menuName: 'Css动画'
       }
     ]
   }
