@@ -2,6 +2,7 @@
   <el-dialog
     :title="innerTitle"
     :visible.sync="dialogVisible"
+    :close-on-click-modal="closeOnClickModal"
     :width="isMobileScreen ? '85%' : '45%'"
   >
     <div class="content-wrapper">
@@ -41,6 +42,10 @@ export default {
     title: {
       type: String,
       default: '提示'
+    },
+    closeOnClickModal: {
+      type: Boolean,
+      default: false
     },
     showCancel: {
       type: Boolean,

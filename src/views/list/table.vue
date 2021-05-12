@@ -146,7 +146,7 @@
     />
     <Dialog
       ref="dialog"
-      :auto-close="false"
+      v-draggable
       :submit-button="true"
     >
       <template>
@@ -186,9 +186,11 @@ import {
 import SingleUpload from '@/components/common/SingleUpload.vue'
 import BaseForm from '@/components/common/BaseForm.vue'
 import { formBuilder } from '@/utils/form'
+import draggable from '@/directive/draggable'
 export default {
   name: 'Table',
   components: { SingleUpload, BaseForm },
+  directives: { draggable },
   mixins: [
     TableMixin,
     PageModelMixin,

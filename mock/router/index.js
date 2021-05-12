@@ -141,6 +141,21 @@ export const adminRoutes = [
     ]
   },
   {
+    menuUrl: '/draggable',
+    menuName: '拖拽',
+    icon: 'dragger',
+    children: [
+      {
+        menuUrl: '/draggable/dialog-draggable',
+        menuName: '拖拽对话框'
+      },
+      {
+        menuUrl: '/draggable/card-draggable',
+        menuName: '卡片拖拽'
+      }
+    ]
+  },
+  {
     menuUrl: '/other',
     menuName: '其它功能',
     children: [
