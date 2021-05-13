@@ -17,6 +17,10 @@
         <CommentList />
       </el-tab-pane>
     </el-tabs>
+    <el-backtop
+      target=".main-container"
+      :visibility-height="100"
+    />
   </div>
 </template>
 

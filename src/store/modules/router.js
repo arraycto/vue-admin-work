@@ -17,8 +17,11 @@ const actions = {
     commit('ADD_CACHE_ROUTE', route)
   },
   removeRoute({ commit }, route) {
-    commit('REMOVE_ROUTE', route)
-    commit('REMOVE_CACHE_ROUTE', route)
+    return new Promise((resolve) => {
+      commit('REMOVE_ROUTE', route)
+      commit('REMOVE_CACHE_ROUTE', route)
+      resolve()
+    })
   },
   delLeftRoute({ commit }, route) {
     return new Promise((resolve) => {

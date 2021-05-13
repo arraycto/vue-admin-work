@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 
 import Layout from '@/layout'
 
+import NextPageInfo from './next-page/routes'
+
 Vue.use(VueRouter)
 
 const originalPush = VueRouter.prototype.push
@@ -12,6 +14,7 @@ VueRouter.prototype.push = function push(location, onResolve, onReject) {
 }
 
 export const routes = [
+  ...NextPageInfo,
   {
     path: '/redirect',
     component: Layout,

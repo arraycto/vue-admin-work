@@ -175,6 +175,10 @@ export const adminRoutes = [
       {
         menuUrl: '/other/css-animation',
         menuName: 'Css动画'
+      },
+      {
+        menuUrl: '/other/to-next-page',
+        menuName: '下一页'
       }
     ]
   }

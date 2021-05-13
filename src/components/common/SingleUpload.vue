@@ -8,6 +8,7 @@
       :data="extraData"
       :headers="headers"
       :name="fileName"
+      :auto-upload="autoUpload"
       :before-upload="beforeUpload"
     >
       <img
@@ -59,9 +60,15 @@ export default {
       type: String,
       default: 'file'
     },
+    autoUpload: {
+      type: Boolean,
+      default: true
+    },
     beforeUpload: {
       type: Function,
-      default: function () { }
+      default: function () {
+        return true
+      }
     }
   },
   methods: {
