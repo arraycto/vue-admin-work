@@ -760,6 +760,33 @@ const tempPersistendRoutes = state.visitedRoute.map(it => {
   上面几个概念的关系：
 
   > + 如在`菜单管理`中动态添加的页面的`地址`为 `/system/role-info`，则需要项目的 `views`文件夹下面创建 `system`目录，并且创建一个名为 `role-info`的**vue**组件，如：`role-info.vue`。切记，**菜单的地址**要和文件夹和文件的命名保持一致，否则，就会找不到相应的组件。
+  >
+  > + 如在项目中的 `router/index.js`中的 `routes`属性添加的路由信息，如下：
+  >
+  >   ```js
+  >   {
+  >       path: '/next-page',
+  >       name: 'nextPage',
+  >       component: Layout,
+  >       hidden: true,
+  >       children: [
+  >         {
+  >           path: 'info',
+  >           name: 'nextPageInfo',
+  >           component: () => import('@/views/next-page/details.vue'),
+  >           meta: {
+  >             title: '下一页详情'
+  >           }
+  >         }
+  >       ]
+  >     }
+  >   ```
+  >
+  >   要访问 `nextPageInfo`页面的地址是：`/next-page/info`。因为我们是手动指定的 `component`，所以页面地址可以和文件夹及文件的名字不一样，但是为了统一管理和项目的可读性，**还是建议要把`页面地址`和`文件夹及文件`的名字一致。**
+  >
+  > + 路由配置项中的`name`属性和组件中的`name`属性，我们建议两者要保持一致。通过 `菜单管理`动态添加 的页面，在动态生成路由`name`属性的时候是用的最后一个地址，如：`/next-page/page-info`，框架已经自动把`page-info`转成了`PageInfo`,`name`属性就是`PageInfo`而组件中的`name`属性要写成`PageInfo`。所以两者也是一致的。
+  >
+  >   通过手动在项目添加的路由也要遵守这个规则，要保持一致
 
 #### 需要在侧边栏显示
 

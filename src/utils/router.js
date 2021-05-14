@@ -7,6 +7,7 @@ import Layout from '@/layout'
 import { baseAddress, getMenuListByRoleId } from '@/api/url'
 
 import Cookies from 'js-cookie'
+import { toHump } from './utils'
 
 NProgress.configure({ showSpinner: false })
 
@@ -40,7 +41,7 @@ function isMenu(path) {
 
 function getNameByUrl(menuUrl) {
   const temp = menuUrl.split('/')
-  return temp[temp.length - 1]
+  return toHump(temp[temp.length - 1])
 }
 
 function generatorRoutes(res) {
