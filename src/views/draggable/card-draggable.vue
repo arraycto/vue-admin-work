@@ -96,7 +96,6 @@ export default {
     font-size: 40px;
   }
   .label {
-    color: #333;
     margin-top: 10px;
     font-size: 14px;
   }
