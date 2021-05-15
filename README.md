@@ -2,11 +2,7 @@
 
 <h1 align = "center">vue-admin-work</h1>
 
----
-
 ## 项目演示地址：
-
----
 
 - [🎉Vue-admin-work **gitee** 演示地址](http://qingqingxuan.gitee.io/vue-admin-work)
 
@@ -19,8 +15,12 @@
 
 
 
-| <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/qq-custom.png" style="zoom:20%;" /> | <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/qq-vip-group.png" style="zoom:20%;" /> | <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/qq-vip-group.png" style="zoom:20%;" /> |
-| :----------------------------------------------------------: | :----------------------------------------------------------: | ------------------------------------------------------------ |
+| <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/qq-custom.png" style="zoom:20%;" /> | <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/qq-vip-group.png" style="zoom:20%;" /> |
+| :----------------------------------------------------------: | :----------------------------------------------------------: |
+
+## 关注微信公众号 `知码前端` 方便以后更新、升级
+
+<img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/wx-service.jpg"/>
 
 ## 适合人群
 
