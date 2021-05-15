@@ -14,7 +14,7 @@
 
 本项目是开源项目，开源不易，还请各们小主赏杯咖啡，以更好的维护此项目。您的支持是我们前进的最大动力。
 
-| <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/wx-donation.jpeg" style="zoom:20%;" /> | <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/ali-donation.jpeg" style="zoom:20%;" /> |
+| <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/wx-donation.jpg" style="zoom:20%;" /> | <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/ali-donation.jpg" style="zoom:20%;" /> |
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
 
 
@@ -75,4 +75,6 @@ vue-admin-work 有如下优势:
 | <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/project-image-1.png" style="zoom:20%;" /> | <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/project-image-2.jpg" style="zoom:20%;" /> |
 | :----------------------------------------------------------: | ------------------------------------------------------------ |
 | <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/project-image-3.png" style="zoom:20%;" /> | <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/project-image-4.png" style="zoom:20%;" /> |
+| <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/project-image-5.png" style="zoom:20%;" /> | <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/project-image-6.png" style="zoom:20%;" /> |
+| <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/project-image-7.png" style="zoom:20%;" /> | <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/project-image-8.png" style="zoom:20%;" /> |
 
