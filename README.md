@@ -43,17 +43,14 @@ npm run serve
 
 ## 特别感谢
 
-| **🚀 [vue2.x](https://cn.vuejs.org/)**          |
-| ---------------------------------------------- |
-| **[🚀 element-ui](https://element.eleme.cn/)**  |
-| ---------------------------------------------- |
-| **[🚀 vue-router](https://router.vuejs.org/)**  |
-| ---------------------------------------------- |
-| **[🚀 vuex](https://vuex.vuejs.org/)**          |
-| ---------------------------------------------- |
-| **[🚀 axios](http://www.axios-js.com/)**        |
-| ---------------------------------------------- |
-| **[🚀 mockjs](http://mockjs.com/)**             |
+| **🚀 [vue2.x](https://cn.vuejs.org/)**                     |
+| --------------------------------------------------------- |
+| **[🚀 element-ui](https://element.eleme.cn/)**             |
+| **[🚀 vue-router](https://router.vuejs.org/)**             |
+| **[🚀 vuex](https://vuex.vuejs.org/)**                     |
+| **[🚀 axios](http://www.axios-js.com/)**                   |
+| **[🚀 mockjs](http://mockjs.com/)**                        |
+| **[🚀 echarts](https://echarts.apache.org/zh/index.html)** |
 
 ## 优势及注意事项
 
