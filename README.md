@@ -19,8 +19,8 @@
 
 
 
-| <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/qq-custom.png" style="zoom:20%;" /> | <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/qq-vip-group.png" style="zoom:20%;" /> |
-| :----------------------------------------------------------: | :----------------------------------------------------------: |
+| <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/qq-custom.png" style="zoom:20%;" /> | <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/qq-vip-group.png" style="zoom:20%;" /> | <img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/qq-vip-group.png" style="zoom:20%;" /> |
+| :----------------------------------------------------------: | :----------------------------------------------------------: | ------------------------------------------------------------ |
 
 ## 适合人群
 
