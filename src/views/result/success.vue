@@ -55,13 +55,3 @@ export default {
   }
 }
 </style>
-<style lang="scss">
-.theme-dark {
-  .result {
-    color: rgba(104, 104, 104, 0.85) !important;
-  }
-  .tip {
-    color: rgba(104, 104, 104, 0.85) !important;
-  }
-}
-</style>

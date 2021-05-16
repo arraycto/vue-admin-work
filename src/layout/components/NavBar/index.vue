@@ -254,14 +254,6 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-@import '~@/styles/variables.scss';
-.theme-dark {
-  .el-input__inner {
-    background-color: $theme_dark_menuDarkBg !important;
-  }
-}
-</style>
 <style lang="scss" scoped>
 @import '~@/styles/variables.scss';
 ::v-deep .el-badge__content.is-fixed {

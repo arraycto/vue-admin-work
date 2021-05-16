@@ -91,10 +91,6 @@ export default {
   font-size: 14px;
   font-style: normal;
 }
-.theme-dark .priview-content {
-  background: #5a5a5a;
-  color: #fff;
-}
 .priview-content {
   background: #fff;
   color: #333;

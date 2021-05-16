@@ -23,7 +23,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/variables.scss";
+@import '~@/styles/variables.scss';
 .logo-container {
   height: 50px;
   line-height: 50px;
@@ -35,7 +35,6 @@ export default {
 }
 
 .theme-blue .logo-container,
-.theme-dark .logo-container,
 .theme-dark-side .logo-container {
   color: #fff;
 }

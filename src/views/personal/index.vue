@@ -379,19 +379,4 @@ export default {
     }
   }
 }
-.theme-dark {
-  .des-wrapper,
-  .text-wrapper {
-    color: #f5f5f5 !important;
-  }
-  .wating-item {
-    color: #888 !important;
-  }
-  .title {
-    color: #f5f5f5 !important;
-  }
-  .content {
-    color: #888 !important;
-  }
-}
 </style>

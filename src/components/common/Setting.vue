@@ -135,13 +135,6 @@ export default {
           rightBottomBg: '#f5f5f5',
           checked: false,
           themeId: 'blue'
-        },
-        {
-          leftBg: '#000000',
-          rightTopBg: '#333333',
-          rightBottomBg: '#555555',
-          checked: false,
-          themeId: 'dark'
         }
       ],
       primartyColorList: [
@@ -326,7 +319,7 @@ $width: 60px;
       box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     }
     .circle::after {
-      content: "";
+      content: '';
       display: block;
       margin: 0 auto;
       margin-top: 25px;

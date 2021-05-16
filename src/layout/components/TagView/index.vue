@@ -168,7 +168,7 @@ export default {
       }
     },
     removeRoute(name) {
-      const tempRoute = this.visitedRoutes.find(it => it.path === name)
+      const tempRoute = this.visitedRoutes.find((it) => it.path === name)
       this.$store.dispatch('router/removeRoute', tempRoute)
       this.$nextTick((_) => {
         const tmp = this.visitedRoutes.find((it) => {
@@ -191,13 +191,17 @@ export default {
       return this.visitedRoutes.indexOf(tempRoute) === 0
     },
     isRightLast(tempRoute) {
-      return this.visitedRoutes.indexOf(tempRoute) === this.visitedRoutes.length - 1
+      return (
+        this.visitedRoutes.indexOf(tempRoute) === this.visitedRoutes.length - 1
+      )
     },
     onContextMenu(item, ctx) {
       const { clientX, clientY } = ctx
       const { x } = this.$el.getBoundingClientRect()
-      const parentElementRect = document.getElementById('tagViewTab')
-        .getElementsByClassName('el-tabs__nav is-top')[0].getBoundingClientRect()
+      const parentElementRect = document
+        .getElementById('tagViewTab')
+        .getElementsByClassName('el-tabs__nav is-top')[0]
+        .getBoundingClientRect()
       if (clientX < parentElementRect.x) {
         return
       }
@@ -205,9 +209,11 @@ export default {
         return
       }
       this.selectRoute = null
-      this.selectRoute = this.visitedRoutes.find(it => {
-        const { x, width } = document.getElementById('tab-' + it.path).getBoundingClientRect()
-        if (x < clientX && clientX < (x + width)) {
+      this.selectRoute = this.visitedRoutes.find((it) => {
+        const { x, width } = document
+          .getElementById('tab-' + it.path)
+          .getBoundingClientRect()
+        if (x < clientX && clientX < x + width) {
           return it
         }
       })
@@ -215,7 +221,10 @@ export default {
         this.showLeftMenu = this.isLeftLast(this.selectRoute)
         this.showRightMenu = this.isRightLast(this.selectRoute)
         const screenWidth = document.body.clientWidth
-        this.contextMenuStyle.left = ((clientX + 130) > screenWidth ? clientX - 130 - x - 15 : clientX - x + 15) + 'px'
+        this.contextMenuStyle.left =
+          (clientX + 130 > screenWidth
+            ? clientX - 130 - x - 15
+            : clientX - x + 15) + 'px'
         this.contextMenuStyle.top = clientY + 'px'
         this.showContextMenu = true
       }
@@ -230,9 +239,10 @@ export default {
       if (!this.selectRoute) {
         return
       }
-      this.$store.dispatch('router/delLeftRoute', this.selectRoute)
-        .then(_ => {
-          this.$nextTick(_ => {
+      this.$store
+        .dispatch('router/delLeftRoute', this.selectRoute)
+        .then((_) => {
+          this.$nextTick((_) => {
             if (!this.isActive(this.selectRoute)) {
               this.$router.push({ path: this.selectRoute.path })
             }
@@ -243,9 +253,10 @@ export default {
       if (!this.selectRoute) {
         return
       }
-      this.$store.dispatch('router/delRightRoute', this.selectRoute)
-        .then(_ => {
-          this.$nextTick(_ => {
+      this.$store
+        .dispatch('router/delRightRoute', this.selectRoute)
+        .then((_) => {
+          this.$nextTick((_) => {
             if (!this.isActive(this.selectRoute)) {
               this.$router.push({ path: this.selectRoute.path })
             }
@@ -253,19 +264,18 @@ export default {
         })
     },
     closeAll() {
-      this.$store.dispatch('router/delAllRoute', this.selectRoute)
-        .then(_ => {
-          this.$nextTick(_ => {
-            this.$router.push({ path: this.visitedRoutes[0].path })
-          })
+      this.$store.dispatch('router/delAllRoute', this.selectRoute).then((_) => {
+        this.$nextTick((_) => {
+          this.$router.push({ path: this.visitedRoutes[0].path })
         })
+      })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import "~@/styles/variables.scss";
+@import '~@/styles/variables.scss';
 .tag-view-container {
   box-shadow: 0 10px 10px -10px #d0d0d0;
   height: $tagViewHeight;
@@ -333,21 +343,6 @@ export default {
     }
     & > li:hover {
       background-color: #f5f5f5;
-    }
-  }
-}
-.theme-dark .contex-menu-wrapper {
-  background-color: $theme_dark_menuDarkBg;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.1);
-  & > li:hover {
-    background-color: $theme_dark_menuHoverBg;
-  }
-  ::v-deep {
-    .el-link.el-link--default {
-      color: #ffffff;
-    }
-    .el-link.is-disabled {
-      color: #9c9c9c;
     }
   }
 }

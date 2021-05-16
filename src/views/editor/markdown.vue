@@ -67,10 +67,6 @@ export default {
 .editor-container {
   position: relative;
 }
-.theme-dark .priview-content {
-  background: #5a5a5a;
-  color: #fff;
-}
 .priview-content {
   background: #fff;
   color: #333;

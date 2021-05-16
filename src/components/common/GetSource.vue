@@ -7,7 +7,6 @@
       获取说明：
     </el-link>
     <div class="margin-tb">
-      <div class="margin-left">本框架目前仅支持付费购买方式，购买成功后可享受以下服务：</div>
       <ul>
         <li>
           关注公众号
@@ -35,7 +34,7 @@
       type="primary"
       :underline="false"
     >
-      购买方式：
+      联系方式：
     </el-link>
     <div class="margin-tb margin-left flex align-center">
       <span>加QQ客服：<strong>{{ customQQ }}</strong></span>
@@ -44,15 +43,6 @@
         :data-clipboard-text="customQQ"
         @click="copy"
       >复制</span>
-    </div>
-    <el-link
-      type="primary"
-      :underline="false"
-    >
-      价格说明：
-    </el-link>
-    <div class="margin-tb margin-left flex align-center">
-      当前活动价：<strong class="text-red text-price">99</strong>，一周后恢复原价：<strong class="text-red text-price">299</strong>
     </div>
     <Dialog
       ref="contactDialog"
