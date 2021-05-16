@@ -125,11 +125,14 @@ export default {
         }
       })
         .then((res) => {
-          this.$store.dispatch('user/saveUserInfo', res.data).then(_ => {
-            this.$router.push({ path: this.redirect || '/index/main' })
-          }).catch(error => {
-            this.$errorMsg(error.message || '登录失败，未知异常')
-          })
+          this.$store
+            .dispatch('user/saveUserInfo', res.data)
+            .then((_) => {
+              this.$router.push({ path: this.redirect || '/index/main' })
+            })
+            .catch((error) => {
+              this.$errorMsg(error.message || '登录失败，未知异常')
+            })
         })
         .catch((error) => {
           this.$errorMsg(error.message || '登录失败，未知异常')
@@ -165,7 +168,7 @@ export default {
       width: 50px;
     }
     & img::after {
-      content: "欢迎来到vue-admin-work";
+      content: '欢迎来到vue-admin-work';
     }
   }
   .footer-wrapper {
@@ -203,11 +206,12 @@ export default {
           text-align: center;
           font-size: 20px;
           font-weight: bold;
-          color: #5497ff;
+          color: #34495e;
+          text-shadow: 0 0 0.2em #41b883, -0 -0 0.2em #41b883;
         }
         .form-container {
           width: 80%;
-          height: 60%;
+          min-height: 60%;
           text-align: center;
           background: rgba(183, 183, 183, 0.2);
           padding: 5%;
@@ -220,7 +224,7 @@ export default {
             width: 100%;
           }
           .login {
-            width: 90%;
+            width: 100%;
           }
         }
       }
@@ -261,7 +265,7 @@ export default {
             width: 100%;
           }
           .login {
-            width: 90%;
+            width: 100%;
           }
         }
       }
