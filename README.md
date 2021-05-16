@@ -1,4 +1,4 @@
-<img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/logo.png" align="center" />
+<h1 align="center"><img src="http://qingqingxuan.gitee.io/vue-admin-work/open-readme-images/logo.png" align="center" /></h1>
 
 <h1 align = "center">vue-admin-work</h1>
 
