@@ -7,6 +7,13 @@
 @import "./main.css";
 @import "./anim.css";
 
+#nprogress {
+  .bar {
+    background-color: #48d8e3;
+    height: 3px;
+  }
+}
+
 .scrollbar-wrapper {
   overflow-x: hidden !important;
 }
